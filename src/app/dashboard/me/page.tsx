@@ -5,9 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+interface Profile {
+  name: string;
+  email: string;
+  image?: string;
+  role: string;
+}
 export default function MePage() {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [editMode, setEditMode] = useState(false);
 
   // ✅ GET PROFILE
@@ -28,6 +33,7 @@ export default function MePage() {
 
 
 const handleUpdate = async () => {
+    if (!profile) return;
   const res = await fetch(`${API_URL}/api/me`, {
     method: "PATCH",
     headers: {

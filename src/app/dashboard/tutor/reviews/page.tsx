@@ -8,7 +8,7 @@ type Review = {
   id: string;
   rating: number;
   comment: string;
-  student: {
+  user: {
     name: string;
   };
 };

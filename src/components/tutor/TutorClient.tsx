@@ -1,14 +1,38 @@
 "use client";
+type Tutor = {
+  id: string;
+  image?: string;
+  hourlyRate: number;
+  user?: {
+    name: string;
+  };
+  category?: {
+    name: string;
+  };
+};
 
+type Review = {
+  id: string;
+  comment: string;
+  rating: number;
+  user?: {
+    name: string;
+    image?: string;
+  };
+};
+import { m } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export default function TutorClient({ tutor, id }: any) {
+export default function TutorClient({ tutor, id }: 
+  { tutor: Tutor;
+  id: string;
+}) {
   const API = process.env.NEXT_PUBLIC_API_URL;
 
   const [showReview, setShowReview] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
 
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(5);
@@ -38,9 +62,29 @@ export default function TutorClient({ tutor, id }: any) {
   };
 
   // 🔥 IMPORTANT: load existing reviews when page opens
-  useEffect(() => {
-    fetchReviews();
-  }, [id]);
+  // useEffect(() => {
+  //   // fetchReviews();
+
+    useEffect(() => {
+  const loadReviews = async () => {
+    try {
+      const res = await fetch(`${API}/api/reviews/${id}`, {
+        credentials: "include",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
+
+      setReviews(data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  loadReviews();
+}, [id]);
+  
 
   // ================= REVIEW =================
   const handleReviewSubmit = async () => {
@@ -70,9 +114,13 @@ export default function TutorClient({ tutor, id }: any) {
       setComment("");
       setRating(5);
       setShowReview(false);
-    } catch (err: any) {
-      alert(err.message || "Review Failed");
-    }
+    } catch (err: unknown) {
+  if (err instanceof Error) {
+    alert(err.message);
+  } else {
+    alert("Something went wrong");
+  }
+}
   };
 
   // ================= BOOKING =================
@@ -101,9 +149,13 @@ export default function TutorClient({ tutor, id }: any) {
         date: "",
         time: "",
       });
-    } catch (err: any) {
-      alert(err.message || "Booking Failed");
-    }
+    } catch (err: unknown) {
+  if (err instanceof Error) {
+    alert(err.message);
+  } else {
+    alert("Something went wrong");
+  }
+}
   };
 
   return (

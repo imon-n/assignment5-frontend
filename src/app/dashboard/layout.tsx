@@ -2,16 +2,21 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+type Role = "STUDENT" | "TUTOR" | "ADMIN";
 
+type User = {
+  name: string;
+  role: Role;
+};
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<any>(null);
+const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/me", {
+    fetch("https://skillbridge-backend-6mpi.onrender.com/api/me", {
       credentials: "include",
     })
       .then((res) => res.json())
