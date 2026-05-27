@@ -40,13 +40,19 @@ async function registerUser(data: {
 
   return res.json();
 }
-  const handleGoogle = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-     callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app",
-    });
-  };
+  // const handleGoogle = async () => {
+  //   await authClient.signIn.social({
+  //     provider: "google",
+  //    callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app",
+  //   });
+  // };
 
+  const handleGoogle = async () => {
+  await authClient.signIn.social({
+    provider: "google",
+    callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app/dashboard", // 👈 /dashboard add করো
+  });
+};
 export function RegisterForm() {
   const [form, setForm] = useState({
     name: "",

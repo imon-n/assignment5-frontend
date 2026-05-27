@@ -37,21 +37,30 @@ const handleLogin = async () => {
       return;
     }
   
-    toast.success("Login successful!");
-
-    router.push("https://skillbridge-frontend-ten-nu.vercel.app");
+   toast.success("Login successful!");
+router.push("/dashboard"); // 👈 full URL না, relative path দাও
   } catch (err) {
     toast.error("Something went wrong");
   }
 };
 
   // ✅ GOOGLE LOGIN
-  const handleGoogle = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app",
-    });
-  };
+  // const handleGoogle = async () => {
+  //   await authClient.signIn.social({
+  //     provider: "google",
+  //    callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app",
+  //   });
+  // };
+
+const handleGoogle = async () => {
+  await authClient.signIn.social({
+    provider: "google",
+    callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
+    fetchOptions: {
+      credentials: "include", 
+    },
+  });
+};
 
   return (
     <Card>
