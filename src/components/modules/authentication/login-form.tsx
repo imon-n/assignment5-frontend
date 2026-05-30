@@ -53,17 +53,10 @@ router.push("/dashboard"); // 👈 full URL না, relative path দাও
   // };
 
 const handleGoogle = async () => {
-  const res = await authClient.signIn.social({
+  await authClient.signIn.social({
     provider: "google",
-    callbackURL:"https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
+    callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
   });
-
-  if (res && typeof res === "object" && "url" in res) {
-    const redirectUrl = res.url as string; // 👈 cast এখানে
-    if (redirectUrl) {
-      window.location.href = redirectUrl;
-    }
-  }
 };
 
   return (
