@@ -13,7 +13,7 @@ import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const BASE_URL = "https://skillbridge-backend-6mpi.onrender.com/api/auth";
+const BASE_URL = "https://assignment5-backend-f7q4.onrender.com/api/auth";
 
 // ✅ REGISTER API
 async function registerUser(data: {

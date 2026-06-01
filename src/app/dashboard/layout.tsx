@@ -21,7 +21,7 @@
 //   const getMe = async () => {
 //     try {
 //       const res = await fetch(
-//         "https://skillbridge-backend-6mpi.onrender.com/api/me",
+//         "https://assignment5-backend-f7q4.onrender.com/api/me",
 //         {
 //           credentials: "include",
 //         }
@@ -146,7 +146,7 @@ export default function DashboardLayout({
     const getMe = async () => {
       try {
      const res = await fetch(
-  "https://skillbridge-backend-6mpi.onrender.com/api/me",
+  "https://assignment5-backend-f7q4.onrender.com/api/me",
   {
     credentials: "include",
     headers: {

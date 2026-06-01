@@ -21,7 +21,7 @@ export function LoginForm() {
 
 const handleLogin = async () => {
   try {
-    const res = await fetch("https://skillbridge-backend-6mpi.onrender.com/api/auth/sign-in/email", {
+    const res = await fetch("https://assignment5-backend-f7q4.onrender.com/api/auth/sign-in/email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

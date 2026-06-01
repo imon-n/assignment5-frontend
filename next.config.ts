@@ -22,10 +22,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: "C:/Backend/skillbridge-frontend/skillbridge-frontend",
-  },
-
   images: {
     remotePatterns: [
       {
