@@ -8,8 +8,6 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-
-
 export function LoginForm() {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -17,47 +15,39 @@ export function LoginForm() {
     password: "",
   });
 
+  const handleLogin = async () => {
+    try {
+      const res = await fetch("https://assignment5-backend-f7q4.onrender.com/api/auth/sign-in/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(form),
+      });
 
+      const data = await res.json();
 
-const handleLogin = async () => {
-  try {
-    const res = await fetch("https://assignment5-backend-f7q4.onrender.com/api/auth/sign-in/email", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(form),
-    });
+      if (!res.ok) {
+        toast.error(data?.message || "Login failed");
+        return;
+      }
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      toast.error(data?.message || "Login failed");
-      return;
+      toast.success("Login successful!");
+      // Redirect to dashboard after successful login
+      router.push("/dashboard");
+    } catch (err) {
+      toast.error("Something went wrong");
     }
-  
-   toast.success("Login successful!");
-router.push("/dashboard"); // 👈 full URL না, relative path দাও
-  } catch (err) {
-    toast.error("Something went wrong");
-  }
-};
+  };
 
   // ✅ GOOGLE LOGIN
-  // const handleGoogle = async () => {
-  //   await authClient.signIn.social({
-  //     provider: "google",
-  //    callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app",
-  //   });
-  // };
-
-const handleGoogle = async () => {
-  await authClient.signIn.social({
-    provider: "google",
-    callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
-  });
-};
+  const handleGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
+    });
+  };
 
   return (
     <Card>
