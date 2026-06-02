@@ -35,7 +35,7 @@ export function LoginForm() {
 
       toast.success("Login successful!");
       // Redirect to dashboard after successful login
-      router.push("https://assignment5-frontend-seven.vercel.app")
+      router.push("/dashboard");
     } catch (err) {
       toast.error("Something went wrong");
     }

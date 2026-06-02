@@ -17,7 +17,7 @@ export default function MePage() {
 
   // ✅ GET PROFILE
   useEffect(() => {
-    fetch(`${API_URL}/api/me`, {
+    fetch(`${API_URL}/api/auth/me`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -34,7 +34,7 @@ export default function MePage() {
 
 const handleUpdate = async () => {
     if (!profile) return;
-  const res = await fetch(`${API_URL}/api/me`, {
+  const res = await fetch(`${API_URL}/api/auth/me`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

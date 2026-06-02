@@ -142,26 +142,26 @@ export default function DashboardLayout({
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const backendUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.BACKEND_URL ||
+    "https://assignment5-backend-f7q4.onrender.com";
+
   useEffect(() => {
     const getMe = async () => {
       try {
-     const res = await fetch(
-  "https://skillbridge-backend-6mpi.onrender.com/api/me",
-  {
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }
-);
+        const res = await fetch(`${backendUrl}/api/auth/me`, {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         if (!res.ok) {
           throw new Error("Unauthorized");
         }
 
         const data = await res.json();
-
-        console.log(data);
-
         setUser(data.data || data);
       } catch (error) {
         console.error(error);
@@ -172,7 +172,7 @@ export default function DashboardLayout({
     };
 
     getMe();
-  }, []);
+  }, [backendUrl]);
 
   if (loading) {
     return (
