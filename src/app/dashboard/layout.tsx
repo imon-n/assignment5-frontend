@@ -151,7 +151,7 @@ export default function DashboardLayout({
   useEffect(() => {
     const getMe = async () => {
       try {
-        const res = await fetch(`${backendUrl}/api/auth/me`, {
+        const res = await fetch(`${backendUrl}/api/me`, {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
