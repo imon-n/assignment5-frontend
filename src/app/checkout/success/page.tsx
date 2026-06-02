@@ -11,7 +11,7 @@ const backendUrl =
 
 export default function PaymentSuccessPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading payment result...</div>}>
       <PaymentSuccessClient backendUrl={backendUrl} />
     </Suspense>
   );

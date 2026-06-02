@@ -17,9 +17,14 @@ export default function PaymentSuccessClient({
       : "Verifying payment..."
   );
   const [error, setError] = useState<string | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!stripePaymentId || !bookingId) {
+    setIsReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!backendUrl || !stripePaymentId || !bookingId) {
       return;
     }
 
@@ -48,10 +53,20 @@ export default function PaymentSuccessClient({
     verifyPayment();
   }, [stripePaymentId, bookingId, backendUrl]);
 
+  if (!isReady) {
+    return <div>Loading payment details...</div>;
+  }
+
   return (
     <div>
       <h1>Payment Success</h1>
       <p>{status}</p>
+      {!stripePaymentId || !bookingId ? (
+        <p>
+          This page is intended to be used after a Stripe redirect. Ensure the URL includes
+          `stripePaymentId` and `bookingId`.
+        </p>
+      ) : null}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
