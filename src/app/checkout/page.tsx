@@ -9,15 +9,9 @@ const frontendUrl =
   process.env.NEXT_PUBLIC_FRONTEND_URL ||
   process.env.FRONTEND_URL ||
   "http://localhost:3000";
-const stripePublicKey =
-  process.env.NEXT_PUBLIC_STRIPE_PK || process.env.STRIPE_PK || "";
 
 export default function CheckoutPage() {
   return (
-    <CheckoutPageClient
-      backendUrl={backendUrl}
-      frontendUrl={frontendUrl}
-      stripePublicKey={stripePublicKey}
-    />
+    <CheckoutPageClient backendUrl={backendUrl} frontendUrl={frontendUrl} />
   );
 }

@@ -112,11 +112,9 @@ function CheckoutForm({
 export default function CheckoutPageClient({
   backendUrl,
   frontendUrl,
-  stripePublicKey,
 }: {
   backendUrl: string;
   frontendUrl: string;
-  stripePublicKey: string;
 }) {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [stripePaymentId, setStripePaymentId] = useState<string>("");
@@ -127,6 +125,7 @@ export default function CheckoutPageClient({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PK || "";
   const stripePromise = useMemo(
     () => loadStripe(stripePublicKey),
     [stripePublicKey]
