@@ -7,8 +7,14 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
+// 🔥 ADD THIS
+import { useAuth } from "@/context/AuthContext";
+
 export function LoginForm() {
   const router = useRouter();
+
+  // 🔥 ADD THIS
+  const { setUser } = useAuth();
 
   const API_URL = "https://assignment5-backend-f7q4.onrender.com";
 
@@ -17,29 +23,35 @@ export function LoginForm() {
     password: "",
   });
 
- const handleLogin = async () => {
-  const res = await fetch("https://assignment5-backend-f7q4.onrender.com/api/auth/sign-in/email", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(form),
-  });
+  const handleLogin = async () => {
+    const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (!res.ok) {
-    toast.error("Login failed");
-    return;
-  }
+    if (!res.ok) {
+      toast.error("Login failed");
+      return;
+    }
 
-  // 🔥 SAVE TOKEN HERE
-  localStorage.setItem("token", data.token);
+    // 🔥 keep this (optional)
+    localStorage.setItem("token", data.token);
 
-  toast.success("Login success");
+    // 🔥🔥 MAIN FIX
+    setUser(data.user);
 
-  router.replace("/dashboard");
-};
+    // (optional persist)
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    toast.success("Login success");
+
+    router.replace("/dashboard");
+  };
 
   return (
     <Card>
