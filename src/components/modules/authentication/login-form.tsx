@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://assignment5-backend-f7q4.onrender.com";
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -17,7 +18,7 @@ export function LoginForm() {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("https://assignment5-backend-f7q4.onrender.com/api/auth/sign-in/email", {
+      const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,8 +35,16 @@ export function LoginForm() {
       }
 
       toast.success("Login successful!");
-      // Redirect to dashboard after successful login
-      router.push("/dashboard");
+
+      // Redirect after successful login. Use role-specific routes when available.
+      const role = data?.data?.role || data?.role;
+      if (role === "TUTOR") {
+        router.replace("/dashboard/tutor/sessions");
+      } else if (role === "ADMIN") {
+        router.replace("/dashboard/admin/users");
+      } else {
+        router.replace("/dashboard");
+      }
     } catch (err) {
       toast.error("Something went wrong");
     }

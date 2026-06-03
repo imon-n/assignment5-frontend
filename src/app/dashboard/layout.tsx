@@ -143,14 +143,13 @@ export default function DashboardLayout({
   console.log(user)
   const [loading, setLoading] = useState(true);
 
-  const backendUrl =
-
-    "https://assignment5-backend-f7q4.onrender.com";
+  const backendUrl = "https://assignment5-backend-f7q4.onrender.com";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || backendUrl;
 
   useEffect(() => {
     const getMe = async () => {
       try {
-        const res = await fetch(`${backendUrl}/api/me`, {
+        const res = await fetch(`${API_URL}/api/me`, {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
