@@ -7,14 +7,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-// 🔥 ADD THIS
-import { useAuth } from "@/context/AuthContext";
-
 export function LoginForm() {
   const router = useRouter();
-
-  // 🔥 ADD THIS
-  const { setUser } = useAuth();
 
   const API_URL = "https://assignment5-backend-f7q4.onrender.com";
 
@@ -24,33 +18,48 @@ export function LoginForm() {
   });
 
   const handleLogin = async () => {
-    const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
+    try {
+      // 🔥 STEP 1: LOGIN (with cookie)
+      const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // 🔥 MUST
+        body: JSON.stringify(form),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) {
-      toast.error("Login failed");
-      return;
+      if (!res.ok) {
+        toast.error("Login failed");
+        return;
+      }
+
+      // 🔥 STEP 2: CHECK USER
+      const meRes = await fetch(`${API_URL}/api/me`, {
+        method: "GET",
+        credentials: "include", // 🔥 MUST
+      });
+
+      const meData = await meRes.json();
+
+      console.log("USER:", meData);
+
+      if (!meRes.ok) {
+        toast.error("Session failed");
+        return;
+      }
+
+      toast.success("Login success");
+
+      // 🔥 STEP 3: REDIRECT
+      router.replace("/dashboard");
+
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
     }
-
-    // 🔥 keep this (optional)
-    localStorage.setItem("token", data.token);
-
-    // 🔥🔥 MAIN FIX
-    setUser(data.user);
-
-    // (optional persist)
-    localStorage.setItem("user", JSON.stringify(data.user));
-
-    toast.success("Login success");
-
-    router.replace("/dashboard");
   };
 
   return (
