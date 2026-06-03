@@ -28,6 +28,7 @@ export function LoginForm() {
       });
 
       const data = await res.json();
+      console.log("login response:", res.status, data);
 
       if (!res.ok) {
         toast.error(data?.message || "Login failed");
@@ -36,8 +37,35 @@ export function LoginForm() {
 
       toast.success("Login successful!");
 
-      // Redirect after successful login. Use role-specific routes when available.
+      // Verify session is established (cookie set) before redirecting.
       const role = data?.data?.role || data?.role;
+
+      const verifySession = async (retries = 2, delay = 500) => {
+        for (let i = 0; i < retries; i++) {
+          try {
+            const check = await fetch(`${API_URL}/api/me`, {
+              credentials: "include",
+            });
+            if (check.ok) {
+              return true;
+            }
+            console.warn("session verify attempt", i + 1, "status", check.status);
+          } catch (e) {
+            console.error("session verify error", e);
+          }
+          await new Promise((r) => setTimeout(r, delay));
+        }
+        return false;
+      };
+
+      const ok = await verifySession();
+      if (!ok) {
+        console.error("Login succeeded but session verification failed. Response data:", data);
+        toast.error("Login succeeded but session not confirmed. Check browser cookie settings.");
+        return;
+      }
+
+      // Redirect to role-specific route
       if (role === "TUTOR") {
         router.replace("/dashboard/tutor/sessions");
       } else if (role === "ADMIN") {

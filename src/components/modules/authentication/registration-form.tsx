@@ -12,18 +12,19 @@ import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const BASE_URL = "https://assignment5-backend-f7q4.onrender.com/api/auth";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://assignment5-backend-f7q4.onrender.com";
 
 // ✅ REGISTER API
-async function registerUser(data: {
+async function registerUser(baseUrl: string, data: {
   name: string;
   email: string;
   password: string;
   role?: string;
   image?: string;
 }) {
-  const res = await fetch(`${BASE_URL}/sign-up/email`, {
+  const res = await fetch(`${baseUrl}/api/auth/sign-up/email`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -41,18 +42,9 @@ async function registerUser(data: {
   return res.json();
 }
 
-
-  const handleGoogle = async () => {
-
-await authClient.signIn.social({
-  provider: "google",
-  callbackURL: "/dashboard"
-})
-  };
-
-
-
 export function RegisterForm() {
+  const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://assignment5-backend-f7q4.onrender.com";
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -63,13 +55,59 @@ export function RegisterForm() {
 
   // ✅ REGISTER HANDLER
   const handleRegister = async () => {
-    const res = await registerUser(form);
+    try {
+      const res = await registerUser(API_URL, form);
+      console.log("register response:", res);
 
-    if (res?.error) {
-      toast.error(res.error.message || "Registration failed");
-    } else {
+      if (res?.error) {
+        toast.error(res.error.message || "Registration failed");
+        console.error("Registration error:", res.error);
+        return;
+      }
+
       toast.success("Account created successfully!");
+
+      // Verify session is established before redirecting
+      const verifySession = async (retries = 2, delay = 500) => {
+        for (let i = 0; i < retries; i++) {
+          try {
+            const check = await fetch(`${API_URL}/api/me`, {
+              credentials: "include",
+            });
+            if (check.ok) {
+              return true;
+            }
+            console.warn("session verify attempt", i + 1, "status", check.status);
+          } catch (e) {
+            console.error("session verify error", e);
+          }
+          await new Promise((r) => setTimeout(r, delay));
+        }
+        return false;
+      };
+
+      const ok = await verifySession();
+      if (!ok) {
+        console.error("Registration succeeded but session verification failed");
+        toast.error("Account created but session not confirmed. Please log in.");
+        router.replace("/login");
+        return;
+      }
+
+      // Redirect to dashboard
+      router.replace("/dashboard");
+    } catch (err) {
+      console.error("Registration error:", err);
+      toast.error("Something went wrong during registration");
     }
+  };
+
+  // ✅ GOOGLE LOGIN
+  const handleGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
   };
 
   return (

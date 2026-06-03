@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auth Test</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .log { border: 1px solid #ccc; padding: 10px; margin: 10px 0; background: #f9f9f9; }
+    .error { color: red; }
+    .success { color: green; }
+    button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Auth Flow Test</h2>
+  
+  <button onclick="testLogin()">1. Test Login</button>
+  <button onclick="testSession()">2. Test Session (/api/me)</button>
+  <button onclick="testCookie()">3. Check Cookies</button>
+  <button onclick="clearLog()">Clear Log</button>
+  
+  <div id="log" class="log"></div>
+
+  <script>
+    const API = "https://assignment5-backend-f7q4.onrender.com";
+    const log = (msg, type = "info") => {
+      const el = document.getElementById("log");
+      const cls = type === "error" ? "error" : type === "success" ? "success" : "";
+      el.innerHTML += `<div class="${cls}">${msg}</div>`;
+      console.log(msg);
+    };
+    const clearLog = () => document.getElementById("log").innerHTML = "";
+
+    async function testLogin() {
+      log("--- Testing Login ---");
+      try {
+        const res = await fetch(`${API}/api/auth/sign-in/email`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email: "test@test.com", password: "password123" })
+        });
+        const data = await res.json();
+        log(`Status: ${res.status}`, res.ok ? "success" : "error");
+        log(`Response: ${JSON.stringify(data)}`);
+        log(`Cookies after login: ${document.cookie}`);
+      } catch (e) {
+        log(`Error: ${e.message}`, "error");
+      }
+    }
+
+    async function testSession() {
+      log("--- Testing Session ---");
+      try {
+        const res = await fetch(`${API}/api/me`, {
+          credentials: "include"
+        });
+        const data = await res.json();
+        log(`Status: ${res.status}`, res.ok ? "success" : "error");
+        log(`Response: ${JSON.stringify(data)}`);
+      } catch (e) {
+        log(`Error: ${e.message}`, "error");
+      }
+    }
+
+    function testCookie() {
+      log("--- Cookies ---");
+      log(`Cookies: ${document.cookie || "(none)"}`);
+    }
+  </script>
+</body>
+</html>

@@ -126,6 +126,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Role = "STUDENT" | "TUTOR" | "ADMIN";
 
@@ -139,8 +140,8 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  console.log(user)
   const [loading, setLoading] = useState(true);
 
   const backendUrl = "https://assignment5-backend-f7q4.onrender.com";
@@ -155,22 +156,26 @@ export default function DashboardLayout({
             "Content-Type": "application/json",
           },
         });
+
         if (!res.ok) {
-          throw new Error("Unauthorized");
+          console.warn("getMe failed with status", res.status);
+          throw new Error(`Unauthorized: ${res.status}`);
         }
 
         const data = await res.json();
+        console.log("User fetched successfully:", data);
         setUser(data.data || data);
       } catch (error) {
-        console.error(error);
+        console.error("Session fetch error:", error);
         setUser(null);
+        router.replace("/login");
       } finally {
         setLoading(false);
       }
     };
 
     getMe();
-  }, [backendUrl]);
+  }, [API_URL, router]);
 
   if (loading) {
     return (
