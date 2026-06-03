@@ -8,7 +8,7 @@ const backendUrl =
 const frontendUrl =
   process.env.NEXT_PUBLIC_FRONTEND_URL ||
   process.env.FRONTEND_URL ||
-  "http://localhost:3000";
+  "https://assignment5-frontend-seven.vercel.app";
 
 export default function CheckoutPage() {
   return (

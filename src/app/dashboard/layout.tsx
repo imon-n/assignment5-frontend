@@ -140,12 +140,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
+  console.log(user)
   const [loading, setLoading] = useState(true);
 
   const backendUrl =
-    process.env.NEXT_PUBLIC_BACKEND_URL ||
-    process.env.NEXT_PUBLIC_API_URL ||
-    process.env.BACKEND_URL ||
+
     "https://assignment5-backend-f7q4.onrender.com";
 
   useEffect(() => {
