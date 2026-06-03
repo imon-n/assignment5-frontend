@@ -30,6 +30,7 @@ export function LoginForm() {
       });
 
       const data = await res.json();
+      console.log("LOGIN RESPONSE:", data);
 
       if (!res.ok) {
         toast.error("Login failed");
