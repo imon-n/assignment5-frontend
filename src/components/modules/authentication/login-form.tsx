@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -22,17 +21,17 @@ export function LoginForm() {
 
   const handleLogin = async () => {
     try {
+      // 🔥 STEP 1: LOGIN
       const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // 🔥 MUST
+        credentials: "include",
         body: JSON.stringify(form),
       });
 
       const data = await res.json();
-      console.log("login response:", res.status, data);
 
       if (!res.ok) {
         toast.error(data?.message || "Login failed");
@@ -41,27 +40,60 @@ export function LoginForm() {
 
       toast.success("Login successful!");
 
-      const role = data?.user?.role || data?.data?.role;
+      // 🔥 STEP 2: WAIT একটু (cookie settle হওয়ার জন্য)
+      await new Promise((r) => setTimeout(r, 800));
 
-      // redirect
-      if (role === "TUTOR") {
-        router.replace("/dashboard/tutor/sessions");
-      } else if (role === "ADMIN") {
-        router.replace("/dashboard/admin/users");
+      // 🔥 STEP 3: VERIFY SESSION (retry system)
+      const verifySession = async () => {
+        for (let i = 0; i < 3; i++) {
+          try {
+            const check = await fetch(
+              `${API_URL}/api/auth/session`,
+              {
+                credentials: "include",
+              }
+            );
+
+            if (check.ok) {
+              const sessionData = await check.json();
+
+              if (sessionData?.user) {
+                return sessionData.user;
+              }
+            }
+
+            console.warn("session retry:", i + 1);
+          } catch (err) {
+            console.error(err);
+          }
+
+          // retry delay
+          await new Promise((r) => setTimeout(r, 500));
+        }
+
+        return null;
+      };
+
+      const user = await verifySession();
+
+      // 🔥 STEP 4: REDIRECT
+      if (user) {
+        console.log("USER:", user);
+
+        if (user.role === "TUTOR") {
+          router.replace("/dashboard/tutor/sessions");
+        } else if (user.role === "ADMIN") {
+          router.replace("/dashboard/admin/users");
+        } else {
+          router.replace("/dashboard");
+        }
       } else {
-        router.replace("/dashboard");
+        toast.error("Session not ready. Refresh page.");
       }
+
     } catch (err) {
       toast.error("Something went wrong");
     }
-  };
-
-  const handleGoogle = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL:
-        "https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
-    });
   };
 
   return (
@@ -89,14 +121,6 @@ export function LoginForm() {
       <CardFooter className="flex flex-col gap-3">
         <Button onClick={handleLogin} className="w-full">
           Login
-        </Button>
-
-        <Button
-          onClick={handleGoogle}
-          variant="outline"
-          className="w-full"
-        >
-          Continue with Google
         </Button>
       </CardFooter>
     </Card>
