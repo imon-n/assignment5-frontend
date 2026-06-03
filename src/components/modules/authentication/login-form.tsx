@@ -17,34 +17,29 @@ export function LoginForm() {
     password: "",
   });
 
-  const handleLogin = async () => {
-    try {
-      const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(form),
-      });
+ const handleLogin = async () => {
+  const res = await fetch("https://assignment5-backend-f7q4.onrender.com/api/auth/sign-in/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
+  });
 
-      const data = await res.json();
+  const data = await res.json();
 
-      if (!res.ok) {
-        toast.error(data?.message || "Login failed");
-        return;
-      }
+  if (!res.ok) {
+    toast.error("Login failed");
+    return;
+  }
 
-      toast.success("Login successful!");
+  // 🔥 SAVE TOKEN HERE
+  localStorage.setItem("token", data.token);
 
-      // 🔥 wait for cookie
-      await new Promise((r) => setTimeout(r, 800));
+  toast.success("Login success");
 
-      router.replace("/dashboard");
-    } catch (err) {
-      toast.error("Something went wrong");
-    }
-  };
+  router.replace("/dashboard");
+};
 
   return (
     <Card>
