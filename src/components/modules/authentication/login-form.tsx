@@ -17,53 +17,41 @@ export function LoginForm() {
     password: "",
   });
 
-  const handleLogin = async () => {
-    try {
-      // STEP 1: LOGIN
-      const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+ const handleLogin = async () => {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(form),
+    });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast.error("Login failed");
-        return;
-      }
-
-      // 🔥 STEP 2: SAVE TOKEN
-      localStorage.setItem("auth_token", data.token);
-
-      // STEP 3: CHECK USER
-      const meRes = await fetch(`${API_URL}/api/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${data.token}`, // 🔥 send token
-        },
-      });
-
-      const meData = await meRes.json();
-
-      if (!meRes.ok) {
-        toast.error("Session failed");
-        return;
-      }
-
-      console.log("USER:", meData);
-      toast.success("Login success");
-
-      // STEP 4: REDIRECT
-      router.replace("/dashboard");
-
-    } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong");
+    if (!res.ok) {
+      toast.error("Login failed");
+      return;
     }
-  };
+
+    const meRes = await fetch(`${API_URL}/api/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!meRes.ok) {
+      toast.error("Session failed");
+      return;
+    }
+
+    const meData = await meRes.json();
+
+    console.log("USER:", meData);
+    toast.success("Login success");
+
+    router.replace("/dashboard");
+  } catch (err) {
+    console.error(err);
+    toast.error("Something went wrong");
+  }
+};
 
   return (
     <Card>
