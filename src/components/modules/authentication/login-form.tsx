@@ -19,42 +19,44 @@ export function LoginForm() {
 
   const handleLogin = async () => {
     try {
-      // 🔥 STEP 1: LOGIN (with cookie)
+      // STEP 1: LOGIN
       const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // 🔥 MUST
         body: JSON.stringify(form),
       });
 
       const data = await res.json();
-      console.log("LOGIN RESPONSE:", data);
 
       if (!res.ok) {
         toast.error("Login failed");
         return;
       }
 
-      // 🔥 STEP 2: CHECK USER
+      // 🔥 STEP 2: SAVE TOKEN
+      localStorage.setItem("auth_token", data.token);
+
+      // STEP 3: CHECK USER
       const meRes = await fetch(`${API_URL}/api/me`, {
         method: "GET",
-        credentials: "include", // 🔥 MUST
+        headers: {
+          Authorization: `Bearer ${data.token}`, // 🔥 send token
+        },
       });
 
       const meData = await meRes.json();
-
-      console.log("USER:", meData);
 
       if (!meRes.ok) {
         toast.error("Session failed");
         return;
       }
 
+      console.log("USER:", meData);
       toast.success("Login success");
 
-      // 🔥 STEP 3: REDIRECT
+      // STEP 4: REDIRECT
       router.replace("/dashboard");
 
     } catch (err) {
