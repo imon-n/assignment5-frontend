@@ -127,6 +127,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { authFetch } from "@/lib/auth-token";
 
 type Role = "STUDENT" | "TUTOR" | "ADMIN";
 
@@ -150,12 +151,7 @@ export default function DashboardLayout({
   useEffect(() => {
     const getMe = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/me`, {
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await authFetch(`${API_URL}/api/me`);
 
         if (!res.ok) {
           console.warn("getMe failed with status", res.status);
@@ -164,7 +160,7 @@ export default function DashboardLayout({
 
         const data = await res.json();
         console.log("User fetched successfully:", data);
-        setUser(data.data || data);
+        setUser(data.user || data.data || data);
       } catch (error) {
         console.error("Session fetch error:", error);
         setUser(null);

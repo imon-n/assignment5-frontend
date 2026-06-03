@@ -13,6 +13,7 @@ import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { setAuthToken, authFetch } from "@/lib/auth-token";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://assignment5-backend-f7q4.onrender.com";
 
@@ -67,13 +68,18 @@ export function RegisterForm() {
 
       toast.success("Account created successfully!");
 
-      // Verify session is established before redirecting
+      // Store token from response if available
+      const token = res?.token;
+      if (token) {
+        setAuthToken(token);
+        console.log("Token stored after registration:", token);
+      }
+
+      // Verify session with token in Authorization header
       const verifySession = async (retries = 2, delay = 500) => {
         for (let i = 0; i < retries; i++) {
           try {
-            const check = await fetch(`${API_URL}/api/me`, {
-              credentials: "include",
-            });
+            const check = await authFetch(`${API_URL}/api/me`);
             if (check.ok) {
               return true;
             }

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { setAuthToken, authFetch } from "@/lib/auth-token";
 
 export function LoginForm() {
   const router = useRouter();
@@ -37,15 +38,21 @@ export function LoginForm() {
 
       toast.success("Login successful!");
 
-      // Verify session is established (cookie set) before redirecting.
-      const role = data?.data?.role || data?.role;
+      // Backend returns token in response body, store it for auth header
+      const token = data?.token;
+      const role = data?.user?.role || data?.data?.role || data?.role;
 
+      if (token) {
+        // Store token in localStorage for use in other requests
+        setAuthToken(token);
+        console.log("Token stored:", token);
+      }
+
+      // Verify session with Authorization header
       const verifySession = async (retries = 2, delay = 500) => {
         for (let i = 0; i < retries; i++) {
           try {
-            const check = await fetch(`${API_URL}/api/me`, {
-              credentials: "include",
-            });
+            const check = await authFetch(`${API_URL}/api/me`);
             if (check.ok) {
               return true;
             }
@@ -61,7 +68,7 @@ export function LoginForm() {
       const ok = await verifySession();
       if (!ok) {
         console.error("Login succeeded but session verification failed. Response data:", data);
-        toast.error("Login succeeded but session not confirmed. Check browser cookie settings.");
+        toast.error("Login succeeded but session not confirmed. Try refreshing.");
         return;
       }
 
