@@ -40,15 +40,15 @@ export function LoginForm() {
 
       toast.success("Login successful!");
 
-      // 🔥 STEP 2: WAIT একটু (cookie settle হওয়ার জন্য)
+      // 🔥 STEP 2: WAIT (cookie settle)
       await new Promise((r) => setTimeout(r, 800));
 
-      // 🔥 STEP 3: VERIFY SESSION (retry system)
+      // 🔥 STEP 3: VERIFY SESSION
       const verifySession = async () => {
         for (let i = 0; i < 3; i++) {
           try {
             const check = await fetch(
-              `${API_URL}/api/auth/session`,
+              `${API_URL}/api/auth/get-session`,
               {
                 credentials: "include",
               }
@@ -56,6 +56,7 @@ export function LoginForm() {
 
             if (check.ok) {
               const sessionData = await check.json();
+              console.log("SESSION:", sessionData);
 
               if (sessionData?.user) {
                 return sessionData.user;
@@ -64,10 +65,9 @@ export function LoginForm() {
 
             console.warn("session retry:", i + 1);
           } catch (err) {
-            console.error(err);
+            console.error("session error:", err);
           }
 
-          // retry delay
           await new Promise((r) => setTimeout(r, 500));
         }
 
@@ -88,10 +88,11 @@ export function LoginForm() {
           router.replace("/dashboard");
         }
       } else {
-        toast.error("Session not ready. Refresh page.");
+        toast.error("Session not ready. Try refresh.");
       }
 
     } catch (err) {
+      console.error(err);
       toast.error("Something went wrong");
     }
   };
