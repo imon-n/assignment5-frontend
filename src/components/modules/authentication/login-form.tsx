@@ -10,9 +10,7 @@ import { useRouter } from "next/navigation";
 export function LoginForm() {
   const router = useRouter();
 
-  const API_URL =
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://assignment5-backend-f7q4.onrender.com";
+  const API_URL = "https://assignment5-backend-f7q4.onrender.com";
 
   const [form, setForm] = useState({
     email: "",
@@ -21,7 +19,6 @@ export function LoginForm() {
 
   const handleLogin = async () => {
     try {
-      // 🔥 STEP 1: LOGIN
       const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
         method: "POST",
         headers: {
@@ -40,59 +37,11 @@ export function LoginForm() {
 
       toast.success("Login successful!");
 
-      // 🔥 STEP 2: WAIT (cookie settle)
+      // 🔥 wait for cookie
       await new Promise((r) => setTimeout(r, 800));
 
-      // 🔥 STEP 3: VERIFY SESSION
-      const verifySession = async () => {
-        for (let i = 0; i < 3; i++) {
-          try {
-            const check = await fetch(
-              `${API_URL}/api/auth/get-session`,
-              {
-                credentials: "include",
-              }
-            );
-
-            if (check.ok) {
-              const sessionData = await check.json();
-              console.log("SESSION:", sessionData);
-
-              if (sessionData?.user) {
-                return sessionData.user;
-              }
-            }
-
-            console.warn("session retry:", i + 1);
-          } catch (err) {
-            console.error("session error:", err);
-          }
-
-          await new Promise((r) => setTimeout(r, 500));
-        }
-
-        return null;
-      };
-
-      const user = await verifySession();
-
-      // 🔥 STEP 4: REDIRECT
-      if (user) {
-        console.log("USER:", user);
-
-        if (user.role === "TUTOR") {
-          router.replace("/dashboard/tutor/sessions");
-        } else if (user.role === "ADMIN") {
-          router.replace("/dashboard/admin/users");
-        } else {
-          router.replace("/dashboard");
-        }
-      } else {
-        toast.error("Session not ready. Try refresh.");
-      }
-
+      router.replace("/dashboard");
     } catch (err) {
-      console.error(err);
       toast.error("Something went wrong");
     }
   };
@@ -119,7 +68,7 @@ export function LoginForm() {
         />
       </CardContent>
 
-      <CardFooter className="flex flex-col gap-3">
+      <CardFooter>
         <Button onClick={handleLogin} className="w-full">
           Login
         </Button>
