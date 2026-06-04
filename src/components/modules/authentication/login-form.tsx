@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 export function LoginForm() {
   const router = useRouter();
@@ -83,6 +84,14 @@ const handleLogin = async () => {
   }
 };
 
+
+  const handleGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+     callbackURL: "https://assignment5-frontend-seven.vercel.app",
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -108,6 +117,9 @@ const handleLogin = async () => {
       <CardFooter>
         <Button onClick={handleLogin} className="w-full">
           Login
+        </Button>
+        <Button onClick={handleGoogle} className="w-full mt-2">
+          Login with Google
         </Button>
       </CardFooter>
     </Card>

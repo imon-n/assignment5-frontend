@@ -109,12 +109,14 @@ export function RegisterForm() {
   };
 
   // ✅ GOOGLE LOGIN
+  
   const handleGoogle = async () => {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/dashboard",
+     callbackURL: "https://assignment5-frontend-seven.vercel.app",
     });
   };
+
 
   return (
     <Card>
