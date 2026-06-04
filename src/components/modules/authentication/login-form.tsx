@@ -17,38 +17,68 @@ export function LoginForm() {
     password: "",
   });
 
- const handleLogin = async () => {
+const handleLogin = async () => {
   try {
-    const res = await fetch(`${API_URL}/api/auth/sign-in/email`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(form),
-    });
+    const loginRes = await fetch(
+      `${API_URL}/api/auth/sign-in/email`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+      }
+    );
 
-    if (!res.ok) {
+    if (!loginRes.ok) {
+      const error = await loginRes.json();
+      console.log(error);
       toast.error("Login failed");
       return;
     }
 
-    const meRes = await fetch(`${API_URL}/api/me`, {
-      method: "GET",
-      credentials: "include",
-    });
+    // একটু wait দাও cookie save হওয়ার জন্য
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    if (!meRes.ok) {
-      toast.error("Session failed");
+    const sessionRes = await fetch(
+      `${API_URL}/api/auth/get-session`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    if (!sessionRes.ok) {
+      toast.error("Session not found");
       return;
     }
 
-    const meData = await meRes.json();
+    const sessionData = await sessionRes.json();
 
-    console.log("USER:", meData);
-    toast.success("Login success");
+    console.log("SESSION:", sessionData);
 
-    router.replace("/dashboard");
-  } catch (err) {
-    console.error(err);
+    if (!sessionData?.user) {
+      toast.error("User not found");
+      return;
+    }
+
+    toast.success("Login successful");
+
+    const role = sessionData.user.role;
+
+    if (role === "ADMIN") {
+      router.replace("/admin");
+    } else if (role === "TUTOR") {
+      router.replace("/tutor");
+    } else {
+      router.replace("/dashboard");
+    }
+  } catch (error) {
+    console.error(error);
     toast.error("Something went wrong");
   }
 };
