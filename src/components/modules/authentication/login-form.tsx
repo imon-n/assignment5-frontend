@@ -114,7 +114,7 @@ const handleLogin = async () => {
         />
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="flex flex-col gap-3">
         <Button onClick={handleLogin} className="w-full">
           Login
         </Button>
