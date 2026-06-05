@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-// import { authClient, signInWithGoogle } from "@/lib/auth-client";
+ import { authClient } from "@/lib/auth-client";
 
 export function LoginForm() {
   const router = useRouter();
