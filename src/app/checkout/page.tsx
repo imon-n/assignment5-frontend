@@ -5,15 +5,12 @@ const backendUrl =
   process.env.BACKEND_URL ||
   "http://localhost:5000";
 
-const frontendUrl =
-  process.env.FRONTEND_URL ||
-  "https://assignment5-frontend-seven.vercel.app";
-
 export default function CheckoutPage() {
   return (
     <CheckoutPageClient
+      bookingId="BOOKING123"
+      amount={50}
       backendUrl={backendUrl}
-      frontendUrl={frontendUrl}
     />
   );
 }

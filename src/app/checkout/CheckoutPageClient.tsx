@@ -234,10 +234,9 @@
 // // }
 
 
-
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -266,26 +265,31 @@ function CheckoutForm({
   const [message, setMessage] = useState("");
 
   const verifyPayment = async () => {
-    const res = await fetch(
-      `${backendUrl}/api/v1/payments/stripe/verify`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          bookingId,
-          stripePaymentId,
-        }),
+    try {
+      const res = await fetch(
+        `${backendUrl}/api/v1/payments/stripe/verify`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            bookingId,
+            stripePaymentId,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success) {
+        setMessage("Payment verified successfully");
+      } else {
+        setMessage(data.message || "Verification failed");
       }
-    );
-
-    const data = await res.json();
-
-    if (data.success) {
-      setMessage("Payment verified successfully");
-    } else {
+    } catch (error) {
+      console.error(error);
       setMessage("Verification failed");
     }
   };
@@ -322,11 +326,19 @@ function CheckoutForm({
       <button
         type="submit"
         disabled={!stripe || loading}
+        style={{
+          marginTop: "20px",
+          padding: "10px 20px",
+        }}
       >
         {loading ? "Processing..." : "Pay Now"}
       </button>
 
-      {message && <p>{message}</p>}
+      {message && (
+        <p style={{ marginTop: "10px" }}>
+          {message}
+        </p>
+      )}
     </form>
   );
 }
@@ -341,32 +353,38 @@ export default function CheckoutPageClient({
   backendUrl: string;
 }) {
   const [clientSecret, setClientSecret] =
-    useState<string>();
+    useState<string>("");
   const [stripePaymentId, setStripePaymentId] =
     useState("");
 
   useEffect(() => {
     const createIntent = async () => {
-      const res = await fetch(
-        `${backendUrl}/api/v1/payments/stripe/checkout`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            bookingId,
-            amount,
-          }),
+      try {
+        const res = await fetch(
+          `${backendUrl}/api/v1/payments/stripe/checkout`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              bookingId,
+              amount,
+            }),
+          }
+        );
+
+        const data = await res.json();
+
+        if (data.success) {
+          setClientSecret(data.data.clientSecret);
+          setStripePaymentId(
+            data.data.stripePaymentId
+          );
         }
-      );
-
-      const data = await res.json();
-
-      if (data.success) {
-        setClientSecret(data.data.clientSecret);
-        setStripePaymentId(data.data.stripePaymentId);
+      } catch (error) {
+        console.error(error);
       }
     };
 
