@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { authClient, signInWithGoogle } from "@/lib/auth-client";
+// import { authClient, signInWithGoogle } from "@/lib/auth-client";
 
 export function LoginForm() {
   const router = useRouter();
@@ -118,7 +118,7 @@ const handleLogin = async () => {
         <Button onClick={handleLogin} className="w-full">
           Login
         </Button>
-        <Button onClick={signInWithGoogle} className="w-full mt-2">
+        <Button onClick={handleGoogle} className="w-full mt-2">
           Login with Google
         </Button>
       </CardFooter>
