@@ -84,7 +84,12 @@ const handleLogin = async () => {
   }
 };
 
-
+ const handleGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+     callbackURL: "https://assignment5-frontend-seven.vercel.app",
+    });
+  };
 
 
   return (
@@ -113,7 +118,7 @@ const handleLogin = async () => {
         <Button onClick={handleLogin} className="w-full">
           Login
         </Button>
-        <Button onClick={signInWithGoogle} className="w-full mt-2">
+        <Button onClick={handleGoogle} className="w-full mt-2">
           Login with Google
         </Button>
       </CardFooter>
