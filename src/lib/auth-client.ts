@@ -9,10 +9,7 @@ import { createAuthClient } from "better-auth/react"; // make sure to import fro
 
 export const authClient = createAuthClient({
   //you can pass client configuration here
-  // baseURL: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth`,
-  baseURL: process.env.BACKEND_URL
-    ? process.env.BACKEND_URL
-    : "/api/auth",
+  baseURL: "https://assignment5-backend-f7q4.onrender.com/api/auth",
   fetchOptions: { credentials: "include" },
 
   plugins: [
