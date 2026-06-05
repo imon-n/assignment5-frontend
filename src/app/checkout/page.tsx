@@ -1,5 +1,4 @@
-import CheckoutPageClient from "./CheckoutPageClient";
-
+import { CheckoutPageClient } from "./CheckoutPageClient";
 const backendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
