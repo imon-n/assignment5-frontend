@@ -7,10 +7,13 @@ const backendUrl =
 
 export default function CheckoutPage() {
   return (
+    <div>
+   <h1>Hello everyone</h1>
     <CheckoutPageClient
       bookingId="BOOKING123"
       amount={50}
       backendUrl={backendUrl}
     />
+    </div>
   );
 }
