@@ -9,7 +9,7 @@ import { createAuthClient } from "better-auth/react"; // make sure to import fro
 
 export const authClient = createAuthClient({
   //you can pass client configuration here
-  baseURL: "https://assignment5-backend-f7q4.onrender.com/api/auth",
+  baseURL: "https://assignment5-backend-f7q4.onrender.com",
   fetchOptions: { credentials: "include" },
 
   plugins: [
