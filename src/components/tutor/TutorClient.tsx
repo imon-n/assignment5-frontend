@@ -21,8 +21,9 @@ type Review = {
   };
 };
 import { m } from "framer-motion";
+import router from "next/dist/shared/lib/router/router";
 import { useEffect, useState } from "react";
-
+import Router from "next/router";
 export default function TutorClient({ tutor, id }: 
   { tutor: Tutor;
   id: string;
@@ -124,39 +125,72 @@ export default function TutorClient({ tutor, id }:
   };
 
   // ================= BOOKING =================
-  const handleBookingSubmit = async () => {
-    try {
-      const res = await fetch(`${API}/api/bookings`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(bookingForm),
-      });
+//   const handleBookingSubmit = async () => {
+//     try {
+//       const res = await fetch(`${API}/api/bookings`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         credentials: "include",
+//         body: JSON.stringify(bookingForm),
+//       });
 
-      const data = await res.json();
+//       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.message);
+//       if (!res.ok) throw new Error(data.message);
 
-      alert("Booking Successful");
+//       alert("Booking Successful");
 
-      setShowBooking(false);
+//       setShowBooking(false);
 
-      setBookingForm({
-        tutorId: id,
-        day: "",
-        date: "",
-        time: "",
-      });
-    } catch (err: unknown) {
-  if (err instanceof Error) {
-    alert(err.message);
-  } else {
-    alert("Something went wrong");
+//       setBookingForm({
+//         tutorId: id,
+//         day: "",
+//         date: "",
+//         time: "",
+//       });
+//     } catch (err: unknown) {
+//   if (err instanceof Error) {
+//     alert(err.message);
+//   } else {
+//     alert("Something went wrong");
+//   }
+// }
+//   };
+
+const handleBookingSubmit = async () => {
+  try {
+    const res = await fetch(`${API}/api/bookings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(bookingForm),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+
+    const booking = data.data;
+
+    setShowBooking(false);
+
+    Router.push(
+      `/checkout?bookingId=${booking.id}&amount=${tutor.hourlyRate}`
+    );
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      alert(err.message);
+    } else {
+      alert("Something went wrong");
+    }
   }
-}
-  };
+};
 
   return (
     <div className="bg-[#f5f5f5] min-h-screen p-6 mt-24">
