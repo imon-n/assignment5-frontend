@@ -21,9 +21,11 @@ type Review = {
   };
 };
 import { m } from "framer-motion";
-import router from "next/dist/shared/lib/router/router";
+// import router from "next/dist/shared/lib/router/router";
 import { useEffect, useState } from "react";
-import Router from "next/router";
+
+import { useRouter } from "next/navigation";
+
 export default function TutorClient({ tutor, id }: 
   { tutor: Tutor;
   id: string;
@@ -38,6 +40,7 @@ export default function TutorClient({ tutor, id }:
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(5);
 
+  const router = useRouter();
   const [bookingForm, setBookingForm] = useState({
     tutorId: id,
     day: "",
@@ -180,7 +183,7 @@ const handleBookingSubmit = async () => {
 
     setShowBooking(false);
 
-    Router.push(
+    router.push(
       `/checkout?bookingId=${booking.id}&amount=${tutor.hourlyRate}`
     );
   } catch (err: unknown) {
