@@ -161,7 +161,6 @@ export default function TutorClient({ tutor, id }:
 //   }
 // }
 //   };
-
 const handleBookingSubmit = async () => {
   try {
     const res = await fetch(`${API}/api/bookings`, {
@@ -176,17 +175,21 @@ const handleBookingSubmit = async () => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message);
+      throw new Error(data.message || "Booking failed");
     }
 
     const booking = data.data;
+
+    if (!booking?.id) {
+      throw new Error("Booking ID not found");
+    }
 
     setShowBooking(false);
 
     router.push(
       `/checkout?bookingId=${booking.id}&amount=${tutor.hourlyRate}`
     );
-  } catch (err: unknown) {
+  } catch (err) {
     if (err instanceof Error) {
       alert(err.message);
     } else {
