@@ -88,9 +88,9 @@ export default function AvailabilityPage() {
   };
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl mt-20">
 
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="text-3xl font-bold mb-6 mt-8">
         Set Availability
       </h1>
 
