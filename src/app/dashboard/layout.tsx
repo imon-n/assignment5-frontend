@@ -79,9 +79,9 @@ export default function DashboardLayout({
     ],
     TUTOR: [
       { href: "/dashboard", label: "Overview" },
-      { href: "/dashboard/tutor/sessions", label: "Sessions" },
-      { href: "/dashboard/tutor/availabilities", label: "Availability" },
-      { href: "/dashboard/tutor/reviews", label: "Reviews" },
+      { href: "/dashboard/tutors/sessions", label: "Sessions" },
+      { href: "/dashboard/tutors/availabilities", label: "Availability" },
+      { href: "/dashboard/tutors/reviews", label: "Reviews" },
       { href: "/dashboard/me", label: "Profile" },
     ],
     ADMIN: [
