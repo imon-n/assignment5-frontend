@@ -9,65 +9,76 @@ export default function PaymentSuccessClient({
   backendUrl: string;
 }) {
   const searchParams = useSearchParams();
+
   const stripePaymentId = searchParams.get("stripePaymentId");
   const bookingId = searchParams.get("bookingId");
-  const [status, setStatus] = useState(
-    !stripePaymentId || !bookingId
-      ? "Payment completed. If you do not see confirmation, please check your orders."
-      : "Verifying payment..."
-  );
-  const [error, setError] = useState<string | null>(null);
-  const [isReady, setIsReady] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+  const [verified, setVerified] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setIsReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!backendUrl || !stripePaymentId || !bookingId) {
+    if (!stripePaymentId || !bookingId) {
+      setLoading(false);
+      setMessage("Missing payment information");
       return;
     }
 
     const verifyPayment = async () => {
       try {
-        const res = await fetch(`${backendUrl}/api/v1/payments/stripe/verify`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ stripePaymentId, bookingId }),
-        });
-        const data = await res.json();
-        if (res.ok && data.success) {
-          setStatus("Payment verified successfully.");
+        const res = await fetch(
+          `${backendUrl}/api/v1/payments/stripe/verify`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              stripePaymentId,
+              bookingId,
+            }),
+          }
+        );
+
+        const result = await res.json();
+
+        if (result.success) {
+          setVerified(true);
+          setMessage(result.message);
         } else {
-          setError(data.message || "Payment verification failed.");
-          setStatus("Verification error.");
+          setMessage(result.message);
         }
-      } catch (err) {
-        console.error(err);
-        setError("Network error verifying payment.");
-        setStatus("Verification error.");
+      } catch (error) {
+        console.error(error);
+        setMessage("Payment verification failed");
+      } finally {
+        setLoading(false);
       }
     };
 
     verifyPayment();
   }, [stripePaymentId, bookingId, backendUrl]);
 
-  if (!isReady) {
-    return <div>Loading payment details...</div>;
-  }
-
   return (
-    <div>
-      <h1>Payment Success</h1>
-      <p>{status}</p>
-      {!stripePaymentId || !bookingId ? (
-        <p>
-          This page is intended to be used after a Stripe redirect. Ensure the URL includes
-          `stripePaymentId` and `bookingId`.
-        </p>
-      ) : null}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="max-w-lg mx-auto mt-20 text-center">
+      {loading ? (
+        <>
+          <h1>Verifying Payment...</h1>
+          <p>Please wait...</p>
+        </>
+      ) : verified ? (
+        <>
+          <h1>✅ Payment Successful</h1>
+          <p>{message}</p>
+          <p>Booking Confirmed</p>
+        </>
+      ) : (
+        <>
+          <h1>❌ Verification Failed</h1>
+          <p>{message}</p>
+        </>
+      )}
     </div>
   );
 }

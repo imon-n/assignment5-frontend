@@ -284,7 +284,7 @@ const handleBookingSubmit = async () => {
           </div>
 
         {/* ================= REVIEW MODAL ================= */}
-      {showReview && (
+      {/* {showReview && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-md w-[90%] max-w-md space-y-3">
 
@@ -316,10 +316,68 @@ const handleBookingSubmit = async () => {
 
           </div>
         </div>
-      )}
+      )} */}
+
+      {showReview && (
+  <div
+    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+    onClick={() => setShowReview(false)}
+  >
+    <div
+      className="bg-white p-5 rounded-md w-[90%] max-w-md space-y-3"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex justify-between items-center">
+        <h2 className="font-bold text-lg">Add Review</h2>
+
+        <button
+          onClick={() => setShowReview(false)}
+          className="text-gray-500 hover:text-black text-xl"
+        >
+          ✕
+        </button>
+      </div>
+
+      <select
+        className="w-full border p-2 rounded"
+        value={rating}
+        onChange={(e) => setRating(Number(e.target.value))}
+      >
+        <option value={5}>⭐⭐⭐⭐⭐</option>
+        <option value={4}>⭐⭐⭐⭐</option>
+        <option value={3}>⭐⭐⭐</option>
+        <option value={2}>⭐⭐</option>
+        <option value={1}>⭐</option>
+      </select>
+
+      <textarea
+        className="w-full border p-2 rounded"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder="Write review"
+      />
+
+      <div className="flex gap-2">
+        <button
+          onClick={() => setShowReview(false)}
+          className="flex-1 border py-2 rounded"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleReviewSubmit}
+          className="flex-1 bg-green-700 text-white py-2 rounded"
+        >
+          Submit Review
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* ================= BOOKING MODAL ================= */}
-      {showBooking && (
+      {/* {showBooking && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-md w-[90%] max-w-md space-y-4">
 
@@ -377,7 +435,91 @@ const handleBookingSubmit = async () => {
 
           </div>
         </div>
-      )}
+      )} */}
+
+      {showBooking && (
+  <div
+    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+    onClick={() => setShowBooking(false)}
+  >
+    <div
+      className="bg-white p-5 rounded-md w-[90%] max-w-md space-y-4"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex justify-between items-center">
+        <h2 className="font-bold text-lg">Book Appointment</h2>
+
+        <button
+          onClick={() => setShowBooking(false)}
+          className="text-gray-500 hover:text-black text-xl"
+        >
+          ✕
+        </button>
+      </div>
+
+      <select
+        className="w-full border p-2 rounded"
+        value={bookingForm.day}
+        onChange={(e) =>
+          setBookingForm({ ...bookingForm, day: e.target.value })
+        }
+      >
+        <option value="">Select Day</option>
+        <option>Sunday</option>
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+        <option>Friday</option>
+        <option>Saturday</option>
+      </select>
+
+      <input
+        type="date"
+        className="w-full border p-2 rounded"
+        value={bookingForm.date}
+        onChange={(e) =>
+          setBookingForm({ ...bookingForm, date: e.target.value })
+        }
+      />
+
+      <select
+        className="w-full border p-2 rounded"
+        value={bookingForm.time}
+        onChange={(e) =>
+          setBookingForm({ ...bookingForm, time: e.target.value })
+        }
+      >
+        <option value="">Select Time</option>
+        <option>09:00 AM</option>
+        <option>10:00 AM</option>
+        <option>11:00 AM</option>
+        <option>12:00 PM</option>
+        <option>01:00 PM</option>
+        <option>02:00 PM</option>
+        <option>03:00 PM</option>
+        <option>04:00 PM</option>
+        <option>05:00 PM</option>
+      </select>
+
+      <div className="flex gap-2">
+        <button
+          onClick={() => setShowBooking(false)}
+          className="flex-1 border py-2 rounded"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleBookingSubmit}
+          className="flex-1 bg-green-700 text-white py-2 rounded"
+        >
+          Confirm Booking
+        </button>
+      </div>
+    </div>
+  </div>
+)}
   </div>
         </div>
       </div>
