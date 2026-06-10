@@ -60,7 +60,7 @@ const handleLogin = async () => {
 
     const sessionData = await sessionRes.json();
 
-    console.log("SESSION:", sessionData);
+    console.log("SESSION1:", sessionData);
 
     if (!sessionData?.user) {
       toast.error("User not found");
