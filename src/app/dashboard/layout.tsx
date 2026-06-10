@@ -62,7 +62,7 @@ export default function DashboardLayout({
     const getMe = async () => {
 
       try {
-         await new Promise((resolve) => setTimeout(resolve, 1000));
+        
 const res = await fetch(
   `${API_URL}/api/auth/get-session`,
   {
