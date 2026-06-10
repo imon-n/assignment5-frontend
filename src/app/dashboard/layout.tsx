@@ -25,9 +25,45 @@ export default function DashboardLayout({
     process.env.NEXT_PUBLIC_API_URL ||
     "https://assignment5-backend-f7q4.onrender.com";
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const getMe = async () => {
+
+  //     try {
+  //        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  //       const res = await fetch(`${API_URL}/api/me`, {
+  //         method: "GET",
+  //         credentials: "include", // 🔥 MUST
+  //       });
+
+  //       console.log("STATUS:", res.status);
+
+  //       if (!res.ok) {
+  //         throw new Error("Unauthorized");
+  //       }
+
+  //       const data = await res.json();
+  //       console.log("USER:", data);
+
+  //       setUser(data.user || data.data || data);
+  //     } catch (error) {
+  //       console.error("Session error:", error);
+  //       setUser(null);
+  //       router.replace("/login");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   getMe();
+  // }, [API_URL, router]);
+
+ useEffect(() => {
     const getMe = async () => {
+
       try {
+         await new Promise((resolve) => setTimeout(resolve, 1000));
+
         const res = await fetch(`${API_URL}/api/me`, {
           method: "GET",
           credentials: "include", // 🔥 MUST
@@ -54,8 +90,6 @@ export default function DashboardLayout({
 
     getMe();
   }, [API_URL, router]);
-
-
 
   if (loading) {
     return (
