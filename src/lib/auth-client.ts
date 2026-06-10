@@ -40,6 +40,6 @@ export const signInWithGoogle = async () => {
 
     // 🔥 IMPORTANT: redirect to callback page
     callbackURL:
-      "https://assignment5-frontend-seven.vercel.app/auth/callback",
+      "https://assignment5-frontend-seven.vercel.app/dashboard",
   });
 };
