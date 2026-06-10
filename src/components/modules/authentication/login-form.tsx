@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
- import { authClient } from "@/lib/auth-client";
+ import {  signInWithGoogle } from "@/lib/auth-client";
 
 export function LoginForm() {
   const router = useRouter();
@@ -74,7 +74,7 @@ const handleLogin = async () => {
     if (role === "ADMIN") {
       router.replace("/admin");
     } else if (role === "TUTOR") {
-      router.replace("/tutor");
+      router.replace("/tutors");
     } else {
       router.replace("/dashboard");
     }
@@ -84,12 +84,12 @@ const handleLogin = async () => {
   }
 };
 
- const handleGoogle = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-     callbackURL: "https://assignment5-frontend-seven.vercel.app",
-    });
-  };
+//  const handleGoogle = async () => {
+//     await authClient.signIn.social({
+//       provider: "google",
+//      callbackURL: "https://assignment5-frontend-seven.vercel.app",
+//     });
+//   };
 
 
   return (
@@ -118,7 +118,7 @@ const handleLogin = async () => {
         <Button onClick={handleLogin} className="w-full">
           Login
         </Button>
-        <Button onClick={handleGoogle} className="w-full mt-2">
+        <Button onClick={signInWithGoogle} className="w-full mt-2">
           Login with Google
         </Button>
       </CardFooter>
