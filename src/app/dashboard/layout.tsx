@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 type Role = "STUDENT" | "TUTOR" | "ADMIN";
 
@@ -20,6 +21,7 @@ export default function DashboardLayout({
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+    const { data: session, isPending } = authClient.useSession(); // 👈 use this
 
   const API_URL =
     process.env.NEXT_PUBLIC_API_URL ||
@@ -59,6 +61,9 @@ export default function DashboardLayout({
   // }, [API_URL, router]);
 
  useEffect(() => {
+   if (isPending) return; // wait until session loads
+
+    console.log("SESSION:", session);
     const getMe = async () => {
 
       try {
