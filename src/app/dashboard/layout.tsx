@@ -59,6 +59,9 @@ export default function DashboardLayout({
     const getMe = async () => {
         try {
 
+    // একটু wait দাও cookie save হওয়ার জন্য
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const sessionRes = await fetch(
       `${API_URL}/api/auth/get-session`,
       {
