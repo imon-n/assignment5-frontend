@@ -6,6 +6,7 @@
 // });
 
 import { createAuthClient } from "better-auth/react"; // make sure to import from better-auth/react
+import { toast } from "sonner";
 
 export const authClient = createAuthClient({
   //you can pass client configuration here
@@ -34,13 +35,43 @@ export const authClient = createAuthClient({
     },
   ],
 });
-
+const API_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 export const signInWithGoogle = async () => {
-  return await authClient.signIn.social({
-    provider: "google",
+  try {
+    await authClient.signIn.social({
+      provider: "google",
+    });
 
-    // 🔥 IMPORTANT: redirect to callback page
-    callbackURL:
-      "https://assignment5-frontend-seven.vercel.app/dashboard",
-  });
+    const sessionRes = await fetch(`${API_URL}/api/auth/get-session`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!sessionRes.ok) {
+      toast.error("Session not found");
+      return;
+    }
+
+    const sessionData = await sessionRes.json();
+    console.log("SESSION1:", sessionData);
+
+    if (!sessionData?.user) {
+      toast.error("User not found");
+      return;
+    }
+
+    toast.success("Login successful");
+
+    const role = sessionData.user.role;
+    if (role === "ADMIN") {
+      router.replace("/admin");
+    } else if (role === "TUTOR") {
+      router.replace("/tutors");
+    } else {
+      router.replace("/dashboard");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Something went wrong");
+  }
 };
