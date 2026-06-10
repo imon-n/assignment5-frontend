@@ -38,7 +38,6 @@ export const signInWithGoogle = async () => {
     provider: "google",
 
     // 🔥 IMPORTANT: redirect to callback page
-    callbackURL:
-      "https://assignment5-frontend-seven.vercel.app/dashboard",
+    callbackURL: "https://assignment5-frontend-seven.vercel.app/dashboard",
   });
 };

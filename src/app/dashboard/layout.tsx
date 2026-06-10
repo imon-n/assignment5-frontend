@@ -61,9 +61,7 @@ export default function DashboardLayout({
   // }, [API_URL, router]);
 
  useEffect(() => {
-   if (isPending) return; // wait until session loads
-
-    console.log("SESSION:", session);
+ 
     const getMe = async () => {
 
       try {
