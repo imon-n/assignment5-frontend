@@ -37,6 +37,6 @@ export const authClient = createAuthClient({
 export const signInWithGoogle = async () => {
   return await authClient.signIn.social({
     provider: "google",
-    callbackURL: `${process.env.FRONTEND_URL}/dashboard`,
+    callbackURL:"https://assignment5-frontend-seven.vercel.app/dashboard",
   });
 };
