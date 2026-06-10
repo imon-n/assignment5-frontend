@@ -25,87 +25,37 @@ export default function DashboardLayout({
     process.env.NEXT_PUBLIC_API_URL ||
     "https://assignment5-backend-f7q4.onrender.com";
 
-  // useEffect(() => {
-  //   const getMe = async () => {
-  //     try {
-  //       const res = await fetch(`${API_URL}/api/me`, {
-  //         method: "GET",
-  //         credentials: "include", // 🔥 MUST
-  //       });
-
-  //       console.log("STATUS:", res.status);
-
-  //       if (!res.ok) {
-  //         throw new Error("Unauthorized");
-  //       }
-
-  //       const data = await res.json();
-  //       console.log("USER:", data);
-
-  //       setUser(data.user || data.data || data);
-  //     } catch (error) {
-  //       console.error("Session error:", error);
-  //       setUser(null);
-  //       router.replace("/login");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   getMe();
-  // }, [API_URL, router]);
-
-    useEffect(() => {
+  useEffect(() => {
     const getMe = async () => {
-        try {
+      try {
+        const res = await fetch(`${API_URL}/api/me`, {
+          method: "GET",
+          credentials: "include", // 🔥 MUST
+        });
 
-    // একটু wait দাও cookie save হওয়ার জন্য
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+        console.log("STATUS:", res.status);
 
-    const sessionRes = await fetch(
-      `${API_URL}/api/auth/get-session`,
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
+        if (!res.ok) {
+          throw new Error("Unauthorized");
+        }
 
-    if (!sessionRes.ok) {
-      toast.error("Session not found");
-      return;
-    }
+        const data = await res.json();
+        console.log("USER:", data);
 
-    const sessionData = await sessionRes.json();
-
-    console.log("SESSION1:", sessionData);
-
-    if (!sessionData?.user) {
-      toast.error("User not found");
-      return;
-    }
-
-    toast.success("Login successful");
-
-    const role = sessionData.user.role;
-
-    if (role === "ADMIN") {
-      router.replace("/admin");
-    } else if (role === "TUTOR") {
-      router.replace("/tutors");
-    } else {
-      router.replace("/dashboard");
-    }
-  } catch (error) {
-    console.error(error);
-    toast.error("Something went wrong");
-  }
-     finally {
+        setUser(data.user || data.data || data);
+      } catch (error) {
+        console.error("Session error:", error);
+        setUser(null);
+        router.replace("/login");
+      } finally {
         setLoading(false);
       }
     };
 
     getMe();
   }, [API_URL, router]);
+
+
 
   if (loading) {
     return (
