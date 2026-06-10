@@ -63,11 +63,12 @@ export default function DashboardLayout({
 
       try {
          await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        const res = await fetch(`${API_URL}/api/me`, {
-          method: "GET",
-          credentials: "include", // 🔥 MUST
-        });
+const res = await fetch(
+  `${API_URL}/api/auth/get-session`,
+  {
+    credentials: "include",
+  }
+);
 
         console.log("STATUS:", res.status);
 
