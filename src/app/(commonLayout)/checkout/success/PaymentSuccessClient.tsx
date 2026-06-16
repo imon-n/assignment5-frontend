@@ -173,18 +173,21 @@ export default function PaymentSuccessClient({
 
         const data = await res.json();
 
-        if (data.success) {
-          setVerified(true);
-          setMessage(data.message || "Payment Successful");
+       if (data.success) {
+  toast.success("Payment Successful 🎉");
 
-          toast.success("Payment Successful 🎉");
+  setMessage(data.message || "Payment Successful");
+  setVerified(true);
 
-          setLoading(false);
+  setLoading(false);
 
-          setTimeout(() => {
-            router.push("/dashboard/payments");
-          }, 1500);
-        } else {
+  console.log("REDIRECTING...");
+
+  setTimeout(() => {
+    router.push("/dashboard/payments");
+    router.refresh(); // 🔥 force update
+  }, 1200);
+} else {
           setVerified(false);
           setMessage(data.message || "Payment failed");
 
