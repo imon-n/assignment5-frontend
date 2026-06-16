@@ -123,7 +123,6 @@ const res = await fetch(
       { href: "/dashboard/tutors/sessions", label: "Sessions" },
       { href: "/dashboard/tutors/availabilities", label: "Availability" },
       { href: "/dashboard/tutors/reviews", label: "Reviews" },
-      { href: "/dashboard/tutors/profile", label: "Create Profile" },
       { href: "/dashboard/me", label: "Profile" },
     ],
     ADMIN: [

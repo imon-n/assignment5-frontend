@@ -21,6 +21,7 @@ export default function CreateTutorProfile() {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
+  const [checkingProfile, setCheckingProfile] = useState(true);
 
   const [form, setForm] = useState<FormState>({
     bio: "",
@@ -29,20 +30,44 @@ export default function CreateTutorProfile() {
   });
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const initialize = async () => {
       try {
-        const res = await axios.get<Category[]>(
+        // Check if tutor profile already exists
+        try {
+          const profileRes = await axios.get(
+            "https://assignment5-backend-f7q4.onrender.com/api/tutor-profile",
+            {
+              withCredentials: true,
+            }
+          );
+
+          if (profileRes.data) {
+            router.replace("/dashboard/tutors/sessions");
+            return;
+          }
+        } catch (err) {
+          console.log("No tutor profile found");
+        }
+
+        // Fetch categories
+        const catRes = await axios.get(
           "https://assignment5-backend-f7q4.onrender.com/api/categories"
         );
 
-        setCategories(res.data);
+        const categoryData = Array.isArray(catRes.data)
+          ? catRes.data
+          : catRes.data?.data || [];
+
+        setCategories(categoryData);
       } catch (err) {
-        console.error("Failed to fetch categories:", err);
+        console.error(err);
+      } finally {
+        setCheckingProfile(false);
       }
     };
 
-    fetchCategories();
-  }, []);
+    initialize();
+  }, [router]);
 
   const handleChange = (
     e: ChangeEvent<
@@ -67,7 +92,7 @@ export default function CreateTutorProfile() {
       setLoading(true);
 
       await axios.post(
-        "https://assignment5-backend-f7q4.onrender.com/api/tutor",
+        "https://assignment5-backend-f7q4.onrender.com/api/tutor-profile",
         {
           bio: form.bio,
           hourlyRate: Number(form.hourlyRate),
@@ -85,63 +110,70 @@ export default function CreateTutorProfile() {
       console.error(err);
 
       alert(
-        err?.response?.data?.message || "Failed to create tutor profile"
+        err?.response?.data?.message ||
+          "Failed to create tutor profile"
       );
     } finally {
       setLoading(false);
     }
   };
 
+  if (checkingProfile) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        Loading...
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-xl bg-white p-6 rounded-lg shadow">
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          Create Tutor Profile
-        </h2>
+    <div className="w-full max-w-xl mx-auto bg-white p-6 rounded shadow">
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        Create Tutor Profile
+      </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <textarea
-            name="bio"
-            placeholder="Write your bio..."
-            value={form.bio}
-            onChange={handleChange}
-            rows={5}
-            className="w-full border p-3 rounded"
-          />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <textarea
+          name="bio"
+          placeholder="Write your bio..."
+          value={form.bio}
+          onChange={handleChange}
+          className="w-full border p-3 rounded"
+        />
 
-          <input
-            type="number"
-            name="hourlyRate"
-            placeholder="Hourly Rate"
-            value={form.hourlyRate}
-            onChange={handleChange}
-            className="w-full border p-3 rounded"
-          />
+        <input
+          type="number"
+          name="hourlyRate"
+          placeholder="Hourly Rate"
+          value={form.hourlyRate}
+          onChange={handleChange}
+          className="w-full border p-3 rounded"
+        />
 
-          <select
-            name="categoryId"
-            value={form.categoryId}
-            onChange={handleChange}
-            className="w-full border p-3 rounded"
-          >
-            <option value="">Select Category</option>
+        <select
+          name="categoryId"
+          value={form.categoryId}
+          onChange={handleChange}
+          className="w-full border p-3 rounded"
+        >
+          <option value="">Select Category</option>
 
-            {categories.map((cat) => (
+          {Array.isArray(categories) &&
+            categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name}
               </option>
             ))}
-          </select>
+        </select>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? "Creating..." : "Create Profile"}
-          </button>
-        </form>
-      </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-600 text-white py-2 rounded"
+        >
+          {loading ? "Creating..." : "Create Profile"}
+        </button>
+      </form>
     </div>
   );
 }
