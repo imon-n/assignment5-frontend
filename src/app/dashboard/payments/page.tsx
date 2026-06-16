@@ -20,7 +20,7 @@ export default function PaymentHistoryPage() {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const res = await fetch(`${API}/api/payments/history`, {
+        const res = await fetch(`${API}/api/v1/payments/history`, {
           credentials: "include",
         });
 
