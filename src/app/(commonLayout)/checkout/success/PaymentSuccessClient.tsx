@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 export default function PaymentSuccessClient({
   backendUrl,
 }: {
   backendUrl: string;
 }) {
   const searchParams = useSearchParams();
-
+const router = useRouter();
   const stripePaymentId = searchParams.get("stripePaymentId");
   const bookingId = searchParams.get("bookingId");
 
@@ -24,39 +25,78 @@ export default function PaymentSuccessClient({
       return;
     }
 
-    const verifyPayment = async () => {
-      try {
-        const res = await fetch(
-          `${backendUrl}/api/v1/payments/stripe/verify`,
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              stripePaymentId,
-              bookingId,
-            }),
-          }
-        );
+    // const verifyPayment = async () => {
+    //   try {
+    //     const res = await fetch(
+    //       `${backendUrl}/api/v1/payments/stripe/verify`,
+    //       {
+    //         method: "POST",
+    //         credentials: "include",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           stripePaymentId,
+    //           bookingId,
+    //         }),
+    //       }
+    //     );
 
-        const result = await res.json();
+    //     const result = await res.json();
 
-        if (result.success) {
-          setVerified(true);
-          setMessage(result.message);
-        } else {
-          setMessage(result.message);
-        }
-      } catch (error) {
-        console.error(error);
-        setMessage("Payment verification failed");
-      } finally {
-        setLoading(false);
+    //     if (result.success) {
+    //       setVerified(true);
+    //       setMessage(result.message);
+    //     } else {
+    //       setMessage(result.message);
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     setMessage("Payment verification failed");
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+const verifyPayment = async () => {
+  try {
+    const res = await fetch(
+      `${backendUrl}/api/v1/payments/stripe/verify`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          bookingId,
+          stripePaymentId,
+        }),
       }
-    };
+    );
 
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success("Payment Successful 🎉");
+
+      setMessage("Payment Successful ✅");
+
+      // 🔥 redirect after short delay
+      setTimeout(() => {
+        router.push("/dashboard/payments"); 
+        // or: "/dashboard/payments"
+      }, 1500);
+
+    } else {
+      toast.error(data.message || "Payment failed");
+      setMessage(data.message);
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Payment verification failed");
+    setMessage("Payment verification failed");
+  }
+};
     verifyPayment();
   }, [stripePaymentId, bookingId, backendUrl]);
 

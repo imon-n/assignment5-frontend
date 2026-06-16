@@ -48,7 +48,7 @@ export default function PaymentHistoryPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mt-12">
       <h1 className="text-2xl font-bold">Payment History 💳</h1>
 
       {payments.length === 0 ? (

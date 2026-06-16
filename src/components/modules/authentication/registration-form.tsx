@@ -157,9 +157,9 @@ export function RegisterForm() {
           Register
         </Button>
 
-        <Button onClick={handleGoogle} variant="outline" className="w-full">
+        {/* <Button onClick={handleGoogle} variant="outline" className="w-full">
           Continue with Google
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   );

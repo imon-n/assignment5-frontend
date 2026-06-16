@@ -118,9 +118,9 @@ const handleLogin = async () => {
         <Button onClick={handleLogin} className="w-full">
           Login
         </Button>
-        <Button onClick={signInWithGoogle} className="w-full mt-2">
+        {/* <Button onClick={signInWithGoogle} className="w-full mt-2">
           Login with Google
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   );
