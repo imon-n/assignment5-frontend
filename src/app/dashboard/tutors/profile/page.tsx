@@ -1,6 +1,9 @@
-import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 type Category = {
   id: string;
@@ -14,10 +17,10 @@ type FormState = {
 };
 
 export default function CreateTutorProfile() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState<FormState>({
     bio: "",
@@ -25,33 +28,33 @@ export default function CreateTutorProfile() {
     categoryId: "",
   });
 
-  // 🔹 Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get<Category[]>(
           "https://assignment5-backend-f7q4.onrender.com/api/categories"
         );
+
         setCategories(res.data);
       } catch (err) {
-        console.log("Failed to fetch categories", err);
+        console.error("Failed to fetch categories:", err);
       }
     };
 
     fetchCategories();
   }, []);
 
-  // 🔹 Handle input change
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
-    setForm({
-      ...form,
+    setForm((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
-  // 🔹 Submit form
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -77,35 +80,35 @@ export default function CreateTutorProfile() {
 
       alert("Tutor profile created successfully");
 
-      navigate("/dashboard/tutors/sessions");
+      router.push("/dashboard/tutors/sessions");
     } catch (err: any) {
-      console.log(err);
-      alert(err?.response?.data?.message || "Failed to create profile");
+      console.error(err);
+
+      alert(
+        err?.response?.data?.message || "Failed to create tutor profile"
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-xl bg-white p-6 rounded shadow">
-
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-xl bg-white p-6 rounded-lg shadow">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Create Tutor Profile
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-
-          {/* BIO */}
           <textarea
             name="bio"
             placeholder="Write your bio..."
             value={form.bio}
             onChange={handleChange}
+            rows={5}
             className="w-full border p-3 rounded"
           />
 
-          {/* HOURLY RATE */}
           <input
             type="number"
             name="hourlyRate"
@@ -115,7 +118,6 @@ export default function CreateTutorProfile() {
             className="w-full border p-3 rounded"
           />
 
-          {/* CATEGORY */}
           <select
             name="categoryId"
             value={form.categoryId}
@@ -131,15 +133,13 @@ export default function CreateTutorProfile() {
             ))}
           </select>
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded"
+            className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 disabled:opacity-50"
           >
             {loading ? "Creating..." : "Create Profile"}
           </button>
-
         </form>
       </div>
     </div>
