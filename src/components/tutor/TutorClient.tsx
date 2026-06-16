@@ -597,9 +597,12 @@ export default function TutorClient({
         setReviews(reviewData.data || []);
 
         // AVAILABILITY
-        const availRes = await fetch(`${API}/api/availability/${id}`, {
-          credentials: "include",
-        });
+      const availRes = await fetch(
+  `${API}/api/tutor/${id}/availability`,
+  {
+    credentials: "include",
+  }
+);
         const availData = await availRes.json();
         setAvailability(availData.data || []);
       } catch (err) {
