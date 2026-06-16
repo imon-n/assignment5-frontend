@@ -115,6 +115,7 @@ const res = await fetch(
     STUDENT: [
       { href: "/dashboard", label: "Overview" },
       { href: "/dashboard/bookings", label: "My Bookings" },
+       { href: "/dashboard/payments", label: "Payment History 💳" },
       { href: "/dashboard/reviews", label: "My Reviews" },
       { href: "/dashboard/me", label: "Profile" },
     ],
