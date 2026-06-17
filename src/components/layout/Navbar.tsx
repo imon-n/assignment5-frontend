@@ -182,7 +182,7 @@ export default function Navbar() {
       ))}
 
           <Link
-            href="#"
+            href="/contact"
             className={`text-[17px] font-medium transition ${
               whiteNavbar
                 ? "text-black hover:text-emerald-600"
