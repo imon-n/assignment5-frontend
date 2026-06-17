@@ -494,12 +494,12 @@ const tutors = response.data;
         {/* Tutor Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-  {tutors?.map((tutor: Tutor) => (
-    <TutorCard
-      key={tutor.id}
-      tutor={tutor}
-    />
-  ))}
+ {tutors?.slice(0, 4).map((tutor: Tutor) => (
+  <TutorCard
+    key={tutor.id}
+    tutor={tutor}
+  />
+))}
 
         </div>
 

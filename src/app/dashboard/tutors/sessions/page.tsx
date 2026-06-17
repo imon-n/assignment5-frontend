@@ -26,11 +26,21 @@ console.log(sessions)
   }, []);
 
   return (
-    <div className="p-6 mt-24">
-      <h1 className="text-2xl font-bold mb-6">
-        Teaching Sessions
-      </h1>
+  <div className="p-6 mt-24">
+    <h1 className="text-2xl font-bold mb-6">
+      Teaching Sessions
+    </h1>
 
+    {sessions.length === 0 ? (
+      <div className="text-center text-gray-500 mt-10">
+        <p className="text-lg font-medium">
+          No sessions found
+        </p>
+        <p className="text-sm">
+          You don’t have any teaching sessions yet.
+        </p>
+      </div>
+    ) : (
       <div className="space-y-4">
         {sessions.map((s) => (
           <div
@@ -55,6 +65,7 @@ console.log(sessions)
           </div>
         ))}
       </div>
-    </div>
-  );
+    )}
+  </div>
+);
 }
