@@ -7,7 +7,7 @@ import HeroSection from "@/components/ui/home/HeroSection";
 
 
 import { TutorCard } from "@/components/tutor/TutorCard";
-import Features from "@/components/home/Features";
+import Features from "@/components/ui/home/Features";
 import { getTutors } from "@/services/tutor.service";
 import { Tutor } from "@/types/tutor";
 import AboutSection from "@/components/ui/home/AboutSection";
