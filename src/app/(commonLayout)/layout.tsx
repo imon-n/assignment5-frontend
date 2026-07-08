@@ -1,6 +1,23 @@
-import Navbar from "@/components/layout/Navbar";
-import NavbarWrapper from "@/components/layout/NavbarWrapper";
+// import Navbar from "@/components/layout/Navbar";
+// import NavbarWrapper from "@/components/layout/NavbarWrapper";
 
+
+// export default function CommonLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   return (
+//     <div>
+//       <NavbarWrapper>
+//         <Navbar />
+//       </NavbarWrapper>
+//       {children}
+//     </div>
+//   );
+// }
+
+import NavbarWrapper from "@/components/layout/NavbarWrapper";
 
 export default function CommonLayout({
   children,
@@ -9,9 +26,7 @@ export default function CommonLayout({
 }) {
   return (
     <div>
-      <NavbarWrapper>
-        <Navbar />
-      </NavbarWrapper>
+      <NavbarWrapper />
       {children}
     </div>
   );
