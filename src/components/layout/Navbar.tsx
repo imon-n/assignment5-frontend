@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-
+ import { ChevronDown } from "lucide-react";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Tutor", href: "/tutors" },
@@ -71,64 +71,65 @@ export default function Navbar() {
         </Link>
 
         {/* Navigation */}
-        <nav className="hidden lg:flex items-center gap-10">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`relative pb-2 text-[17px] font-medium transition ${
-                pathname === item.href
-                  ? "text-emerald-600"
-                  : whiteNavbar
-                  ? "text-black hover:text-emerald-600"
-                  : "text-white hover:text-emerald-300"
-              }`}
-            >
-              {item.name}
+  
 
-              {pathname === item.href && (
-                <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-emerald-600 rounded-full"></span>
-              )}
-            </Link>
-          ))}
+<nav className="hidden lg:flex items-center gap-10">
+  {[...navItems, ...(session?.user ? [{ name: "Dashboard", href: "/dashboard" }] : [])]
+    .map((item) => {
+      const active =
+        item.href === "/dashboard"
+          ? pathname.startsWith("/dashboard")
+          : pathname === item.href;
 
-          {/* Dashboard after login */}
-          {session?.user && (
-            <Link
-              href="/dashboard"
-              className={`relative pb-2 text-[17px] font-medium transition ${
-                pathname.startsWith("/dashboard")
-                  ? "text-emerald-600"
-                  : whiteNavbar
-                  ? "text-black hover:text-emerald-600"
-                  : "text-white hover:text-emerald-300"
-              }`}
-            >
-              Dashboard
+      return (
+        <Link
+          key={item.name}
+          href={item.href}
+          className={`group relative flex items-center gap-1 pb-3 text-[17px] font-semibold transition-all duration-300 ${
+            active
+              ? "text-emerald-500"
+              : whiteNavbar
+              ? "text-black hover:text-emerald-500"
+              : "text-white hover:text-emerald-300"
+          }`}
+        >
+          {item.name}
 
-              {pathname.startsWith("/dashboard") && (
-                <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-emerald-600 rounded-full"></span>
-              )}
-            </Link>
-          )}
+          <ChevronDown size={16} className="mt-[2px]" />
 
-          <Link
-            href="/contact"
-            className={`relative pb-2 text-[17px] font-medium transition ${
-              pathname === "/contact"
-                ? "text-emerald-600"
-                : whiteNavbar
-                ? "text-black hover:text-emerald-600"
-                : "text-white hover:text-emerald-300"
+          {/* Underline */}
+          <span
+            className={`absolute left-0 bottom-0 h-[3px] rounded-full bg-emerald-400 transition-all duration-300 ${
+              active
+                ? "w-full"
+                : "w-0 group-hover:w-full"
             }`}
-          >
-            Contact
+          />
+        </Link>
+      );
+    })}
 
-            {pathname === "/contact" && (
-              <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-emerald-600 rounded-full"></span>
-            )}
-          </Link>
-        </nav>
+  <Link
+    href="/contact"
+    className={`group relative flex items-center gap-1 pb-3 text-[17px] font-semibold transition-all duration-300 ${
+      pathname === "/contact"
+        ? "text-emerald-500"
+        : whiteNavbar
+        ? "text-black hover:text-emerald-500"
+        : "text-white hover:text-emerald-300"
+    }`}
+  >
+    Contact Us
+
+    <span
+      className={`absolute left-0 bottom-0 h-[3px] rounded-full bg-emerald-400 transition-all duration-300 ${
+        pathname === "/contact"
+          ? "w-full"
+          : "w-0 group-hover:w-full"
+      }`}
+    />
+  </Link>
+</nav>
 
         {/* Right Side */}
         <div className="flex items-center gap-4">
