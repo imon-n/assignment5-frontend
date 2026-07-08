@@ -239,7 +239,7 @@ export default function Navbar() {
             <>
               <Link
                 href="/dashboard"
-                className="flex items-center gap-3"
+                className=""
               >
                 <Image
                   src={session.user.image || "/avatar.png"}
@@ -260,7 +260,7 @@ export default function Navbar() {
 
               <button
                 onClick={handleLogout}
-                className="px-6 py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition"
+                className="px-6 py-2 rounded-full bg-black text-white hover:bg-emerald-700 transition"
               >
                 Logout
               </button>
