@@ -1,11 +1,23 @@
+
+
 // "use client";
 
 // import Link from "next/link";
 // import { ChevronDown } from "lucide-react";
 // import { useEffect, useState } from "react";
+// import { usePathname } from "next/navigation";
+// const navItems = [
+//   { name: "Home", href: "/" },
 
+//   { name: "Tutor", href: "/tutors" },        // ✅ added
+//   { name: "Dashboard", href: "/dashboard" }, // ✅ added
+
+//   { name: "Blog", href: "/blog" },
+// ];
 // export default function Navbar() {
 //   const [scrolled, setScrolled] = useState(false);
+
+//   const pathname = usePathname();
 
 //   useEffect(() => {
 //     const handleScroll = () => {
@@ -19,10 +31,16 @@
 //     };
 //   }, []);
 
+//   // Home page check
+//   const isHomePage = pathname === "/";
+
+//   // Navbar white condition
+//   const whiteNavbar = scrolled || !isHomePage;
+
 //   return (
 //     <header
 //       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-//         scrolled
+//         whiteNavbar
 //           ? "bg-white shadow-md border-b"
 //           : "bg-transparent"
 //       }`}
@@ -37,7 +55,7 @@
 
 //           <h1
 //             className={`text-3xl font-bold tracking-tight ${
-//               scrolled ? "text-black" : "text-white"
+//               whiteNavbar ? "text-black" : "text-white"
 //             }`}
 //           >
 //             MENTORING
@@ -46,26 +64,26 @@
 
 //         {/* Nav */}
 //         <nav className="hidden lg:flex items-center gap-10">
-//           {["Home", "Mentor", "Pages", "Courses", "Blog"].map(
-//             (item) => (
-//               <div
-//                 key={item}
-//                 className={`flex items-center gap-1 text-[17px] font-medium cursor-pointer transition ${
-//                   scrolled
-//                     ? "text-black hover:text-emerald-600"
-//                     : "text-white hover:text-emerald-300"
-//                 }`}
-//               >
-//                 {item}
-//                 <ChevronDown size={16} />
-//               </div>
-//             )
-//           )}
+//           {navItems.map((item) => (
+//         <Link
+//           key={item.name}
+//           href={item.href}
+//           className={`flex items-center gap-1 text-[17px] font-medium cursor-pointer transition ${
+//             whiteNavbar
+//               ? "text-black hover:text-emerald-600"
+//               : "text-white hover:text-emerald-300"
+//           }`}
+//         >
+//           {item.name}
+
+          
+//         </Link>
+//       ))}
 
 //           <Link
-//             href="#"
+//             href="/contact"
 //             className={`text-[17px] font-medium transition ${
-//               scrolled
+//               whiteNavbar
 //                 ? "text-black hover:text-emerald-600"
 //                 : "text-white hover:text-emerald-300"
 //             }`}
@@ -75,27 +93,35 @@
 //         </nav>
 
 //         {/* Buttons */}
-//         <div className="flex items-center gap-4">
-//           <button
-//             className={`px-8 py-3 rounded-md font-medium transition border-2 ${
-//               scrolled
-//                 ? "border-emerald-700 text-emerald-700 hover:bg-emerald-700 hover:text-white"
-//                 : "border-white text-white hover:bg-white hover:text-black"
-//             }`}
-//           >
-//             Login
-//           </button>
+//        <div className="flex items-center gap-4">
 
-//           <button
-//             className={`px-8 py-3 rounded-md font-medium transition border-2 ${
-//               scrolled
-//                 ? "border-emerald-700 text-emerald-700 hover:bg-emerald-700 hover:text-white"
-//                 : "border-white text-white hover:bg-white hover:text-black"
-//             }`}
-//           >
-//             Register
-//           </button>
-//         </div>
+//   {/* LOGIN */}
+//   <Link href="/login">
+//     <button
+//       className={`px-9 py-2 rounded-4xl  transition  text-lg ${
+//         whiteNavbar
+//           ? " text-white hover:bg-emerald-700 hover:text-white bg-black text-white"
+//           : " text-white hover:bg-white hover:text-black bg-black text-white"
+//       }`}
+//     >
+//       Login
+//     </button>
+//   </Link>
+
+//   {/* REGISTER */}
+//   <Link href="/register">
+//     <button
+//       className={`px-9 py-2 rounded-4xl  transition  text-lg  ${
+//         whiteNavbar
+//        ? " text-white hover:bg-emerald-700 hover:text-white bg-black text-white"
+//           : " text-white hover:bg-white hover:text-black bg-black text-white"
+//       }`}
+//     >
+//       Register
+//     </button>
+//   </Link>
+
+// </div>
 //       </div>
 //     </header>
 //   );
@@ -104,21 +130,24 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+
 const navItems = [
   { name: "Home", href: "/" },
-
-  { name: "Tutor", href: "/tutors" },        // ✅ added
-  { name: "Dashboard", href: "/dashboard" }, // ✅ added
-
+  { name: "Tutor", href: "/tutors" },
   { name: "Blog", href: "/blog" },
 ];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { data: session, isPending } = authClient.useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -132,11 +161,19 @@ export default function Navbar() {
     };
   }, []);
 
-  // Home page check
   const isHomePage = pathname === "/";
-
-  // Navbar white condition
   const whiteNavbar = scrolled || !isHomePage;
+
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut();
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <header
@@ -149,7 +186,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
 
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white font-bold">
             M
           </div>
@@ -161,25 +198,23 @@ export default function Navbar() {
           >
             MENTORING
           </h1>
-        </div>
+        </Link>
 
-        {/* Nav */}
+        {/* Navigation */}
         <nav className="hidden lg:flex items-center gap-10">
           {navItems.map((item) => (
-        <Link
-          key={item.name}
-          href={item.href}
-          className={`flex items-center gap-1 text-[17px] font-medium cursor-pointer transition ${
-            whiteNavbar
-              ? "text-black hover:text-emerald-600"
-              : "text-white hover:text-emerald-300"
-          }`}
-        >
-          {item.name}
-
-          
-        </Link>
-      ))}
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`text-[17px] font-medium transition ${
+                whiteNavbar
+                  ? "text-black hover:text-emerald-600"
+                  : "text-white hover:text-emerald-300"
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
 
           <Link
             href="/contact"
@@ -189,40 +224,68 @@ export default function Navbar() {
                 : "text-white hover:text-emerald-300"
             }`}
           >
-            Contact us
+            Contact
           </Link>
         </nav>
 
-        {/* Buttons */}
-       <div className="flex items-center gap-4">
+        {/* Right Side */}
+        <div className="flex items-center gap-4">
 
-  {/* LOGIN */}
-  <Link href="/login">
-    <button
-      className={`px-9 py-2 rounded-4xl  transition  text-lg ${
-        whiteNavbar
-          ? " text-white hover:bg-emerald-700 hover:text-white bg-black text-white"
-          : " text-white hover:bg-white hover:text-black bg-black text-white"
-      }`}
-    >
-      Login
-    </button>
-  </Link>
+          {isPending ? (
+            <p className={whiteNavbar ? "text-black" : "text-white"}>
+              Loading...
+            </p>
+          ) : session?.user ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-3"
+              >
+                <Image
+                  src={session.user.image || "/avatar.png"}
+                  alt={session.user.name || "User"}
+                  width={42}
+                  height={42}
+                  className="rounded-full border object-cover"
+                />
 
-  {/* REGISTER */}
-  <Link href="/register">
-    <button
-      className={`px-9 py-2 rounded-4xl  transition  text-lg  ${
-        whiteNavbar
-       ? " text-white hover:bg-emerald-700 hover:text-white bg-black text-white"
-          : " text-white hover:bg-white hover:text-black bg-black text-white"
-      }`}
-    >
-      Register
-    </button>
-  </Link>
+                <span
+                  className={`font-medium ${
+                    whiteNavbar ? "text-black" : "text-white"
+                  }`}
+                >
+                  {session.user.name}
+                </span>
+              </Link>
 
-</div>
+              <button
+                onClick={handleLogout}
+                className="px-6 py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <button
+                  className="px-9 py-2 rounded-full bg-black text-white hover:bg-emerald-700 transition"
+                >
+                  Login
+                </button>
+              </Link>
+
+              <Link href="/register">
+                <button
+                  className="px-9 py-2 rounded-full bg-black text-white hover:bg-emerald-700 transition"
+                >
+                  Register
+                </button>
+              </Link>
+            </>
+          )}
+
+        </div>
       </div>
     </header>
   );
