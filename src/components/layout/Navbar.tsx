@@ -245,17 +245,11 @@ export default function Navbar() {
                   src={session.user.image || "/avatar.png"}
                   alt={session.user.name || "User"}
                   width={42}
-                  height={40}
+                  height={42}
                   className="rounded-full  object-cover"
                 />
 
-                <span
-                  className={`font-medium ${
-                    whiteNavbar ? "text-black mr-4" : "text-white"
-                  }`}
-                >
-                  {session.user.name}
-                </span>
+               
               </Link>
 
               <button
