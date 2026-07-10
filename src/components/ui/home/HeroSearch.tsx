@@ -8,7 +8,7 @@ import {
 
 export default function HeroSearch() {
   return (
-    <div className="bg-white rounded-full p-1 mt-12 flex items-center justify-between max-w-2xl shadow-2xl">
+    <div className="bg-white rounded-full p-1 mt-8 flex items-center justify-between max-w-2xl shadow-2xl">
 
       {/* Input */}
       <div className="flex items-center gap-3 px-4 flex-1">
@@ -36,7 +36,7 @@ export default function HeroSearch() {
       </div>
 
       {/* Button */}
-      <button className="w-14 h-14 rounded-full bg-[#056f5b] hover:bg-[#045746] transition flex items-center justify-center text-white">
+      <button className="w-9 h-9 rounded-full bg-[#056f5b] hover:bg-[#045746] transition flex items-center justify-center text-white">
 
         <ArrowRight size={22} />
 

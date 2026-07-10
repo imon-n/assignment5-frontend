@@ -82,7 +82,14 @@
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 }
-
+@keyframes slide {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

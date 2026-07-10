@@ -1,22 +1,7 @@
 // src/components/tutor/TutorCard.tsx
 
-import Image from "next/image";
 import Link from "next/link";
-
-import {
-  Star,
-  ArrowUpRight,
-  BookOpen,
-  DollarSign,
-} from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Bookmark, Star } from "lucide-react";
 
 import { Tutor } from "@/types/tutor";
 
@@ -26,110 +11,131 @@ type Props = {
 
 export function TutorCard({ tutor }: Props) {
   return (
-    <Card className="group overflow-hidden rounded-[28px]   bg-white shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 pt-0">
+    <div
+      className="
+        group
+        overflow-hidden
+        rounded-[34px]
+        bg-[#1d2433]
+        shadow-xl
+        transition-all
+        duration-500
+        hover:-translate-y-2
+        hover:shadow-2xl
+      "
+    >
+      <div className="relative h-[420px]">
 
-      {/* Image Section */}
-      <div className="relative h-[230px] w-full overflow-hidden">
+        {/* Image */}
+        <img
+          src={tutor.image}
+          alt={tutor.user.name}
+          className="
+            h-full
+            w-full
+            object-cover
+            object-top
+            transition-transform
+            duration-700
+            group-hover:scale-105
+          "
+        />
 
-         <img
-              src={tutor?.image}
-              alt={tutor?.user?.name}
-          className="w-full h-fullobject-cover object-top transition-transform duration-700 group-hover:scale-110"
-            />
+        {/* Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1d2433] via-[#1d2433]/30 to-transparent" />
 
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        {/* Bookmark */}
+        <button
+          className="
+            absolute
+            top-5
+            right-5
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-full
+            bg-white/20
+            text-white
+            backdrop-blur-xl
+            transition
+            hover:bg-white/30
+          "
+        >
+          <Bookmark size={18} />
+        </button>
 
-        {/* Rating Badge */}
-        <div className="absolute top-4 left-4 flex items-center gap-1 rounded-full bg-white/90 backdrop-blur-md px-3 py-1.5 shadow-md">
+        {/* Bottom Content */}
+        <div className="absolute inset-x-0 bottom-0 p-5 text-white">
 
-          <Star
-            size={15}
-            className="fill-yellow-400 text-yellow-400"
-          />
+          {/* Name & Price */}
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-2xl font-bold truncate">
+              {tutor.user.name}
+            </h2>
 
-          <span className="text-sm font-semibold text-gray-800">
-            {tutor.rating}
-          </span>
-
-        </div>
-
-        {/* Tutor Name on Image */}
-        <div className="absolute bottom-4 left-4">
-
-          <h2 className="text-2xl font-bold text-white drop-shadow-lg">
-            {tutor.user.name}
-          </h2>
-
-        </div>
-
-      </div>
-
-      {/* Content */}
-      <CardContent className="p-2">
-
-        {/* Two Column Layout */}
-        <div className=" gap-4">
-
-          {/* Subject */}
-          <div className="rounded-2xl ">
-
-          
-
-            <h3 className="text-lg font-bold text-gray-900 leading-snug">
-              {tutor.category.name}
-            </h3>
-
+            <div className="shrink-0 rounded-full bg-white/20 px-3 py-1 text-sm font-semibold backdrop-blur-xl">
+              ${tutor.hourlyRate}
+            </div>
           </div>
 
-          {/* Price */}
-          <div className="rounded-2xl">
+          {/* Description (2 lines max) */}
+          <p
+            className="
+              mt-2
+              text-sm
+              leading-5
+              text-gray-200
+              line-clamp-2
+            "
+          >
+            {tutor.bio ||
+              "Experienced tutor helping students achieve their academic goals with personalized learning sessions."}
+          </p>
 
-            <div className="flex items-center gap-2 mb-2 text-gray-700">
+          {/* Chips */}
+          <div className="mt-3 flex flex-wrap gap-2">
 
-              {/* <DollarSign size={18} />
-
-              <p className="text-sm font-medium">
-                Hourly Rate
-              </p> */}
-
+            <div className="flex items-center gap-1 rounded-full bg-white/20 px-3 py-1.5 text-xs font-medium backdrop-blur-xl">
+              <Star
+                size={13}
+                className="fill-white text-white"
+              />
+              {tutor.rating}
             </div>
 
-            <h3 className="text-2xl font-bold text-gray-900">
-              ${tutor.hourlyRate}
+            <div className="rounded-full bg-white/20 px-3 py-1.5 text-xs font-medium backdrop-blur-xl">
+              {tutor.category.name}
+            </div>
 
-              <span className="text-sm font-medium text-gray-400">
-                /hr
-              </span>
-            </h3>
+           
 
           </div>
 
+          {/* Button */}
+          <Link href={`/tutors/${tutor.id}`}>
+            <button
+              className="
+                mt-2
+                h-8
+                w-full
+                rounded-full
+                bg-white
+                text-base
+                font-semibold
+                text-black
+                transition-all
+                hover:bg-gray-100
+              "
+            >
+              Book Now
+             
+            </button>
+          </Link>
+
         </div>
-     <CardFooter className="w-full">
-
-        <Link
-          href={`/tutors/${tutor.id}`}
-          className="w-full"
-        >
-          <Button className="h-11 w-full rounded-2xl bg-[#056f5b] text-sm font-semibold tracking-wide shadow-md transition-all duration-300 hover:bg-[#045746] hover:shadow-xl">
-
-            View Profile
-
-            <ArrowUpRight
-              size={18}
-              className="ml-2 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-            />
-
-          </Button>
-        </Link>
-
-      </CardFooter>
-      </CardContent>
-
-      {/* Footer */}
- 
-
-    </Card>
+      </div>
+    </div>
   );
 }
