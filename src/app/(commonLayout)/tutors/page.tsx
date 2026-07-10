@@ -56,10 +56,7 @@ export default function TutorsPage() {
 
   const start = (page - 1) * itemsPerPage;
 
-  const paginatedData = tutors.slice(
-    start,
-    start + itemsPerPage
-  );
+  const paginatedData = tutors.slice(start, start + itemsPerPage);
 
   if (loading) {
     return (
@@ -80,9 +77,9 @@ export default function TutorsPage() {
 
           <aside
             className="
-              animate-[fadeIn_.6s_ease]
               w-full
-              lg:w-[320px]
+              lg:w-[300px]
+              animate-[fadeIn_.6s_ease]
             "
           >
             <div
@@ -93,7 +90,7 @@ export default function TutorsPage() {
                 border
                 border-gray-200
                 bg-white
-                p-6
+                p-5
                 shadow-lg
                 transition-all
                 duration-300
@@ -137,9 +134,7 @@ export default function TutorsPage() {
 
                 <input
                   value={search}
-                  onChange={(e) =>
-                    setSearch(e.target.value)
-                  }
+                  onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search tutor..."
                   className="
                     w-full
@@ -166,9 +161,7 @@ export default function TutorsPage() {
 
               <select
                 value={category}
-                onChange={(e) =>
-                  setCategory(e.target.value)
-                }
+                onChange={(e) => setCategory(e.target.value)}
                 className="
                   mb-4
                   w-full
@@ -186,22 +179,10 @@ export default function TutorsPage() {
                   dark:text-white
                 "
               >
-                <option value="">
-                  All Categories
-                </option>
-
-                <option value="Web Development">
-                  Web Development
-                </option>
-
-                <option value="Full Stack">
-                  Full Stack
-                </option>
-
-                <option value="UI/UX Design">
-                  UI/UX Design
-                </option>
-
+                <option value="">All Categories</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Full Stack">Full Stack</option>
+                <option value="UI/UX Design">UI/UX Design</option>
               </select>
 
               {/* Rating */}
@@ -222,9 +203,7 @@ export default function TutorsPage() {
 
                 <select
                   value={minRating}
-                  onChange={(e) =>
-                    setMinRating(e.target.value)
-                  }
+                  onChange={(e) => setMinRating(e.target.value)}
                   className="
                     w-full
                     rounded-xl
@@ -243,18 +222,9 @@ export default function TutorsPage() {
                     dark:text-white
                   "
                 >
-                  <option value="">
-                    Any Rating
-                  </option>
-
-                  <option value="4">
-                    4★ & Above
-                  </option>
-
-                  <option value="3">
-                    3★ & Above
-                  </option>
-
+                  <option value="">Any Rating</option>
+                  <option value="4">4★ & Above</option>
+                  <option value="3">3★ & Above</option>
                 </select>
 
               </div>
@@ -278,9 +248,7 @@ export default function TutorsPage() {
                 <input
                   type="number"
                   value={maxPrice}
-                  onChange={(e) =>
-                    setMaxPrice(e.target.value)
-                  }
+                  onChange={(e) => setMaxPrice(e.target.value)}
                   placeholder="Maximum Price"
                   className="
                     w-full
@@ -320,13 +288,13 @@ export default function TutorsPage() {
               >
                 Search Tutors
               </button>
+
             </div>
           </aside>
 
-          {/* ================= RIGHT CONTENT STARTS HERE ================= */}
+          {/* ================= RIGHT CONTENT START ================= */}
 
-          <div className="flex-1 space-y-6 animate-[fadeIn_.8s_ease]">
-                        {paginatedData.map((tutor, index) => (
+          <div className="flex-1 space-y-5 animate-[fadeIn_.8s_ease]">            {paginatedData.map((tutor, index) => (
               <div
                 key={tutor.id}
                 className="
@@ -336,7 +304,7 @@ export default function TutorsPage() {
                   border
                   border-gray-200
                   bg-white
-                  p-5
+                  p-4
                   shadow-md
                   transition-all
                   duration-500
@@ -349,24 +317,24 @@ export default function TutorsPage() {
                   animationDelay: `${index * 150}ms`,
                 }}
               >
-                <div className="flex flex-col gap-6 md:flex-row">
+                <div className="flex flex-col gap-4 md:flex-row">
 
                   {/* Image */}
 
-                  <div className="overflow-hidden rounded-2xl">
+                  <div className="overflow-hidden rounded-2xl flex-shrink-0">
 
                     <img
                       src={tutor.image}
                       alt={tutor.user.name}
                       className="
-                        h-44
+                        h-32
                         w-full
                         object-cover
                         transition-transform
                         duration-700
                         group-hover:scale-110
-                        md:h-40
-                        md:w-40
+                        md:h-32
+                        md:w-32
                       "
                     />
 
@@ -380,7 +348,7 @@ export default function TutorsPage() {
 
                       <div className="flex flex-wrap items-center gap-2">
 
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                           {tutor.user.name}
                         </h2>
 
@@ -390,11 +358,11 @@ export default function TutorsPage() {
 
                       </div>
 
-                      <p className="mt-2 text-[#005C53] dark:text-emerald-400">
+                      <p className="mt-1 text-sm text-[#005C53] dark:text-emerald-400">
                         {tutor.category.name}
                       </p>
 
-                      <div className="mt-3 flex items-center gap-2">
+                      <div className="mt-2 flex items-center gap-2">
 
                         <span className="text-yellow-500">
                           ⭐⭐⭐⭐⭐
@@ -406,17 +374,17 @@ export default function TutorsPage() {
 
                       </div>
 
-                      <p className="mt-4 line-clamp-3 text-sm leading-7 text-gray-600 dark:text-zinc-400">
+                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-600 dark:text-zinc-400">
                         {tutor.bio}
                       </p>
 
                     </div>
 
-                    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
                       <div>
 
-                        <p className="text-3xl font-bold text-gray-900 dark:text-white">
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">
                           ${tutor.hourlyRate}
 
                           <span className="text-base font-medium text-gray-500">
@@ -435,8 +403,9 @@ export default function TutorsPage() {
                           justify-center
                           rounded-xl
                           bg-[#005C53]
-                          px-6
-                          py-3
+                          px-5
+                          py-2.5
+                          text-sm
                           font-semibold
                           text-white
                           transition-all
@@ -459,12 +428,10 @@ export default function TutorsPage() {
 
             {/* Pagination */}
 
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-6">
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
 
               <button
-                onClick={() =>
-                  setPage((p) => Math.max(1, p - 1))
-                }
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
                 className="
                   rounded-xl
                   border
@@ -488,8 +455,8 @@ export default function TutorsPage() {
                   key={i}
                   onClick={() => setPage(i + 1)}
                   className={`
-                    h-11
-                    w-11
+                    h-10
+                    w-10
                     rounded-xl
                     transition-all
                     duration-300
@@ -506,9 +473,7 @@ export default function TutorsPage() {
 
               <button
                 onClick={() =>
-                  setPage((p) =>
-                    Math.min(totalPages, p + 1)
-                  )
+                  setPage((p) => Math.min(totalPages, p + 1))
                 }
                 className="
                   rounded-xl
