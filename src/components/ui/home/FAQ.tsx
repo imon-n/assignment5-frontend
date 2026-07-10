@@ -1,135 +1,93 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import {
-  BadgeCheck,
-  CalendarDays,
-  LayoutGrid,
-  Wallet,
-} from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 
-const features = [
+const faqs = [
   {
-    icon: BadgeCheck,
-    title: "Verified Experts",
-    description:
-      "Only the most trusted and qualified mentors make our platform, each one selected with care and precision.",
+    question: "How do I book a mentor session?",
+    answer:
+      "Browse our mentors, choose the expert that matches your needs, select an available time slot, and confirm your booking securely. Once confirmed, you'll receive all session details instantly.",
   },
   {
-    icon: CalendarDays,
-    title: "Flexible Sessions",
-    description:
-      "Connect anytime through video, audio, or chat and receive guidance whenever you need support.",
+    question: "Can I reschedule or cancel my booking?",
+    answer:
+      "Yes. You can easily reschedule or cancel your session from your dashboard before the mentor's cancellation deadline.",
   },
   {
-    icon: LayoutGrid,
-    title: "Diverse Categories",
-    description:
-      "Expert guidance across every skill and interest to help you learn faster and grow smarter.",
+    question: "Are all mentors verified?",
+    answer:
+      "Absolutely. Every mentor on our platform is carefully verified based on experience, qualifications, and expertise before being approved.",
   },
   {
-    icon: Wallet,
-    title: "Affordable Plans",
-    description:
-      "Experience premium mentoring at a budget-friendly price, making expert guidance accessible to everyone.",
+    question: "What payment methods do you accept?",
+    answer:
+      "We support secure online payments through Stripe, SSLCommerz, and other trusted payment gateways depending on your region.",
   },
 ];
 
-export default function Features() {
+export default function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number>(0);
+
   return (
     <section className="bg-[#f7faf7] py-16 transition-colors duration-300 dark:bg-zinc-950 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
 
-        {/* Section Heading */}
-        <div className="mb-12 text-center lg:mb-16">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
 
-          <div className="mb-3 flex items-center justify-center gap-3">
+          {/* LEFT IMAGES */}
+          <div>
 
-            <span className="text-sm font-semibold uppercase tracking-[4px] text-[#1f9d8b] sm:text-base">
-              Benefits
-            </span>
+            <div className="relative w-full">
 
-            <div className="relative h-[2px] w-16 overflow-hidden rounded-full bg-[#1f9d8b]/20">
-              <span className="absolute inset-y-0 left-0 w-8 rounded-full bg-[#1f9d8b] animate-[slide_2s_linear_infinite]" />
-            </div>
+              <div className="grid h-[360px] grid-cols-2 gap-3 sm:h-[450px] sm:gap-5 lg:h-[500px]">
 
-          </div>
+                {/* LEFT COLUMN */}
+                <div className="flex flex-col gap-3 sm:gap-5">
 
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl lg:text-5xl">
-            Why Choose Us
-          </h2>
-
-          <p className="mx-auto mt-5 max-w-2xl text-gray-600 dark:text-zinc-400">
-            Learn from experienced mentors, schedule flexible sessions,
-            explore multiple categories, and enjoy affordable pricing—all
-            designed to help you achieve your goals.
-          </p>
-
-        </div>
-
-        {/* Main Content */}
-        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-
-          {/* Left Image */}
-           <div className="grid gap-4 sm:grid-cols-2">
-                      {features.map((item, index) => {
-            const Icon = item.icon;
-
-            return (
-              <div
-                key={index}
-                className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-md transition-all duration-300 hover:-translate-y-2 hover:border-[#1f9d8b]/30 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900"
-              >
-                {/* Icon */}
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black transition-all duration-300 group-hover:rotate-12 dark:bg-zinc-800">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#1f9d8b]">
-                    <Icon className="h-3.5 w-3.5 text-[#1f9d8b]" />
+                  <div className="relative flex-1 overflow-hidden rounded-2xl bg-zinc-200 shadow-xl dark:bg-zinc-800 lg:rounded-[30px]">
+                    <Image
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80"
+                      alt="Mentor"
+                      fill
+                      className="object-cover transition duration-500 hover:scale-105"
+                    />
                   </div>
+
+                  <div className="relative ml-auto h-28 w-[70%] overflow-hidden rounded-2xl bg-zinc-200 shadow-xl dark:bg-zinc-800 sm:h-36 lg:h-44 lg:rounded-[24px]">
+                    <Image
+                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80"
+                      alt="Teacher"
+                      fill
+                      className="object-cover transition duration-500 hover:scale-105"
+                    />
+                  </div>
+
                 </div>
 
-                {/* Title */}
-                <h3 className="mb-2 text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-[#1f9d8b] dark:text-white">
-                  {item.title}
-                </h3>
+                {/* RIGHT COLUMN */}
+                <div className="flex flex-col gap-3 sm:gap-5">
 
-                {/* Description */}
-                <p className="text-sm leading-6 text-gray-600 dark:text-zinc-400">
-                  {item.description}
-                </p>
-              </div>
-            );
-          })}
-           </div>
-          <div className="relative">
+                  <div className="relative h-28 w-[70%] overflow-hidden rounded-2xl bg-zinc-200 shadow-xl dark:bg-zinc-800 sm:h-36 lg:h-44 lg:rounded-[24px]">
+                    <Image
+                      src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80"
+                      alt="Student"
+                      fill
+                      className="object-cover transition duration-500 hover:scale-105"
+                    />
+                  </div>
 
-            {/* Background Glow */}
-            <div className="absolute -inset-3 hidden rounded-[36px] bg-gradient-to-br from-teal-500/20 via-cyan-400/10 to-transparent blur-2xl dark:block" />
+                  <div className="relative flex-1 overflow-hidden rounded-2xl bg-zinc-200 shadow-xl dark:bg-zinc-800 lg:rounded-[30px]">
+                    <Image
+                      src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80"
+                      alt="Learning"
+                      fill
+                      className="object-cover transition duration-500 hover:scale-105"
+                    />
+                  </div>
 
-            {/* Image Card */}
-            <div className="relative overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
-
-              <Image
-                src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b?q=80&w=1400&auto=format&fit=crop"
-                alt="Mentoring Session"
-                width={900}
-                height={1100}
-                priority
-                className="h-[220px] w-full object-cover transition-all duration-700 hover:scale-105 sm:h-[320px] lg:h-[450px]"
-              />
-
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
-
-              {/* Floating Badge */}
-              <div className="absolute bottom-6 left-6 rounded-2xl bg-white/90 px-5 py-4 shadow-xl backdrop-blur-md dark:bg-zinc-900/90">
-
-                <h4 className="text-2xl font-bold text-[#1f9d8b]">
-                  5K+
-                </h4>
-
-                <p className="text-sm text-gray-700 dark:text-zinc-300">
-                  Successful Mentor Sessions
-                </p>
+                </div>
 
               </div>
 
@@ -137,13 +95,85 @@ export default function Features() {
 
           </div>
 
-          {/* Right Side */}
-         
-      </div>
+          {/* RIGHT CONTENT */}
+          <div>
 
-      {/* Close Main Content */}
-      </div>
+            <div className="mb-8 text-center lg:text-left">
 
+              <div className="flex items-center justify-center gap-3 lg:justify-start">
+
+                <span className="text-sm font-semibold uppercase tracking-[4px] text-[#169b87]">
+                  Your Questions are Answered
+                </span>
+
+                <div className="relative h-[2px] w-16 overflow-hidden rounded-full bg-[#169b87]/20">
+                  <div className="absolute left-0 top-0 h-full w-6 rounded-full bg-[#169b87] animate-[slide_2s_linear_infinite]" />
+                </div>
+
+              </div>
+
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-gray-900 dark:text-white sm:text-4xl lg:text-5xl">
+                Frequently Asked Questions
+              </h2>
+
+            </div>
+
+            <div className="space-y-4 sm:space-y-5">
+                            {faqs.map((faq, index) => {
+                const isOpen = openIndex === index;
+
+                return (
+                  <div
+                    key={index}
+                    className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
+                      isOpen
+                        ? "border-[#169b87] bg-[#eefbf8] dark:bg-[#0f2925]"
+                        : "border-gray-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
+                    }`}
+                  >
+                    <button
+                      onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                      className="flex w-full items-center justify-between px-5 py-5 text-left sm:px-7 sm:py-6"
+                    >
+                      <h3 className="pr-4 text-lg font-semibold text-gray-900 dark:text-white sm:text-xl">
+                        {faq.question}
+                      </h3>
+
+                      <div
+                        className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 ${
+                          isOpen
+                            ? "bg-[#169b87] text-white"
+                            : "bg-gray-100 text-[#169b87] dark:bg-zinc-800"
+                        }`}
+                      >
+                        {isOpen ? (
+                          <Minus size={18} />
+                        ) : (
+                          <Plus size={18} />
+                        )}
+                      </div>
+                    </button>
+
+                    <div
+                      className={`grid overflow-hidden transition-all duration-500 ease-in-out ${
+                        isOpen
+                          ? "grid-rows-[1fr]"
+                          : "grid-rows-[0fr]"
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="px-5 pb-6 leading-7 text-gray-600 dark:text-zinc-400 sm:px-7 sm:pb-7 sm:leading-8">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

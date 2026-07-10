@@ -62,67 +62,169 @@ export default function Features() {
         {/* Content */}
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
 
-          {/* Left Image */}
-         {/* Left Image */}
-<div className="relative">
+          <div className="grid gap-5 sm:grid-cols-2">
 
-  {/* Glow Effect (Dark Mode) */}
-  <div className="absolute -inset-3 rounded-[32px] bg-gradient-to-br from-teal-500/20 via-cyan-500/10 to-transparent blur-2xl dark:block hidden" />
+  {features.map((item, index) => {
+    const Icon = item.icon;
 
-  {/* Image Container */}
-  <div className="relative h-[240px] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 sm:h-[400px] lg:h-[520px]">
+    return (
+      <div
+        key={index}
+        data-aos="zoom-in-up"
+        data-aos-delay={index * 120}
+        className="
+          group
+          rounded-2xl
+          border
+          border-gray-200
+          bg-white
+          p-5
+          shadow-sm
+          transition-all
+          duration-500
+          hover:-translate-y-3
+          hover:scale-[1.03]
+          hover:border-[#1f9d8b]/30
+          hover:bg-[#f8fffd]
+          hover:shadow-2xl
+          dark:border-zinc-800
+          dark:bg-zinc-900
+          dark:hover:bg-zinc-800
+        "
+      >
+        {/* Icon */}
+        <div
+          className="
+            mb-5
+            flex
+            h-12
+            w-12
+            items-center
+            justify-center
+            rounded-full
+            bg-black
+            shadow-md
+            transition-all
+            duration-500
+            group-hover:rotate-12
+            group-hover:scale-110
+            dark:bg-zinc-800
+          "
+        >
+          <div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#1f9d8b]">
 
+            <Icon className="h-4 w-4 text-[#1f9d8b] transition-transform duration-500 group-hover:rotate-180" />
+
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3
+          className="
+            mb-3
+            text-lg
+            font-bold
+            text-gray-900
+            transition-colors
+            duration-300
+            group-hover:text-[#1f9d8b]
+            dark:text-white
+            sm:text-xl
+          "
+        >
+          {item.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-sm leading-7 text-gray-600 dark:text-zinc-400">
+          {item.description}
+        </p>
+      </div>
+    );
+  })}
+
+</div>
+{/* Left Image */}
+<div
+  className="relative mx-auto w-full max-w-[500px]"
+  data-aos="fade-right"
+>
+  {/* Glow Effect */}
+  <div className="absolute -inset-3 hidden rounded-[32px] bg-gradient-to-br from-teal-500/20 via-cyan-500/10 to-transparent blur-2xl dark:block" />
+
+  {/* Image Card */}
+  <div
+    className="
+      relative
+      overflow-hidden
+      rounded-[28px]
+      border
+      border-gray-200
+      bg-white
+      shadow-2xl
+      transition-all
+      duration-500
+      hover:-translate-y-2
+      hover:shadow-[0_20px_60px_rgba(0,0,0,.18)]
+      dark:border-zinc-800
+      dark:bg-zinc-900
+    "
+  >
     <Image
-      src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b?q=80&w=1200&auto=format&fit=crop"
-      alt="Mentoring"
-      fill
+      src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b?q=80&w=1400&auto=format&fit=crop"
+      alt="Mentoring Session"
+      width={900}
+      height={600}
       priority
-      className="object-cover transition-all duration-700 hover:scale-105 dark:brightness-110 dark:contrast-110"
+      className="
+        h-[260px]
+        w-full
+        object-cover
+        object-center
+        brightness-105
+        contrast-110
+        saturate-110
+        transition-all
+        duration-700
+        group-hover:scale-105
+        hover:scale-110
+        sm:h-[340px]
+        lg:h-[480px]
+      "
     />
 
     {/* Overlay */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent dark:from-black/30" />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
+    {/* Floating Badge */}
+    <div
+      className="
+        absolute
+        bottom-5
+        left-5
+        rounded-2xl
+        bg-white/90
+        px-5
+        py-4
+        shadow-xl
+        backdrop-blur-md
+        transition-all
+        duration-500
+        hover:scale-105
+        dark:bg-zinc-900/90
+      "
+    >
+      <h4 className="text-2xl font-bold text-[#1f9d8b]">
+        5K+
+      </h4>
+
+      <p className="text-sm text-gray-700 dark:text-zinc-300">
+        Successful Mentor Sessions
+      </p>
+    </div>
   </div>
-
 </div>
-          {/* Right Cards */}
-          <div className="grid gap-5 sm:grid-cols-2">
-
-            {features.map((item, index) => {
-              const Icon = item.icon;
-
-              return (
-                <div
-                  key={index}
-                  className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#1f9d8b]/30 hover:bg-[#f8fffd] hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-900"
-                >
-                  {/* Icon */}
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-black shadow-md transition duration-300 group-hover:rotate-12 dark:bg-zinc-800">
-
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1f9d8b]">
-
-                      <Icon className="h-4 w-4 text-[#1f9d8b]" />
-
-                    </div>
-
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="mb-3 text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-[#1f9d8b] dark:text-white sm:text-2xl">
-                    {item.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="leading-7 text-gray-600 dark:text-zinc-400">
-                    {item.description}
-                  </p>
-
-                </div>
-              );
-            })}
-
-          </div>
+         
 
         </div>
 
