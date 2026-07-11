@@ -1,193 +1,29 @@
-// "use client";
-
-// import Link from "next/link";
-// import { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { toast } from "sonner";
-// import { authClient } from "@/lib/auth-client";
-
-// type Role = "STUDENT" | "TUTOR" | "ADMIN";
-
-// type User = {
-//   name: string;
-//   role: Role;
-// };
-
-// export default function DashboardLayout({
-//   children,
-// }: {
-//   children: React.ReactNode;
-// }) {
-//   const router = useRouter();
-//   const [user, setUser] = useState<User | null>(null);
-//   const [loading, setLoading] = useState(true);
-//     const { data: session, isPending } = authClient.useSession(); // 👈 use this
-
-//   const API_URL =
-//     process.env.NEXT_PUBLIC_API_URL ||
-//     "https://assignment5-backend-f7q4.onrender.com";
-
-//   // useEffect(() => {
-//   //   const getMe = async () => {
-
-//   //     try {
-//   //        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-//   //       const res = await fetch(`${API_URL}/api/me`, {
-//   //         method: "GET",
-//   //         credentials: "include", // 🔥 MUST
-//   //       });
-
-//   //       console.log("STATUS:", res.status);
-
-//   //       if (!res.ok) {
-//   //         throw new Error("Unauthorized");
-//   //       }
-
-//   //       const data = await res.json();
-//   //       console.log("USER:", data);
-
-//   //       setUser(data.user || data.data || data);
-//   //     } catch (error) {
-//   //       console.error("Session error:", error);
-//   //       setUser(null);
-//   //       router.replace("/login");
-//   //     } finally {
-//   //       setLoading(false);
-//   //     }
-//   //   };
-
-//   //   getMe();
-//   // }, [API_URL, router]);
-
-//  useEffect(() => {
- 
-//     const getMe = async () => {
-
-//       try {
-        
-// const res = await fetch(
-//   `${API_URL}/api/auth/get-session`,
-//   {
-//     credentials: "include",
-//   }
-// );
-
-//         console.log("STATUS:", res.status);
-
-//         if (!res.ok) {
-//           throw new Error("Unauthorized");
-//         }
-
-//         const data = await res.json();
-//         console.log("USER:", data);
-
-//         setUser(data.user || data.data || data);
-//       } catch (error) {
-//         console.error("Session error:", error);
-//         setUser(null);
-//         router.replace("/login");
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     getMe();
-//   }, [API_URL, router]);
-
-//   if (loading) {
-//     return (
-//       <div className="flex items-center justify-center min-h-screen">
-//         Loading...
-//       </div>
-//     );
-//   }
-
-//   if (!user) {
-//     return (
-//       <div className="flex items-center justify-center min-h-screen">
-//         Please login first
-//       </div>
-//     );
-//   }
-
-//   const menu = {
-//     STUDENT: [
-//       { href: "/dashboard", label: "Overview" },
-//       { href: "/dashboard/bookings", label: "My Bookings" },
-//        { href: "/dashboard/payments", label: "Payment History 💳" },
-//       { href: "/dashboard/me", label: "Profile" },
-//     ],
-//     TUTOR: [
-//       { href: "/dashboard", label: "Overview" },
-//       { href: "/dashboard/tutors/sessions", label: "Sessions" },
-//       { href: "/dashboard/tutors/availabilities", label: "Availability" },
-//       { href: "/dashboard/tutors/reviews", label: "Reviews" },
-//       { href: "/dashboard/me", label: "Profile" },
-//     ],
-//     ADMIN: [
-//       { href: "/dashboard", label: "Overview" },
-//       { href: "/dashboard/admin/users", label: "Users" },
-//       { href: "/dashboard/admin/bookings", label: "All Bookings" },
-//       { href: "/dashboard/admin/categories", label: "Categories" },
-//     ],
-//   };
-
-//   const links = menu[user.role] || [];
-
-//   return (
-//     <div className="min-h-screen flex bg-gray-100">
-//       <aside className="w-72 bg-white shadow-md p-6">
-//         <Link
-//   href="/"
-//   className="inline-flex items-center gap-2 mb-6 px-3 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition"
-// >
-//   ← Back to Home
-// </Link>
-//         <h2 className="text-2xl font-bold mb-2 text-green-700">
-//           {user.role} Panel
-//         </h2>
-
-//         <p className="text-sm text-gray-500 mb-6">
-//           {user.name}
-//         </p>
-
-//         <nav className="flex flex-col gap-3">
-//           {links.map((item) => (
-//             <Link
-//               key={item.href}
-//               href={item.href}
-//               className="px-3 py-2 rounded-lg hover:bg-green-100 hover:text-green-700 transition"
-//             >
-//               {item.label}
-//             </Link>
-//           ))}
-//         </nav>
-//       </aside>
-
-//       <main className="flex-1 p-8">{children}</main>
-//     </div>
-//   );
-// }
-
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
+import {
+  useEffect,
+  useState,
+} from "react";
+import {
+  useRouter,
+  usePathname,
+} from "next/navigation";
 
 import {
   Menu,
   X,
-  Bell,
-  Search,
   Moon,
   Sun,
-  LayoutDashboard,
+  Bell,
+  Search,
+  Home,
   LogOut,
-  House,
+  LayoutDashboard,
+  ChevronRight,
 } from "lucide-react";
+
+import { authClient } from "@/lib/auth-client";
 
 type Role = "STUDENT" | "TUTOR" | "ADMIN";
 
@@ -207,30 +43,52 @@ export default function DashboardLayout({
   const router = useRouter();
   const pathname = usePathname();
 
-  // =========================
-  // States
-  // =========================
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data: session, isPending } =
+    authClient.useSession();
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  /* ===========================
+      States
+  =========================== */
 
-  const [darkMode, setDarkMode] = useState(false);
+  const [user, setUser] =
+    useState<User | null>(null);
 
-  const [search, setSearch] = useState("");
+  const [loading, setLoading] =
+    useState(true);
 
-  // =========================
-  // Better Auth Session
-  // =========================
-  const { data: session } = authClient.useSession();
+  const [sidebarOpen, setSidebarOpen] =
+    useState(false);
+
+  const [darkMode, setDarkMode] =
+    useState(false);
+
+  /* ===========================
+      API URL
+  =========================== */
 
   const API_URL =
     process.env.NEXT_PUBLIC_API_URL ||
     "https://assignment5-backend-f7q4.onrender.com";
 
-  // =========================
-  // Fetch Logged User
-  // =========================
+  /* ===========================
+      Toggle Functions
+  =========================== */
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+
+    document.documentElement.classList.toggle(
+      "dark"
+    );
+  };
+    /* ===========================
+      Get Logged-in User
+  =========================== */
+
   useEffect(() => {
     const getMe = async () => {
       try {
@@ -247,10 +105,18 @@ export default function DashboardLayout({
 
         const data = await res.json();
 
-        setUser(data.user || data.data || data);
+        const currentUser =
+          data.user ||
+          data.data?.user ||
+          data.data ||
+          data;
+
+        setUser(currentUser);
       } catch (error) {
-        console.error(error);
+        console.error("Session Error:", error);
+
         setUser(null);
+
         router.replace("/login");
       } finally {
         setLoading(false);
@@ -260,48 +126,26 @@ export default function DashboardLayout({
     getMe();
   }, [API_URL, router]);
 
-  // =========================
-  // Loading Screen
-  // =========================
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-950">
-        <div className="space-y-4 text-center">
-          <div className="w-14 h-14 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+  /* ===========================
+      Logout
+  =========================== */
 
-          <p className="text-lg font-medium text-slate-600 dark:text-slate-300">
-            Loading Dashboard...
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut();
 
-  // =========================
-  // Unauthorized
-  // =========================
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-950">
-        <div className="bg-white dark:bg-slate-900 p-10 rounded-3xl shadow-xl text-center">
-          <h2 className="text-2xl font-bold mb-4">
-            Please Login First
-          </h2>
+      router.push("/");
 
-          <Link
-            href="/login"
-            className="inline-flex mt-3 rounded-xl bg-emerald-600 px-6 py-3 text-white hover:bg-emerald-700 transition"
-          >
-            Go to Login
-          </Link>
-        </div>
-      </div>
-    );
-  }
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // =========================
-  // Menu
-  // =========================
+  /* ===========================
+      Menu Configuration
+  =========================== */
+
   const menu = {
     STUDENT: [
       {
@@ -312,17 +156,17 @@ export default function DashboardLayout({
       {
         href: "/dashboard/bookings",
         label: "My Bookings",
-        icon: House,
+        icon: Home,
       },
       {
         href: "/dashboard/payments",
-        label: "Payments",
+        label: "Payment History",
         icon: Bell,
       },
       {
         href: "/dashboard/me",
         label: "Profile",
-        icon: LayoutDashboard,
+        icon: ChevronRight,
       },
     ],
 
@@ -335,17 +179,17 @@ export default function DashboardLayout({
       {
         href: "/dashboard/tutors/sessions",
         label: "Sessions",
-        icon: Bell,
+        icon: Home,
       },
       {
         href: "/dashboard/tutors/availabilities",
         label: "Availability",
-        icon: House,
+        icon: Bell,
       },
       {
         href: "/dashboard/tutors/reviews",
         label: "Reviews",
-        icon: LayoutDashboard,
+        icon: ChevronRight,
       },
       {
         href: "/dashboard/me",
@@ -363,7 +207,7 @@ export default function DashboardLayout({
       {
         href: "/dashboard/admin/users",
         label: "Users",
-        icon: House,
+        icon: Home,
       },
       {
         href: "/dashboard/admin/bookings",
@@ -373,94 +217,108 @@ export default function DashboardLayout({
       {
         href: "/dashboard/admin/categories",
         label: "Categories",
-        icon: LayoutDashboard,
+        icon: ChevronRight,
       },
     ],
   };
 
-  const links = menu[user.role] || [];
-    // ===========================
-  // Logout
-  // ===========================
-  const handleLogout = async () => {
-    try {
-      await authClient.signOut();
+  const links = user ? menu[user.role] ?? [] : [];
 
-      router.push("/login");
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  /* ===========================
+      Loading
+  =========================== */
 
-  return (
-    <div
-      className={`min-h-screen flex transition-all duration-300 ${
-        darkMode
-          ? "bg-slate-950 text-white"
-          : "bg-slate-100 text-slate-900"
-      }`}
-    >
-      {/* ================= Mobile Overlay ================= */}
-      {sidebarOpen && (
-        <div
-          onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
-        />
-      )}
+  if (loading || isPending) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-slate-950">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-emerald-500 border-t-transparent" />
+      </div>
+    );
+  }
 
-      {/* ================= Sidebar ================= */}
+  /* ===========================
+      Authentication
+  =========================== */
+
+  if (!user) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-gray-100 dark:bg-slate-950">
+        <h2 className="text-3xl font-bold">
+          Please login first
+        </h2>
+
+        <Link
+          href="/login"
+          className="rounded-xl bg-[#005C53] px-6 py-3 text-white transition hover:bg-[#169B87]"
+        >
+          Go to Login
+        </Link>
+      </div>
+    );
+  }return (
+  <div
+    className={`min-h-screen ${
+      darkMode
+        ? "dark bg-slate-950 text-white"
+        : "bg-gray-100 text-gray-900"
+    }`}
+  >
+    {/* Mobile Overlay */}
+    {sidebarOpen && (
+      <div
+        onClick={() => setSidebarOpen(false)}
+        className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+      />
+    )}
+
+    <div className="flex">
+
+      {/* =========================
+            Sidebar
+      ========================== */}
+
       <aside
         className={`
-        fixed lg:static
-        top-0 left-0
-        z-50
-        h-screen
-        w-72
-        transform
-        transition-transform
-        duration-300
-        ${
-          sidebarOpen
-            ? "translate-x-0"
-            : "-translate-x-full lg:translate-x-0"
-        }
-        ${
-          darkMode
-            ? "bg-slate-900 border-r border-slate-800"
-            : "bg-white border-r border-slate-200"
-        }
-      `}
+          fixed top-0 left-0 z-50
+          h-screen w-72
+          overflow-y-auto
+          transform transition-all duration-300
+          ${
+            sidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full lg:translate-x-0"
+          }
+          ${
+            darkMode
+              ? "bg-slate-900 border-r border-slate-800"
+              : "bg-white border-r border-slate-200"
+          }
+        `}
       >
-        <div className="p-6">
+        {/* Logo */}
+        <div className="flex items-center justify-between border-b border-gray-200 dark:border-slate-700 p-6">
+          <Link
+            href="/"
+            className="text-2xl font-bold text-[#169B87]"
+          >
+            MENTORING
+          </Link>
 
-          {/* Logo */}
-          <div className="flex items-center justify-between">
+          <button
+            onClick={toggleSidebar}
+            className="lg:hidden"
+          >
+            <X />
+          </button>
+        </div>
 
-            <div>
-              <h2 className="text-3xl font-bold text-emerald-600">
-                Mentor
-              </h2>
+        {/* User */}
+        <div className="border-b border-gray-200 dark:border-slate-700 p-6">
 
-              <p className="text-sm text-slate-500">
-                Dashboard
-              </p>
-            </div>
+          <div className="flex items-center gap-4">
 
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="lg:hidden"
-            >
-              <X size={26} />
-            </button>
-
-          </div>
-
-          {/* User */}
-          <div className="mt-10 flex items-center gap-4">
-
-            <div className="w-14 h-14 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xl font-bold">
-              {user.name.charAt(0)}
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#169B87] text-xl font-bold text-white">
+              {user.name.charAt(0).toUpperCase()}
             </div>
 
             <div>
@@ -468,128 +326,143 @@ export default function DashboardLayout({
                 {user.name}
               </h3>
 
-              <p className="text-sm text-emerald-500">
+              <p className="text-sm text-gray-500">
                 {user.role}
               </p>
             </div>
 
           </div>
 
-          {/* Menu */}
-          <nav className="mt-10 space-y-2">
+        </div>
 
-            {links.map((item) => {
-              const Icon = item.icon;
+        {/* Menu */}
+        <nav className="mt-6 px-4">
 
-              const active = pathname === item.href;
+          {links.map((item) => {
+            const Icon = item.icon;
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`group flex items-center gap-4 rounded-xl px-4 py-3 transition-all duration-300
+            const active =
+              pathname === item.href;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+                  mb-2 flex items-center gap-3 rounded-xl px-4 py-3
+                  transition-all duration-300
                   ${
                     active
-                      ? "bg-emerald-600 text-white shadow-lg"
-                      : darkMode
-                      ? "hover:bg-slate-800"
-                      : "hover:bg-emerald-50"
-                  }`}
-                >
-                  <Icon size={20} />
+                      ? "bg-[#169B87] text-white shadow-lg"
+                      : "hover:bg-[#169B87]/10"
+                  }
+                `}
+              >
+                <Icon size={20} />
 
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
+                <span>
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
 
-          </nav>
+        </nav>
 
-          {/* Bottom Buttons */}
-          <div className="absolute bottom-8 left-6 right-6 space-y-3">
+        {/* Bottom Buttons */}
+        <div className="absolute bottom-6 left-4 right-4 space-y-3">
 
-            <Link
-              href="/"
-              className="flex items-center justify-center gap-2 rounded-xl border border-emerald-500 py-3 text-emerald-600 hover:bg-emerald-600 hover:text-white transition"
-            >
-              <House size={18} />
+          <Link
+            href="/"
+            className="flex items-center justify-center rounded-xl bg-[#005C53] py-3 text-white hover:bg-[#169B87] transition"
+          >
+            Back to Home
+          </Link>
 
-              Back Home
-            </Link>
-
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-red-500 py-3 text-white hover:bg-red-600 transition"
-            >
-              <LogOut size={18} />
-
-              Logout
-            </button>
-
-          </div>
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-500 py-3 text-red-500 hover:bg-red-500 hover:text-white transition"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
 
         </div>
+
       </aside>
 
-      {/* ================= Main ================= */}
-      <div className="flex-1 flex flex-col">
+      {/* =========================
+            Main Layout
+      ========================== */}
 
-        {/* Header */}
+      <div className="flex flex-1 flex-col lg:ml-72"></div>        {/* ===========================
+                Header
+        =========================== */}
+
         <header
-          className={`sticky top-0 z-30 flex h-20 items-center justify-between px-6 backdrop-blur-xl border-b
-          ${
+          className={`sticky top-0 z-30 flex h-20 items-center justify-between border-b px-6 backdrop-blur-xl ${
             darkMode
-              ? "bg-slate-950/70 border-slate-800"
-              : "bg-white/80 border-slate-200"
+              ? "border-slate-800 bg-slate-950/90"
+              : "border-gray-200 bg-white/90"
           }`}
         >
-
           {/* Left */}
           <div className="flex items-center gap-4">
 
+            {/* Mobile Menu */}
             <button
-              onClick={() => setSidebarOpen(true)}
-              className="lg:hidden"
+              onClick={toggleSidebar}
+              className="rounded-xl border p-2 lg:hidden"
             >
-              <Menu size={28} />
+              <Menu size={22} />
             </button>
 
-            <h1 className="text-2xl font-bold">
-              Dashboard
-            </h1>
+            {/* Search */}
+            <div className="relative hidden md:block">
 
-          </div>
+              <Search
+                size={18}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              />
 
-          {/* Search */}
-          <div className="hidden md:flex relative w-[380px]">
+              <input
+                type="text"
+                placeholder="Search..."
+                className={`w-72 rounded-xl border py-2 pl-10 pr-4 outline-none transition ${
+                  darkMode
+                    ? "border-slate-700 bg-slate-900 text-white focus:border-emerald-500"
+                    : "border-gray-300 bg-white focus:border-emerald-500"
+                }`}
+              />
 
-            <Search
-              className="absolute left-4 top-3 text-slate-400"
-              size={18}
-            />
-
-            <input
-              value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
-              placeholder="Search..."
-              className={`w-full rounded-full pl-11 pr-5 py-3 outline-none
-              ${
-                darkMode
-                  ? "bg-slate-900 border border-slate-700"
-                  : "bg-slate-100 border border-slate-200"
-              }`}
-            />
+            </div>
 
           </div>
 
           {/* Right */}
           <div className="flex items-center gap-4">
 
+            {/* Notification */}
             <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="w-11 h-11 rounded-full bg-emerald-600 text-white flex items-center justify-center hover:scale-105 transition"
+              className={`relative rounded-xl border p-2 transition ${
+                darkMode
+                  ? "border-slate-700 hover:bg-slate-800"
+                  : "hover:bg-gray-100"
+              }`}
+            >
+              <Bell size={20} />
+
+              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />
+            </button>
+
+            {/* Dark Mode */}
+            <button
+              onClick={toggleDarkMode}
+              className={`rounded-xl border p-2 transition ${
+                darkMode
+                  ? "border-slate-700 hover:bg-slate-800"
+                  : "hover:bg-gray-100"
+              }`}
             >
               {darkMode ? (
                 <Sun size={20} />
@@ -598,28 +471,43 @@ export default function DashboardLayout({
               )}
             </button>
 
-            <button className="relative">
+            {/* User */}
+            <div className="flex items-center gap-3">
 
-              <Bell size={24} />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#169B87] text-white font-bold">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
 
-              <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-red-500"></span>
+              <div className="hidden md:block">
+                <h3 className="font-semibold">
+                  {user.name}
+                </h3>
 
-            </button>
+                <p className="text-xs text-gray-500">
+                  {user.role}
+                </p>
+              </div>
+
+            </div>
 
           </div>
-
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 p-6 md:p-8">          {/* Welcome Banner */}
+        {/* ===========================
+              Welcome Banner
+        =========================== */}
+
+        <main className="flex-1 p-6 lg:p-8">
+
           <div
-            className={`mb-8 overflow-hidden rounded-3xl p-8 relative ${
+            className={`relative overflow-hidden rounded-3xl p-8 ${
               darkMode
                 ? "bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900"
                 : "bg-gradient-to-r from-[#005C53] via-[#169B87] to-[#0F766E]"
             }`}
           >
             <div className="relative z-10">
+
               <p className="text-white/80 text-sm">
                 Welcome Back 👋
               </p>
@@ -629,22 +517,32 @@ export default function DashboardLayout({
               </h2>
 
               <p className="mt-3 max-w-2xl text-white/90">
-                Manage your mentoring sessions, bookings,
-                payments and profile from one place.
+                Manage your mentoring sessions,
+                bookings, payments and profile
+                from one dashboard.
               </p>
+
             </div>
 
-            {/* Decorative Circles */}
-            <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-            <div className="absolute right-32 bottom-0 h-32 w-32 rounded-full bg-white/10 blur-xl" />
+            {/* Background Blur */}
+            <div className="absolute -right-10 -top-10 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute bottom-0 right-24 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
           </div>
 
-          {/* Main Content */}
-          <div className="rounded-3xl bg-transparent">
+          {/* Dashboard Content */}
+          <div className="mt-8">
+            {children}
+          </div>          {/* Dashboard Page Content */}
+          <div className="mt-8">
             {children}
           </div>
+
         </main>
+
       </div>
+
     </div>
-  );
+
+ 
+);
 }
