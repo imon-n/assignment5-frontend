@@ -533,9 +533,7 @@ export default function DashboardLayout({
           <div className="mt-8">
             {children}
           </div>          {/* Dashboard Page Content */}
-          <div className="mt-8">
-            {children}
-          </div>
+         
 
         </main>
 
