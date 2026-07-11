@@ -189,17 +189,7 @@ export default function TutorsPage() {
 
               <div className="relative mb-4">
 
-                <Star
-                  className="
-                    absolute
-                    left-4
-                    top-1/2
-                    h-4
-                    w-4
-                    -translate-y-1/2
-                    text-yellow-500
-                  "
-                />
+               
 
                 <select
                   value={minRating}
@@ -233,17 +223,6 @@ export default function TutorsPage() {
 
               <div className="relative mb-6">
 
-                <DollarSign
-                  className="
-                    absolute
-                    left-4
-                    top-1/2
-                    h-4
-                    w-4
-                    -translate-y-1/2
-                    text-green-600
-                  "
-                />
 
                 <input
                   type="number"
