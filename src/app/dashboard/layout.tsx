@@ -395,7 +395,7 @@ export default function DashboardLayout({
             Main Layout
       ========================== */}
 
-      <div className="flex flex-1 flex-col lg:ml-72"></div>        {/* ===========================
+      <div className="flex flex-1 flex-col lg:ml-72">       {/* ===========================
                 Header
         =========================== */}
 
@@ -542,7 +542,7 @@ export default function DashboardLayout({
       </div>
 
     </div>
-
+</div> 
  
 );
 }
