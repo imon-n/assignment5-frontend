@@ -258,7 +258,6 @@ export default function RegisterForm() {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
     role: "STUDENT",
     image: "",
   });
@@ -315,15 +314,7 @@ export default function RegisterForm() {
       return false;
     }
 
-    if (!form.confirmPassword) {
-      toast.error("Please confirm your password.");
-      return false;
-    }
 
-    if (form.password !== form.confirmPassword) {
-      toast.error("Passwords do not match.");
-      return false;
-    }
 
     if (!form.role) {
       toast.error("Please select your role.");
