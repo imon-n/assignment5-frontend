@@ -164,7 +164,6 @@
 //     </Card>
 //   );
 // }
-
 "use client";
 
 import { useMemo, useState } from "react";
@@ -184,14 +183,7 @@ import {
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -203,10 +195,6 @@ const API_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "https://assignment5-backend-f7q4.onrender.com";
 
-/* ---------------------------------------- */
-/* Register API                             */
-/* ---------------------------------------- */
-
 async function registerUser(
   baseUrl: string,
   data: {
@@ -217,23 +205,20 @@ async function registerUser(
     image?: string;
   }
 ) {
-  const res = await fetch(
-    `${baseUrl}/api/auth/sign-up/email`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        role: data.role,
-        image: data.image,
-      }),
-    }
-  );
+  const res = await fetch(`${baseUrl}/api/auth/sign-up/email`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      role: data.role,
+      image: data.image,
+    }),
+  });
 
   return res.json();
 }
@@ -243,16 +228,7 @@ export default function RegisterForm() {
 
   const [loading, setLoading] = useState(false);
 
-  const [showPassword, setShowPassword] =
-    useState(false);
-
-  const [
-    showConfirmPassword,
-    setShowConfirmPassword,
-  ] = useState(false);
-
-  const [accepted, setAccepted] =
-    useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -275,13 +251,12 @@ export default function RegisterForm() {
     if (/[A-Z]/.test(form.password)) score++;
     if (/[a-z]/.test(form.password)) score++;
     if (/\d/.test(form.password)) score++;
-    if (/[@$!%*?&]/.test(form.password))
-      score++;
+    if (/[@$!%*?&]/.test(form.password)) score++;
 
     return score;
   }, [form.password]);
 
-    const validateForm = () => {
+  const validateForm = () => {
     if (!form.name.trim()) {
       toast.error("Full name is required.");
       return false;
@@ -314,25 +289,15 @@ export default function RegisterForm() {
       return false;
     }
 
-
-
     if (!form.role) {
       toast.error("Please select your role.");
-      return false;
-    }
-
-    if (!accepted) {
-      toast.error("Please accept the Terms & Conditions.");
       return false;
     }
 
     return true;
   };
 
-  const verifySession = async (
-    retries = 3,
-    delay = 600
-  ) => {
+  const verifySession = async (retries = 3, delay = 600) => {
     for (let i = 0; i < retries; i++) {
       try {
         const check = await authFetch(`${API_URL}/api/me`);
@@ -344,9 +309,7 @@ export default function RegisterForm() {
         console.error(err);
       }
 
-      await new Promise((resolve) =>
-        setTimeout(resolve, delay)
-      );
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
 
     return false;
@@ -369,9 +332,7 @@ export default function RegisterForm() {
       console.log("Register Response:", res);
 
       if (res?.error) {
-        toast.error(
-          res.error.message || "Registration failed."
-        );
+        toast.error(res.error.message || "Registration failed.");
         return;
       }
 
@@ -384,9 +345,7 @@ export default function RegisterForm() {
       const ok = await verifySession();
 
       if (!ok) {
-        toast.error(
-          "Account created. Please login again."
-        );
+        toast.error("Account created. Please login again.");
 
         router.replace("/login");
 
@@ -397,9 +356,7 @@ export default function RegisterForm() {
     } catch (error) {
       console.error(error);
 
-      toast.error(
-        "Something went wrong during registration."
-      );
+      toast.error("Something went wrong during registration.");
     } finally {
       setLoading(false);
     }
@@ -417,286 +374,186 @@ export default function RegisterForm() {
       toast.error("Google Sign Up failed.");
     }
   };
+
   return (
-  <div className="flex h-screen items-center justify-center overflow-hidden bg-muted/40 px-4 py-6 mt-2 md:mt-2">
-    <Card className="w-full max-w-2xl border shadow-xl dark:border-slate-800">
+    <div className="flex h-screen items-center justify-center overflow-hidden bg-muted/40 px-4 py-6 mt-2 md:mt-2">
+      <Card className="w-full max-w-2xl border shadow-xl dark:border-slate-800">
+        <CardContent className="">
+          <h1 className="text-2xl font-bold text-center">Create Account</h1>
 
-      <CardContent className="">
-<h1 className="text-2xl font-bold text-center">
-          Create Account
-        </h1>
-        {/* Name */}
+          {/* Name */}
 
-        <div className="space-y-0.5">
-          <Label className="text-xm">Full Name</Label>
+          <div className="space-y-0.5">
+            <Label className="text-xm">Full Name</Label>
 
-          <div className="relative">
-            <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <div className="relative">
+              <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
 
-            <Input
-              className="h-9 pl-10"
-              placeholder="John Doe"
-              value={form.name}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  name: e.target.value,
-                })
-              }
-            />
+              <Input
+                className="h-9 pl-10"
+                placeholder="John Doe"
+                value={form.name}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    name: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Email */}
+          {/* Email */}
 
-        <div className="space-y-0.5 mt-2">
-          <Label className="text-xm">Email Address</Label>
+          <div className="space-y-0.5 mt-2">
+            <Label className="text-xm">Email Address</Label>
 
-          <div className="relative">
-            <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <div className="relative">
+              <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
 
-            <Input
-              type="email"
-              className="h-9 pl-10"
-              placeholder="john@example.com"
-              value={form.email}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  email: e.target.value,
-                })
-              }
-            />
+              <Input
+                type="email"
+                className="h-9 pl-10"
+                placeholder="john@example.com"
+                value={form.email}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    email: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Password */}
+          {/* Password */}
 
-        <div className="space-y-0.5 mt-2">
-          <Label className="text-xm">Password</Label>
+          <div className="space-y-0.5 mt-2">
+            <Label className="text-xm">Password</Label>
 
-          <div className="relative">
-            <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <div className="relative">
+              <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
 
-            <Input
-              type={showPassword ? "text" : "password"}
-              className="h-9 pl-10 pr-10"
-              placeholder="Enter your password"
-              value={form.password}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  password: e.target.value,
-                })
-              }
-            />
+              <Input
+                type={showPassword ? "text" : "password"}
+                className="h-9 pl-10 pr-10"
+                placeholder="Enter your password"
+                value={form.password}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    password: e.target.value,
+                  })
+                }
+              />
 
-            <button
-              type="button"
-              onClick={() =>
-                setShowPassword(!showPassword)
-              }
-              className="absolute right-3 top-2.5 text-muted-foreground hover:text-primary"
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-2.5 text-muted-foreground hover:text-primary"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+
+            {/* Password Strength */}
+
+            <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+              <div
+                className={`h-full transition-all duration-300 ${
+                  passwordStrength <= 1
+                    ? "w-1/4 bg-red-500"
+                    : passwordStrength === 2
+                    ? "w-2/4 bg-orange-500"
+                    : passwordStrength === 3
+                    ? "w-3/4 bg-yellow-500"
+                    : passwordStrength >= 4
+                    ? "w-full bg-green-500"
+                    : "w-0"
+                }`}
+              />
+            </div>
+
+            <p className="text-[10px] leading-tight text-muted-foreground">
+              Password must contain uppercase, lowercase, number and special
+              character.
+            </p>
+          </div>
+
+          {/* Role */}
+
+          <div className="space-y-0.5 mt-2">
+            <Label className="text-xm">Select Role</Label>
+
+            <div className="relative">
+              <GraduationCap className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+
+              <select
+                value={form.role}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    role: e.target.value,
+                  })
+                }
+                className="flex h-9 w-full rounded-md border border-input bg-background pl-10 pr-3 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="STUDENT">Student</option>
+
+                <option value="TUTOR">Tutor</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Image */}
+
+          <div className="space-y-0.5 mt-2">
+            <Label className="text-xm">Profile Image (Optional)</Label>
+
+            <div className="relative">
+              <ImageIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+
+              <Input
+                className="h-9 pl-10"
+                placeholder="https://example.com/photo.jpg"
+                value={form.image}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    image: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex flex-col gap-1 py-3">
+          <Button
+            onClick={handleRegister}
+            disabled={loading}
+            className="w-full h-9"
+          >
+            {loading ? "Creating Account..." : "Create Account"}
+          </Button>
+
+          <div className="flex items-center gap-3 w-full">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-xs text-muted-foreground">OR</span>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+
+          <p className="text-center text-xs text-muted-foreground">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="font-semibold text-primary hover:underline"
             >
-              {showPassword ? (
-                <EyeOff size={16} />
-              ) : (
-                <Eye size={16} />
-              )}
-            </button>
-          </div>
-
-          {/* Password Strength */}
-
-          <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted">
-            <div
-              className={`h-full transition-all duration-300 ${
-                passwordStrength <= 1
-                  ? "w-1/4 bg-red-500"
-                  : passwordStrength === 2
-                  ? "w-2/4 bg-orange-500"
-                  : passwordStrength === 3
-                  ? "w-3/4 bg-yellow-500"
-                  : passwordStrength >= 4
-                  ? "w-full bg-green-500"
-                  : "w-0"
-              }`}
-            />
-          </div>
-
-          <p className="text-[10px] leading-tight text-muted-foreground">
-            Password must contain uppercase,
-            lowercase, number and special
-            character.
+              Login
+            </Link>
           </p>
-        </div>
-
-        {/* Confirm Password */}
-
-        {/* <div className="space-y-2">
-          <Label>Confirm Password</Label>
-
-          <div className="relative">
-            <Lock className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
-
-            <Input
-              type={
-                showConfirmPassword
-                  ? "text"
-                  : "password"
-              }
-              className="pl-10 pr-10"
-              placeholder="Confirm password"
-              value={form.confirmPassword}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  confirmPassword:
-                    e.target.value,
-                })
-              }
-            />
-
-            <button
-              type="button"
-              onClick={() =>
-                setShowConfirmPassword(
-                  !showConfirmPassword
-                )
-              }
-              className="absolute right-3 top-3 text-muted-foreground hover:text-primary"
-            >
-              {showConfirmPassword ? (
-                <EyeOff size={18} />
-              ) : (
-                <Eye size={18} />
-              )}
-            </button>
-          </div>
-        </div> */}
-                {/* Role */}
-
-        <div className="space-y-0.5 mt-2">
-          <Label className="text-xm">Select Role</Label>
-
-          <div className="relative">
-            <GraduationCap className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-
-            <select
-              value={form.role}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  role: e.target.value,
-                })
-              }
-              className="flex h-9 w-full rounded-md border border-input bg-background pl-10 pr-3 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="STUDENT">
-                Student
-              </option>
-
-              <option value="TUTOR">
-                Tutor
-              </option>
-            </select>
-          </div>
-        </div>
-
-        {/* Image */}
-
-        <div className="space-y-0.5 mt-2">
-          <Label className="text-xm">Profile Image (Optional)</Label>
-
-          <div className="relative">
-            <ImageIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-
-            <Input
-              className="h-9 pl-10"
-              placeholder="https://example.com/photo.jpg"
-              value={form.image}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  image: e.target.value,
-                })
-              }
-            />
-          </div>
-        </div>
-
-        {/* Terms */}
-
-        {/* <div className="flex items-start gap-3 pt-2">
-          <input
-            id="terms"
-            type="checkbox"
-            checked={accepted}
-            onChange={(e) =>
-              setAccepted(e.target.checked)
-            }
-            className="mt-1 h-4 w-4 rounded border"
-          />
-
-          <label
-            htmlFor="terms"
-            className="text-sm text-muted-foreground"
-          >
-            I agree to the{" "}
-            <span className="font-semibold text-primary">
-              Terms & Conditions
-            </span>{" "}
-            and{" "}
-            <span className="font-semibold text-primary">
-              Privacy Policy
-            </span>.
-          </label>
-        </div> */}
-
-      </CardContent>
-
-      <CardFooter className="flex flex-col gap-1 py-3">
-
-        <Button
-          onClick={handleRegister}
-          disabled={loading}
-          className="w-full h-9"
-        >
-          {loading
-            ? "Creating Account..."
-            : "Create Account"}
-        </Button>
-
-        <div className="flex items-center gap-3 w-full">
-          <div className="h-px flex-1 bg-border" />
-          <span className="text-xs text-muted-foreground">
-            OR
-          </span>
-          <div className="h-px flex-1 bg-border" />
-        </div>
-{/* 
-        <Button
-          type="button"
-          variant="outline"
-          className="w-full h-11"
-          onClick={handleGoogle}
-        >
-          Continue with Google
-        </Button> */}
-
-        <p className="text-center text-xs text-muted-foreground">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="font-semibold text-primary hover:underline"
-          >
-            Login
-          </Link>
-        </p>
-
-      </CardFooter>
-
-    </Card>
-  </div>
-);
+        </CardFooter>
+      </Card>
+    </div>
+  );
 }
