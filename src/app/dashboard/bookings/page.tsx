@@ -1,15 +1,39 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import {
+  Calendar,
+  Clock3,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+interface Booking {
+  id: string;
+  date: string;
+  time: string;
+  amount: number;
+  status: string;
+  tutor: {
+    user: {
+      name: string;
+      image?: string;
+    };
+    category: {
+      name: string;
+    };
+  };
+}
+
 export default function MyBookingsPage() {
-  const [bookings, setBookings] = useState<any[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ GET MY BOOKINGS
   useEffect(() => {
     const fetchBookings = async () => {
       try {
@@ -19,12 +43,8 @@ export default function MyBookingsPage() {
 
         const data = await res.json();
 
-        console.log(data);
-
-        // ✅ backend response fix
-        setBookings(Array.isArray(data.data) ? data.data : []);
-      } catch (error) {
-        console.log(error);
+        setBookings(data.data || []);
+      } catch {
         toast.error("Failed to load bookings");
       } finally {
         setLoading(false);
@@ -36,77 +56,177 @@ export default function MyBookingsPage() {
 
   if (loading) {
     return (
-      <div className="p-10 text-center text-lg">
+      <div className="flex h-96 items-center justify-center text-xl">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="space-y-6
-     mt-28">
-      <div>
-        <h1 className="text-3xl font-bold">
-          My Bookings
-        </h1>
+    <div className="space-y-10">
 
-        <p className="text-gray-500 mt-1">
-          View your tutoring sessions
-        </p>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-4xl font-bold">
+            My Bookings
+          </h1>
+
+          <p className="mt-2 text-gray-500">
+            Manage your tutoring sessions
+          </p>
+        </div>
+
+        <button className="text-emerald-600 font-semibold hover:underline">
+          View all →
+        </button>
       </div>
 
+      {/* Cards */}
+
       {bookings.length === 0 ? (
-        <div className="bg-white rounded-xl shadow p-8 text-center">
+        <div className="rounded-3xl bg-white p-20 text-center shadow">
           No bookings found
         </div>
       ) : (
-        <div className="grid gap-5">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+
           {bookings.map((booking) => (
+
             <div
               key={booking.id}
-              className="bg-white rounded-2xl shadow p-6 border"
+              className="overflow-hidden rounded-3xl bg-white shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              {/* Image */}
 
-                {/* LEFT */}
-                <div className="space-y-2">
-                  <h2 className="text-2xl font-bold">
-                    {booking?.tutor?.user?.name}
-                  </h2>
+              <div className="relative h-60 w-full">
 
-                  <p className="text-gray-600">
-                    Subject:{" "}
-                    {booking?.tutor?.category?.name}
-                  </p>
+                <Image
+                  src={
+                    booking.tutor.user.image ||
+                    "/avatar.png"
+                  }
+                  alt={booking.tutor.user.name}
+                  fill
+                  className="object-cover"
+                />
 
-                  <p className="text-gray-600">
-                    Date: {booking?.date}
-                  </p>
+              </div>
 
-                  <p className="text-gray-600">
-                    Time: {booking?.time}
-                  </p>
+              {/* Body */}
+
+              <div className="p-6">
+
+                <div className="flex items-start justify-between">
+
+                  <div>
+
+                    <h2 className="text-2xl font-bold">
+                      {booking.tutor.category.name}
+                    </h2>
+
+                    <p className="mt-2 text-gray-500">
+                      {booking.tutor.user.name}
+                    </p>
+
+                  </div>
+
+                  <h3 className="text-3xl font-bold text-emerald-500">
+                    ${booking.amount}
+                  </h3>
+
                 </div>
 
-                {/* RIGHT */}
-                <div>
+                {/* Date */}
+
+                <div className="mt-6 flex items-center gap-2 text-gray-500">
+
+                  <Calendar size={18} />
+
+                  <span>{booking.date}</span>
+
+                </div>
+
+                {/* Time */}
+
+                <div className="mt-3 flex items-center gap-2 text-gray-500">
+
+                  <Clock3 size={18} />
+
+                  <span>{booking.time}</span>
+
+                </div>
+
+                {/* Tutor */}
+
+                <div className="mt-3 flex items-center gap-2 text-gray-500">
+
+                  <BookOpen size={18} />
+
+                  <span>
+                    {booking.tutor.category.name}
+                  </span>
+
+                </div>
+
+                {/* Bottom */}
+
+                <div className="mt-8 flex items-center justify-between">
+
                   <span
-                    className={`px-4 py-2 rounded-full text-sm font-semibold ${
-                      booking?.status === "CONFIRMED"
+                    className={`rounded-full px-4 py-2 text-sm font-semibold
+                    ${
+                      booking.status === "CONFIRMED"
                         ? "bg-green-100 text-green-700"
-                        : booking?.status === "PENDING"
+                        : booking.status === "PENDING"
                         ? "bg-yellow-100 text-yellow-700"
                         : "bg-red-100 text-red-700"
                     }`}
                   >
-                    {booking?.status}
+                    {booking.status}
                   </span>
+
+                  <button className="font-semibold text-emerald-600 hover:underline">
+                    View Details
+                  </button>
+
                 </div>
+
               </div>
+
             </div>
+
           ))}
+
         </div>
       )}
+
+      {/* Pagination */}
+
+      <div className="flex items-center justify-center gap-4 pt-4">
+
+        <button className="rounded-lg p-2 hover:bg-gray-100">
+          <ChevronLeft size={20} />
+        </button>
+
+        <button className="h-11 w-11 rounded-xl bg-gray-100 font-semibold">
+          1
+        </button>
+
+        <button className="h-11 w-11 rounded-xl bg-emerald-500 font-semibold text-white">
+          2
+        </button>
+
+        <button className="h-11 w-11 rounded-xl bg-gray-100 font-semibold">
+          3
+        </button>
+
+        <button className="rounded-lg p-2 hover:bg-gray-100">
+          <ChevronRight size={20} />
+        </button>
+
+      </div>
+
     </div>
   );
 }
