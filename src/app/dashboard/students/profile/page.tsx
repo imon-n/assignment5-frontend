@@ -288,32 +288,7 @@ export default function ProfilePage() {
 
             {/* Profile Completion */}
 
-            <div className="mt-8 w-full rounded-2xl bg-slate-100 p-5 dark:bg-slate-800">
-
-              <div className="mb-2 flex justify-between">
-
-                <span className="font-medium">
-                  Profile Completion
-                </span>
-
-                <span className="font-bold text-emerald-600">
-                  {stats.profileCompletion}%
-                </span>
-
-              </div>
-
-              <div className="h-3 rounded-full bg-slate-300 dark:bg-slate-700">
-
-                <div
-                  style={{
-                    width: `${stats.profileCompletion}%`,
-                  }}
-                  className="h-3 rounded-full bg-emerald-500 transition-all duration-700"
-                />
-
-              </div>
-
-            </div>
+          
 
           </div>
 
