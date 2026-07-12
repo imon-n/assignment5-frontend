@@ -17,6 +17,7 @@ type Review = {
 
 export default function TutorReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
+  console.log(reviews);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
