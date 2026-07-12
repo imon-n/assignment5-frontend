@@ -12,6 +12,7 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
+  BookOpen,
 } from "lucide-react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -143,13 +144,25 @@ export default function MyBookingsPage() {
 
       <div>
 
-        <h1 className="text-4xl font-bold text-slate-900 dark:text-white">
-          My Bookings
-        </h1>
+      
 
-        <p className="mt-2 text-slate-500 dark:text-slate-400">
-          Browse all of your booked tutoring sessions.
-        </p>
+<div className="rounded-3xl bg-gradient-to-r from-[#005C53] to-[#169B87] p-8 text-white shadow-xl">
+  <div className="flex items-center gap-5">
+    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-xl">
+      <BookOpen size={34} />
+    </div>
+
+    <div>
+      <h1 className="text-4xl font-bold">
+        My Bookings
+      </h1>
+
+      <p className="mt-2 text-white/90">
+        Manage and track all your booked tutoring sessions in one place.
+      </p>
+    </div>
+  </div>
+</div>
 
       </div>
 

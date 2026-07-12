@@ -164,7 +164,7 @@ export default function DashboardLayout({
         icon: Bell,
       },
       {
-        href: "/dashboard/me",
+        href: "/dashboard/students/profile",
         label: "Profile",
         icon: ChevronRight,
       },
