@@ -98,7 +98,7 @@ export default function DashboardPage() {
     const loadDashboard = async () => {
       try {
         const res = await fetch(
-          `${API_URL}/api/student/overview`,
+          `${API_URL}/api/students/overview`,
           {
             credentials: "include",
           }
