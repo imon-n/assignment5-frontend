@@ -499,35 +499,7 @@ export default function DashboardLayout({
 
         <main className="flex-1 p-6 lg:p-8">
 
-          <div
-            className={`relative overflow-hidden rounded-3xl p-8 ${
-              darkMode
-                ? "bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900"
-                : "bg-gradient-to-r from-[#005C53] via-[#169B87] to-[#0F766E]"
-            }`}
-          >
-            <div className="relative z-10">
-
-              <p className="text-white/80 text-sm">
-                Welcome Back 👋
-              </p>
-
-              <h2 className="mt-2 text-4xl font-bold text-white">
-                Hello, {user.name}
-              </h2>
-
-              <p className="mt-3 max-w-2xl text-white/90">
-                Manage your mentoring sessions,
-                bookings, payments and profile
-                from one dashboard.
-              </p>
-
-            </div>
-
-            {/* Background Blur */}
-            <div className="absolute -right-10 -top-10 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
-            <div className="absolute bottom-0 right-24 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
-          </div>
+        
 
           {/* Dashboard Content */}
           <div className="mt-8">

@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 export function LoginForm() {
   const router = useRouter();
 
-  const API_URL = "https://assignment5-backend-f7q4.onrender.com";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL 
+  // || "https://assignment5-backend-f7q4.onrender.com";
 
   const [form, setForm] = useState({
     email: "",

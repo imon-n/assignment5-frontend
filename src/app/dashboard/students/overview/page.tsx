@@ -132,18 +132,8 @@ export default function DashboardPage() {
       icon: BookOpen,
       color: "bg-emerald-500",
     },
-    {
-      title: "Upcoming Sessions",
-      value: dashboard.stats.upcomingBookings,
-      icon: Calendar,
-      color: "bg-blue-500",
-    },
-    {
-      title: "Cancelled",
-      value: dashboard.stats.cancelledBookings,
-      icon: XCircle,
-      color: "bg-red-500",
-    },
+ 
+ 
     {
       title: "Total Paid",
       value: `$${dashboard.stats.totalPaid}`,
@@ -175,7 +165,7 @@ export default function DashboardPage() {
       </section>
 
       {/* Statistics */}
-      <section className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-6 sm:grid-cols-1 xl:grid-cols-2">
         {stats.map((item) => {
           const Icon = item.icon;
 
@@ -259,64 +249,29 @@ export default function DashboardPage() {
         </div>
 
         {/* Next Session */}
+        {/* Quick Actions */}
         <div className="rounded-3xl bg-white dark:bg-slate-900 p-6 shadow-lg">
+
           <h2 className="text-2xl font-bold mb-6">
-            Next Session
+            Quick Actions
           </h2>
 
-          {dashboard.nextSession ? (
-            <div className="space-y-4">
-              <div>
-                <p className="text-gray-500">
-                  Tutor
-                </p>
+          <div className="space-y-4">
 
-                <h3 className="text-xl font-bold">
-                  {
-                    dashboard.nextSession.tutor.user
-                      .name
-                  }
-                </h3>
-              </div>
+            <button className="w-full rounded-xl bg-[#005C53] py-3 text-white hover:bg-[#169B87] transition">
+              Book New Session
+            </button>
 
-              <div>
-                <p className="text-gray-500">
-                  Subject
-                </p>
+            <button className="w-full rounded-xl border border-[#005C53] py-3 text-[#005C53] hover:bg-[#005C53] hover:text-white transition">
+              View Bookings
+            </button>
 
-                <h3 className="font-semibold">
-                  {
-                    dashboard.nextSession.tutor
-                      .category.name
-                  }
-                </h3>
-              </div>
+            <button className="w-full rounded-xl border border-[#169B87] py-3 text-[#169B87] hover:bg-[#169B87] hover:text-white transition">
+              Edit Profile
+            </button>
 
-              <div>
-                <p className="text-gray-500">
-                  Date
-                </p>
+          </div>
 
-                <h3>
-                  {dashboard.nextSession.date}
-                </h3>
-              </div>
-
-              <div>
-                <p className="text-gray-500">
-                  Time
-                </p>
-
-                <h3>
-                  {dashboard.nextSession.time}
-                </h3>
-              </div>
-            </div>
-          ) : (
-            <p className="text-gray-500">
-              No upcoming session.
-            </p>
-          )}
         </div>
       </section>
     </div>
