@@ -149,7 +149,7 @@ export default function DashboardLayout({
   const menu = {
     STUDENT: [
       {
-        href: "/dashboard",
+        href: "/dashboard/students/overview",
         label: "Overview",
         icon: LayoutDashboard,
       },
