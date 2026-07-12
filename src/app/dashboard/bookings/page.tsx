@@ -140,7 +140,6 @@ export default function MyBookingsPage() {
   return (
     <div className="space-y-8">
 
-      {/* Header */}
 
       <div>
 
@@ -187,7 +186,7 @@ export default function MyBookingsPage() {
       slide-in-from-bottom-4
     "
   >
-    <div className="relative h-[430px]">
+    <div className="relative h-[380px]">
 
       {/* Tutor Image */}
       <Image

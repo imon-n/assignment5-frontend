@@ -502,7 +502,7 @@ export default function DashboardLayout({
         
 
           {/* Dashboard Content */}
-          <div className="mt-8">
+          <div className="mt-6">
             {children}
           </div>          {/* Dashboard Page Content */}
          
