@@ -138,7 +138,7 @@ export default function MyBookingsPage() {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
 
       {/* Header */}
 
@@ -257,13 +257,13 @@ export default function MyBookingsPage() {
         {/* Tags */}
         <div className="mt-4 flex flex-wrap gap-2">
 
-          <div className="flex items-center gap-1 rounded-full bg-white/20 px-3 py-1.5 text-xs backdrop-blur-xl">
+          {/* <div className="flex items-center gap-1 rounded-full bg-white/20 px-3 py-1.5 text-xs backdrop-blur-xl">
             <Star
               size={13}
               className="fill-yellow-300 text-yellow-300"
             />
             {booking.tutor.rating.toFixed(1)}
-          </div>
+          </div> */}
 
           <div className="rounded-full bg-white/20 px-3 py-1.5 text-xs backdrop-blur-xl">
             {booking.tutor.category.name}
@@ -284,7 +284,7 @@ export default function MyBookingsPage() {
         </div>
 
         {/* Session Info */}
-        <div className="mt-4 space-y-2 text-sm">
+        {/* <div className="mt-4 space-y-2 text-sm">
 
           <div className="flex items-center gap-2">
 
@@ -308,10 +308,10 @@ export default function MyBookingsPage() {
 
           </div>
 
-        </div>
+        </div> */}
 
         {/* Button */}
-        <Link href={`/student/bookings/${booking.id}`}>
+        {/* <Link href={`/student/bookings/${booking.id}`}>
           <button
             className="
               mt-5
@@ -331,7 +331,7 @@ export default function MyBookingsPage() {
           >
             View Booking
           </button>
-        </Link>
+        </Link> */}
 
       </div>
 
