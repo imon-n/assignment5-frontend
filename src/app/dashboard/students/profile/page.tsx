@@ -58,7 +58,7 @@ interface DashboardData {
     completedBookings: number;
     cancelledBookings: number;
     totalPaid: number;
-    profileCompletion: number;
+  
   };
 
   nextSession: Booking | null;
@@ -185,7 +185,7 @@ export default function ProfilePage() {
   <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
   <div className="absolute -bottom-12 left-0 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
 
-  <div className="relative flex flex-col justify-between gap-6 md:flex-row md:items-center">
+ 
 
     {/* Left */}
     <div>
@@ -203,31 +203,9 @@ export default function ProfilePage() {
         sessions, payments and learning progress from one place.
       </p>
 
-    </div>
+   
 
-    {/* Right */}
-    <div className="rounded-3xl bg-white/15 px-8 py-6 text-center backdrop-blur-xl">
-
-      <p className="text-sm text-white/80">
-        Profile Completion
-      </p>
-
-      <h2 className="mt-2 text-5xl font-bold">
-        {stats.profileCompletion}%
-      </h2>
-
-      <div className="mt-4 h-2 w-44 overflow-hidden rounded-full bg-white/20">
-
-        <div
-          className="h-full rounded-full bg-white transition-all duration-700"
-          style={{
-            width: `${stats.profileCompletion}%`,
-          }}
-        />
-
-      </div>
-
-    </div>
+   
 
   </div>
 
