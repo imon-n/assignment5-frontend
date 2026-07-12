@@ -579,7 +579,15 @@ import {
   Brain,
   Award,
 } from "lucide-react";
-
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Profile {
@@ -592,7 +600,35 @@ interface Profile {
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [editMode, setEditMode] = useState(false);
+const targetProgress = 80;
 
+const [progress, setProgress] = useState(0);
+
+const radius = 58;
+const stroke = 10;
+
+const normalizedRadius = radius - stroke / 2;
+const circumference = normalizedRadius * 2 * Math.PI;
+
+const strokeDashoffset =
+  circumference - (progress / 100) * circumference;
+useEffect(() => {
+  let current = 0;
+
+  const interval = setInterval(() => {
+    current++;
+
+    setProgress(current);
+
+    if (current >= targetProgress) {
+      clearInterval(interval);
+    }
+  }, 18);
+
+  return () => clearInterval(interval);
+}, []);
+
+// const circumference = normalizedRadius * 2 * Math.PI;
   // ✅ GET PROFILE
   useEffect(() => {
     fetch(`${API_URL}/api/me`, {
@@ -630,7 +666,15 @@ export default function ProfilePage() {
       toast.error(data.message || "Update failed");
     }
   };
-
+const progressData = [
+  { day: "Mon", progress: 80 },
+  { day: "Tue", progress: 65 },
+  { day: "Wed", progress: 90 },
+  { day: "Thu", progress: 70 },
+  { day: "Fri", progress: 95 },
+  { day: "Sat", progress: 75 },
+  { day: "Sun", progress: 88 },
+];
   if (!profile) {
     return (
       <div className="space-y-8">
@@ -846,11 +890,45 @@ export default function ProfilePage() {
                 Learning Progress
               </h2>
               <div className="flex items-center gap-8">
-                <div className="relative w-36 h-36 rounded-full border-[12px] border-emerald-500 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-emerald-600">
-                    80%
-                  </span>
-                </div>
+              <div className="relative w-40 h-40">
+  <svg
+    width="160"
+    height="160"
+    className="-rotate-90"
+  >
+    {/* Background */}
+    <circle
+      cx="80"
+      cy="80"
+      r={normalizedRadius}
+      stroke="#E5E7EB"
+      strokeWidth={stroke}
+      fill="none"
+    />
+
+    {/* Progress */}
+    <circle
+      cx="80"
+      cy="80"
+      r={normalizedRadius}
+      stroke="#10B981"
+      strokeWidth={stroke}
+      fill="none"
+      strokeLinecap="round"
+      strokeDasharray={circumference}
+      strokeDashoffset={strokeDashoffset}
+      style={{
+        transition: "stroke-dashoffset .4s ease",
+      }}
+    />
+  </svg>
+
+  <div className="absolute inset-0 flex items-center justify-center">
+    <span className="text-4xl font-bold text-emerald-600">
+      {progress}%
+    </span>
+  </div>
+</div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                     MERN Stack
@@ -887,47 +965,69 @@ export default function ProfilePage() {
           </div>
 
           {/* Weekly Progress Chart */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-800 p-8">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
-                Weekly Progress
-              </h2>
-              <span className="px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 font-semibold">
-                +32%
-              </span>
-            </div>
+         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-800 p-8">
 
-            <div className="space-y-6">
-              {(
-                [
-                  ["Monday", 80],
-                  ["Tuesday", 65],
-                  ["Wednesday", 90],
-                  ["Thursday", 70],
-                  ["Friday", 95],
-                  ["Saturday", 75],
-                  ["Sunday", 88],
-                ] as [string, number][]
-              ).map(([day, value]) => (
-                <div key={day}>
-                  <div className="flex justify-between mb-2">
-                    <span className="font-medium text-slate-900 dark:text-white">
-                      {day}
-                    </span>
-                    <span className="text-emerald-600 font-bold">
-                      {value}%
-                    </span>
-                  </div>
-                  <div className="h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-1000"
-                      style={{ width: `${value}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+  <div className="flex items-center justify-between mb-8">
+    <div>
+      <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+        Weekly Progress
+      </h2>
+
+      <p className="text-slate-500 dark:text-slate-400 mt-2">
+        Learning performance this week
+      </p>
+    </div>
+
+    <span className="px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 font-semibold">
+      +32%
+    </span>
+  </div>
+
+  <div className="h-80">
+
+    <ResponsiveContainer width="100%" height="100%">
+
+      <LineChart data={progressData}>
+
+        <CartesianGrid
+          strokeDasharray="5 5"
+          stroke="#d1d5db"
+        />
+
+        <XAxis
+          dataKey="day"
+          stroke="#94a3b8"
+        />
+
+        <YAxis
+          stroke="#94a3b8"
+          domain={[0, 100]}
+        />
+
+        <Tooltip />
+
+        <Line
+          type="monotone"
+          dataKey="progress"
+          stroke="#10b981"
+          strokeWidth={4}
+          dot={{
+            r: 6,
+            fill: "#10b981",
+          }}
+          activeDot={{
+            r: 8,
+            fill: "#059669",
+          }}
+        />
+
+      </LineChart>
+
+    </ResponsiveContainer>
+
+  </div>
+
+</div>
         </div>
       </div>
     </div>
