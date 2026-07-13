@@ -95,7 +95,7 @@ export default function TutorProfilePage() {
           categoryRes,
         ] = await Promise.all([
           axios.get(
-            `${API}/api/tutor-profile/me`,
+            `${API}/api/profile/me`,
             {
               withCredentials: true,
             }
