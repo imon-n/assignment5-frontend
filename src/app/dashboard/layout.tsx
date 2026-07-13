@@ -192,7 +192,7 @@ export default function DashboardLayout({
         icon: ChevronRight,
       },
       {
-        href: "/dashboard/me",
+        href: "/dashboard/tutors/profile",
         label: "Profile",
         icon: LayoutDashboard,
       },
