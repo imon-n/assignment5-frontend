@@ -476,197 +476,42 @@ export default function TutorProfilePage() {
 
               {/* Edit Button */}
 
-           {/* =========================
-    Edit Profile Modal
-========================= */}
+              {!editMode && (
 
-{editMode && (
-  <div
-    className="
-      fixed inset-0 z-50
-      flex items-center justify-center
-      bg-black/50
-      backdrop-blur-sm
-      px-4
-      animate-in fade-in duration-300
-    "
-  >
-    <div
-      className="
-        relative
-        w-full
-        max-w-3xl
-        rounded-3xl
-        bg-white
-        dark:bg-slate-900
-        border
-        border-slate-200
-        dark:border-slate-700
-        shadow-2xl
-        p-8
-        animate-in zoom-in-95 duration-300
-      "
-    >
-      {/* Close */}
-      <button
-        onClick={() => setEditMode(false)}
-        className="
-          absolute
-          right-5
-          top-5
-          h-10
-          w-10
-          rounded-full
-          bg-slate-100
-          dark:bg-slate-800
-          hover:bg-red-500
-          hover:text-white
-          transition
-        "
-      >
-        ✕
-      </button>
+                <button
+                  onClick={() =>
+                    setEditMode(true)
+                  }
+                  className="
+                    mt-8
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-2xl
+                    bg-gradient-to-r
+                    from-[#005C53]
+                    to-[#169B87]
+                    py-4
+                    text-lg
+                    font-semibold
+                    text-white
+                    shadow-lg
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                    hover:shadow-2xl
+                  "
+                >
 
-      <h2 className="mb-8 text-3xl font-bold text-slate-900 dark:text-white">
-        Edit Tutor Profile
-      </h2>
+                  <Pencil size={18} />
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6"
-      >
-        {/* Bio */}
-        <div>
-          <label className="mb-2 block font-semibold">
-            Bio
-          </label>
+                  Edit Profile
 
-          <textarea
-            rows={6}
-            name="bio"
-            value={form.bio}
-            onChange={handleChange}
-            className="
-              w-full
-              rounded-2xl
-              border
-              border-slate-300
-              dark:border-slate-700
-              bg-white
-              dark:bg-slate-800
-              p-4
-              outline-none
-              focus:ring-4
-              focus:ring-[#169B87]/20
-              focus:border-[#169B87]
-            "
-          />
-        </div>
+                </button>
 
-        {/* Hourly Rate */}
-        <div>
-          <label className="mb-2 block font-semibold">
-            Hourly Rate
-          </label>
-
-          <input
-            type="number"
-            name="hourlyRate"
-            value={form.hourlyRate}
-            onChange={handleChange}
-            className="
-              w-full
-              rounded-2xl
-              border
-              border-slate-300
-              dark:border-slate-700
-              bg-white
-              dark:bg-slate-800
-              p-4
-              outline-none
-              focus:ring-4
-              focus:ring-[#169B87]/20
-              focus:border-[#169B87]
-            "
-          />
-        </div>
-
-        {/* Category */}
-        <div>
-          <label className="mb-2 block font-semibold">
-            Category
-          </label>
-
-          <select
-            name="categoryId"
-            value={form.categoryId}
-            onChange={handleChange}
-            className="
-              w-full
-              rounded-2xl
-              border
-              border-slate-300
-              dark:border-slate-700
-              bg-white
-              dark:bg-slate-800
-              p-4
-              outline-none
-              focus:ring-4
-              focus:ring-[#169B87]/20
-              focus:border-[#169B87]
-            "
-          >
-            {categories.map((category) => (
-              <option
-                key={category.id}
-                value={category.id}
-              >
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            disabled={loading}
-            className="
-              flex-1
-              rounded-2xl
-              bg-gradient-to-r
-              from-[#005C53]
-              to-[#169B87]
-              py-4
-              text-white
-              font-semibold
-              hover:scale-[1.02]
-              transition
-            "
-          >
-            {loading ? "Updating..." : "Save Changes"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setEditMode(false)}
-            className="
-              rounded-2xl
-              border
-              px-8
-              py-4
-              font-semibold
-              hover:bg-slate-100
-              dark:hover:bg-slate-800
-            "
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
+              )}
 
             </div>
 
@@ -677,135 +522,249 @@ export default function TutorProfilePage() {
         {/* =======================
             Right Side
         ======================= */}
-{/* Right Side */}
-<div className="space-y-6">
 
-  {/* Tutor Summary */}
-  <div
-    className="
-      overflow-hidden
-      rounded-3xl
-      bg-gradient-to-br
-      from-[#005C53]
-      via-[#0B766A]
-      to-[#169B87]
-      p-8
-      text-white
-      shadow-xl
-      transition-all
-      duration-300
-      hover:-translate-y-1
-      hover:shadow-2xl
-    "
-  >
-    <div className="flex items-center justify-between">
-      <div>
-        <p className="text-white/80 text-sm">
-          Tutor Dashboard
-        </p>
+        <div className="xl:col-span-2">
 
-        <h2 className="mt-2 text-3xl font-bold">
-          Welcome,
-        </h2>
+                  {editMode ? (
+            <div
+              className="
+                rounded-3xl
+                border
+                border-slate-200
+                bg-white
+                p-8
+                shadow-xl
+                transition-all
+                duration-300
+                animate-in
+                fade-in
+                slide-in-from-right-5
+                dark:border-slate-800
+                dark:bg-slate-900
+              "
+            >
+              <h2 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
+                Edit Tutor Profile
+              </h2>
 
-        <h3 className="text-2xl font-semibold">
-          {profile.user.name}
-        </h3>
-      </div>
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-6"
+              >
+                {/* Bio */}
 
-      <div className="rounded-2xl bg-white/15 p-4 backdrop-blur-md">
-        <GraduationCap size={38} />
-      </div>
-    </div>
+                <div>
+                  <label className="mb-2 block font-semibold text-slate-700 dark:text-slate-300">
+                    Bio
+                  </label>
 
-    <div className="mt-8 grid grid-cols-2 gap-4">
+                  <textarea
+                    rows={6}
+                    name="bio"
+                    value={form.bio}
+                    onChange={handleChange}
+                    placeholder="Tell students about yourself..."
+                    className="
+                      w-full
+                      rounded-2xl
+                      border
+                      border-slate-300
+                      bg-white
+                      p-4
+                      outline-none
+                      transition
+                      focus:border-[#169B87]
+                      focus:ring-4
+                      focus:ring-[#169B87]/20
+                      dark:border-slate-700
+                      dark:bg-slate-800
+                      dark:text-white
+                    "
+                  />
+                </div>
 
-      <div className="rounded-2xl bg-white/10 p-5 backdrop-blur">
-        <p className="text-sm text-white/70">
-          Hourly Rate
-        </p>
+                {/* Hourly Rate */}
 
-        <h3 className="mt-2 text-3xl font-bold">
-          ${profile.hourlyRate}
-        </h3>
-      </div>
+                <div>
+                  <label className="mb-2 block font-semibold text-slate-700 dark:text-slate-300">
+                    Hourly Rate ($)
+                  </label>
 
-     
+                  <input
+                    type="number"
+                    name="hourlyRate"
+                    value={form.hourlyRate}
+                    onChange={handleChange}
+                    className="
+                      w-full
+                      rounded-2xl
+                      border
+                      border-slate-300
+                      bg-white
+                      p-4
+                      outline-none
+                      transition
+                      focus:border-[#169B87]
+                      focus:ring-4
+                      focus:ring-[#169B87]/20
+                      dark:border-slate-700
+                      dark:bg-slate-800
+                      dark:text-white
+                    "
+                  />
+                </div>
 
-    </div>
-  </div>
+                {/* Category */}
 
-  {/* Information */}
-  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                <div>
+                  <label className="mb-2 block font-semibold text-slate-700 dark:text-slate-300">
+                    Category
+                  </label>
 
-    <h3 className="mb-5 text-xl font-bold text-slate-900 dark:text-white">
-      Tutor Information
-    </h3>
+                  <select
+                    name="categoryId"
+                    value={form.categoryId}
+                    onChange={handleChange}
+                    className="
+                      w-full
+                      rounded-2xl
+                      border
+                      border-slate-300
+                      bg-white
+                      p-4
+                      outline-none
+                      transition
+                      focus:border-[#169B87]
+                      focus:ring-4
+                      focus:ring-[#169B87]/20
+                      dark:border-slate-700
+                      dark:bg-slate-800
+                      dark:text-white
+                    "
+                  >
+                    {categories.map((category) => (
+                      <option
+                        key={category.id}
+                        value={category.id}
+                      >
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-    <div className="space-y-5">
+                {/* Buttons */}
 
-      <div className="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800">
-        <p className="text-xs uppercase tracking-wider text-slate-500">
-          Category
-        </p>
+                <div className="flex flex-col gap-4 sm:flex-row">
 
-        <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
-          {profile.category.name}
-        </p>
-      </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="
+                      flex-1
+                      rounded-2xl
+                      bg-gradient-to-r
+                      from-[#005C53]
+                      to-[#169B87]
+                      py-4
+                      font-semibold
+                      text-white
+                      shadow-lg
+                      transition-all
+                      duration-300
+                      hover:-translate-y-1
+                      hover:shadow-2xl
+                      disabled:opacity-60
+                    "
+                  >
+                    {loading ? (
+                      <span className="flex items-center justify-center">
+                        <Loader2
+                          size={20}
+                          className="mr-2 animate-spin"
+                        />
+                        Saving...
+                      </span>
+                    ) : (
+                      "Save Changes"
+                    )}
+                  </button>
 
-      <div className="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800">
-        <p className="text-xs uppercase tracking-wider text-slate-500">
-          Email
-        </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditMode(false);
 
-        <p className="mt-2 break-all text-slate-700 dark:text-slate-300">
-          {profile.user.email}
-        </p>
-      </div>
+                      setForm({
+                        bio: profile.bio,
+                        hourlyRate: String(
+                          profile.hourlyRate
+                        ),
+                        categoryId:
+                          profile.category.id,
+                      });
+                    }}
+                    className="
+                      rounded-2xl
+                      border
+                      border-slate-300
+                      px-8
+                      py-4
+                      font-semibold
+                      transition
+                      hover:bg-slate-100
+                      dark:border-slate-700
+                      dark:hover:bg-slate-800
+                    "
+                  >
+                    Cancel
+                  </button>
 
-      <div className="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800">
-        <p className="text-xs uppercase tracking-wider text-slate-500">
-          Bio
-        </p>
+                </div>
+              </form>
+            </div>
+          ) : (
+            <div
+              className="
+                flex
+                h-full
+                items-center
+                justify-center
+                rounded-3xl
+                border
+                border-dashed
+                border-slate-300
+                bg-gradient-to-br
+                from-slate-50
+                to-white
+                p-16
+                text-center
+                dark:border-slate-700
+                dark:from-slate-900
+                dark:to-slate-950
+              "
+            >
+              <div>
+                <Pencil
+                  size={56}
+                  className="mx-auto mb-6 text-[#169B87]"
+                />
 
-        <p className="mt-2 leading-7 text-slate-700 dark:text-slate-300">
-          {profile.bio}
-        </p>
-      </div>
+                <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  Tutor Profile
+                </h2>
 
-    </div>
+                <p className="mt-4 max-w-md text-slate-500 dark:text-slate-400">
+                  Your tutor profile is visible to students.
+                  Click the <strong>Edit Profile</strong> button
+                  to update your bio, hourly rate and teaching
+                  category.
+                </p>
+              </div>
+            </div>
+          )}
 
-  </div>
-
-  {/* Statistics */}
-  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:border-slate-800 dark:bg-slate-900">
-
-    <h3 className="mb-5 text-xl font-bold text-slate-900 dark:text-white">
-      Statistics
-    </h3>
-
-  
-
-  </div>
-
-  {/* Tips */}
-  <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-6 dark:border-emerald-900 dark:bg-emerald-950/30">
-
-    <h3 className="text-lg font-bold text-emerald-700 dark:text-emerald-400">
-      💡 Profile Tips
-    </h3>
-
-    <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-700 dark:text-slate-300">
-      <li>✔ Keep your bio professional and engaging.</li>
-      <li>✔ Update your hourly rate based on experience.</li>
-      <li>✔ Choose the correct teaching category.</li>
-      <li>✔ A complete profile attracts more students.</li>
-    </ul>
-
-  </div>
-
-</div>
+        </div>
 
       </div>
 
