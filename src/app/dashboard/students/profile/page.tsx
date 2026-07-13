@@ -255,11 +255,11 @@ useEffect(() => {
 
       {/* LEFT */}
 
-      <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="rounded-3xl border bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900"
-      >
+    <motion.div
+  initial={{ opacity: 0, x: -30 }}
+  animate={{ opacity: 1, x: 0 }}
+  className="sticky top-24 h-fit rounded-3xl border bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900"
+>
 
         <div className="flex flex-col items-center">
 
@@ -468,104 +468,7 @@ useEffect(() => {
           </motion.div>
 
         </div>
-        {/* ================= NEXT SESSION ================= */}
 
-<motion.div
-  initial={{ opacity: 0, y: 25 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 0.2 }}
-  className="rounded-3xl bg-white p-7 shadow-xl dark:bg-slate-900"
->
-  <div className="mb-6 flex items-center justify-between">
-
-    <h2 className="text-2xl font-bold">
-      Next Session
-    </h2>
-
-    <Link href="/student/bookings">
-      <button className="rounded-xl bg-emerald-600 px-5 py-2 text-white transition hover:bg-emerald-700">
-        View All
-      </button>
-    </Link>
-
-  </div>
-
-  {nextSession ? (
-
-    <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-
-      <div className="flex items-center gap-5">
-
-        <Image
-          src={
-            nextSession.tutor?.user?.image ||
-            nextSession.tutor?.image ||
-            "/avatar.png"
-          }
-          alt={nextSession.tutor?.user?.name || "Tutor"}
-          width={80}
-          height={80}
-          className="rounded-full object-cover ring-4 ring-emerald-100"
-        />
-
-        <div>
-
-          <h3 className="text-xl font-bold">
-            {nextSession.tutor?.user?.name}
-          </h3>
-
-          <p className="text-slate-500">
-            {nextSession.tutor?.category?.name}
-          </p>
-
-          <p className="mt-2 text-sm text-slate-500">
-            📅 {nextSession.date}
-          </p>
-
-          <p className="text-sm text-slate-500">
-            🕒 {nextSession.time}
-          </p>
-
-          <span className="mt-3 inline-block rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
-            {nextSession.status}
-          </span>
-
-        </div>
-
-      </div>
-
-      <div className="text-right">
-
-        <h3 className="text-3xl font-bold text-emerald-600">
-          ${nextSession.amount}
-        </h3>
-
-      </div>
-
-    </div>
-
-  ) : (
-
-    <div className="rounded-2xl border border-dashed border-slate-300 py-12 text-center dark:border-slate-700">
-
-      <Calendar
-        className="mx-auto mb-4 text-slate-400"
-        size={50}
-      />
-
-      <h3 className="text-xl font-semibold">
-        No Upcoming Session
-      </h3>
-
-      <p className="mt-2 text-slate-500">
-        You do not have any scheduled tutoring session.
-      </p>
-
-    </div>
-
-  )}
-
-</motion.div>
 
 {/* ================= RECENT BOOKINGS ================= */}
 
@@ -594,7 +497,7 @@ useEffect(() => {
 
     {recentBookings.length > 0 ? (
 
-      recentBookings.slice(0, 5).map((booking) => (
+      recentBookings.slice(0, 3).map((booking) => (
 
         <motion.div
           key={booking.id}
@@ -691,7 +594,7 @@ useEffect(() => {
 
     {recentPayments.length > 0 ? (
 
-      recentPayments.slice(0, 5).map((payment) => (
+      recentPayments.slice(0, 3).map((payment) => (
 
         <motion.div
           key={payment.id}
