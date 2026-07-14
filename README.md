@@ -1,16 +1,50 @@
-# 🎓 Tutor Management System
+# 📚 Tutor Management System
 
-A modern full-stack Tutor Management System where students can find tutors, book sessions, make payments, and manage learning while tutors can create profiles, manage availability, and conduct sessions. Administrators oversee users, tutors, bookings, and the overall platform.
+A modern full-stack Tutor Management System that connects students with tutors through an intuitive platform. Students can browse tutors, book sessions, make secure payments, while tutors can manage their profiles, availability, and teaching sessions. Administrators oversee users, tutors, bookings, and platform activities through a dedicated dashboard.
 
 ---
+
+
 
 ## 🚀 Live Demo
 
 ### Frontend
-https://assignment5-frontend-seven.vercel.app/
+https://assignment5-frontend-seven.vercel.app
 
 ### Backend API
-https://assignment5-backend-f7q4.onrender.com/
+https://assignment5-backend-f7q4.onrender.com
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- Next.js 15
+- React
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- React Hook Form
+- Sonner
+- Lucide React
+- Axios
+
+### Backend
+
+- Node.js
+- Express.js
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- JWT Authentication
+- Bcrypt
+
+### Deployment
+
+- Vercel
+- Render
+- PostgreSQL Database
 
 ---
 
@@ -18,122 +52,125 @@ https://assignment5-backend-f7q4.onrender.com/
 
 ## 👨‍🎓 Student
 
-- Register & Login
-- JWT Authentication
+- User Authentication
 - Browse Tutors
 - Search & Filter Tutors
-- View Tutor Details
 - Book Tutor Sessions
-- Make Payments
-- View Booking History
-- Manage Profile
+- Payment Integration
+- Booking History
 - Student Dashboard
-
----
+- Profile Management
 
 ## 👨‍🏫 Tutor
 
-- Create Tutor Profile
-- Update Profile
-- Upload Profile Image
-- Set Hourly Rate
-- Add Biography
-- Manage Weekly Availability
-- View Session History
+- Tutor Profile
+- Manage Availability
+- Session Management
+- Booking Requests
+- Earnings Overview
 - Tutor Dashboard
-
----
 
 ## 👨‍💼 Admin
 
-- Secure Admin Dashboard
+- Dashboard Overview
 - Manage Users
 - Manage Tutors
 - Approve Tutors
-- Ban / Unban Users
-- View Bookings
-- Platform Statistics
+- Manage Categories
+- Monitor Bookings
+- Payment Monitoring
 
 ---
 
-## 🔐 Authentication
-
-- JWT Authentication
-- Role-based Authorization
-- HTTP Only Cookies
-- Protected Routes
-
-Roles:
-
-- ADMIN
-- TUTOR
-- STUDENT
-
----
-
-# 📊 Dashboard
-
-### Student Dashboard
-
-- Profile
-- Booking Statistics
-- Recent Bookings
-- Recent Payments
-
-### Tutor Dashboard
-
-- Tutor Overview
-- Profile Information
-- Session List
-- Availability
-- Statistics
-
-### Admin Dashboard
-
-- Total Users
-- Total Tutors
-- Total Students
-- Total Bookings
-- Total Revenue
-
----
-
-# 🛠 Tech Stack
+# 📦 Dependencies
 
 ## Frontend
 
-- Next.js 15
-- React
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Lucide Icons
-- Sonner Toast
-
----
+```json
+next
+react
+typescript
+tailwindcss
+framer-motion
+lucide-react
+axios
+react-hook-form
+sonner
+```
 
 ## Backend
 
-- Express.js
-- TypeScript
-- Prisma ORM
-- PostgreSQL
-- JWT
-- bcrypt
+```json
+express
+typescript
+prisma
+@prisma/client
+jsonwebtoken
+bcrypt
+cors
+dotenv
+cookie-parser
+zod
+nodemon
+ts-node
+```
 
 ---
 
-## Database
+# 🚀 Run Locally
 
-- PostgreSQL
+## 1️⃣ Clone the repository
 
----
+```bash
+git clone https://github.com/imon-n/assignment5-frontend.git
+```
 
+## 2️⃣ Navigate to the project
 
+```bash
+cd assignment5-frontend
+```
 
----
+## 3️⃣ Install dependencies
 
-# 📁 Folder Structure
+```bash
+npm install
+```
+
+## 4️⃣ Create a `.env.local` file
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+
+AUTH_URL=http://localhost:5000/api/auth
+
+NEXT_PUBLIC_STRIPE_PK=your_stripe_publishable_key
+```
+
+> If you're using the deployed backend, replace `http://localhost:5000` with:
+
+```env
+NEXT_PUBLIC_API_URL=https://assignment5-backend-f7q4.onrender.com
+
+AUTH_URL=https://assignment5-backend-f7q4.onrender.com/api/auth
+```
+
+## 5️⃣ Start the development server
+
+```bash
+npm run dev
+```
+
+## 6️⃣ Open your browser
+
+Visit:
+
+```text
+http://localhost:3000
+```
+
+The application should now be running locally.
+# 📂 Project Structure
 
 ```
 Frontend
@@ -145,88 +182,50 @@ Frontend
 │   ├── lib
 │   ├── services
 │   ├── types
-│   
-│   
+│   └── utils
 │
-├── public
-├── package.json
-└── next.config.ts
-
+└── public
 
 Backend
 │
 ├── prisma
 ├── src
+│   ├── app
+│   ├── middlewares
 │   ├── modules
-│   ├── middleware
 │   ├── routes
-│   ├── config
-│   └── utils
-└── server.ts
+│   ├── lib
+│   └── server.ts
 ```
 
 ---
 
-# 📦 Installation
+# 🔐 Authentication
 
-## Clone Repository
-
-```bash
-git clone https://github.com/yourusername/tutor-management-system.git
-```
-
-
-
-
-# 🔑 Environment Variables
-
-
-
-# 📚 Main Modules
-
-- Authentication
-- Users
-- Tutors
-- Students
-- Availability
-- Bookings
-- Payments
-- Dashboard
-- Categories
-
----
-
-# 🔒 Security
-
-- Password Hashing (bcrypt)
 - JWT Authentication
-- HTTP Only Cookies
-- Role Based Access
-- Protected API Routes
+- Role-based Authorization
+- HTTP-only Cookies
+- Protected Routes
 
 ---
 
-# 🎨 UI Features
+# 🎯 User Roles
 
-- Fully Responsive
-- Modern Dashboard
-- Dark Mode
-- Smooth Animations
-- Mobile Friendly
-- Beautiful Cards
-- Sticky Sidebar
-- Clean Layout
+- 👨‍🎓 Student
+- 👨‍🏫 Tutor
+- 👨‍💼 Admin
 
 ---
 
 # 📈 Future Improvements
 
-
+- Live Chat
+- Video Calling
 - Email Notifications
-- Review & Rating System
-- Zoom Integration
-- Calendar Integration
-- Tutor Verification
+- Certificate Generation
+- Tutor Ratings & Reviews
+- Analytics Dashboard
+- Mobile Responsive Improvements
 
 ---
 
@@ -234,30 +233,21 @@ git clone https://github.com/yourusername/tutor-management-system.git
 
 **Nur Mohammad Imon**
 
-- University of Chittagong
-- Department of Electrical and Electronic Engineering (EEE)
+Electrical & Electronic Engineering Student
 
-Email:
-```
-imon.eeecu@gmail.com
-```
+University of Chittagong
 
 GitHub:
-```
 https://github.com/imon-n
-```
 
 LinkedIn:
-```
-https://github.com/imon-n
-```
+https://linkedin.com/in/nur-mohammad-imon-29a2b4255
+
+Email:
+imon.eeecu@gmail.com
 
 ---
 
+# 📄 License
 
-
-# ⭐ Support
-
-If you like this project, please consider giving it a ⭐ on GitHub.
-
-Happy Coding! 🚀
+This project is developed for educational purposes.
