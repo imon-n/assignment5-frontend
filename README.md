@@ -1,36 +1,353 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 Tutor Management System
 
-## Getting Started
+A modern full-stack Tutor Management System where students can find tutors, book sessions, make payments, and manage learning while tutors can create profiles, manage availability, and conduct sessions. Administrators oversee users, tutors, bookings, and the overall platform.
 
-First, run the development server:
+---
+
+## 🚀 Live Demo
+
+### Frontend
+https://your-frontend-url.vercel.app
+
+### Backend API
+https://your-backend-url.onrender.com
+
+---
+
+# ✨ Features
+
+## 👨‍🎓 Student
+
+- Register & Login
+- JWT Authentication
+- Browse Tutors
+- Search & Filter Tutors
+- View Tutor Details
+- Book Tutor Sessions
+- Make Payments
+- View Booking History
+- Manage Profile
+- Student Dashboard
+
+---
+
+## 👨‍🏫 Tutor
+
+- Create Tutor Profile
+- Update Profile
+- Upload Profile Image
+- Set Hourly Rate
+- Add Biography
+- Manage Weekly Availability
+- View Session History
+- Tutor Dashboard
+
+---
+
+## 👨‍💼 Admin
+
+- Secure Admin Dashboard
+- Manage Users
+- Manage Tutors
+- Approve Tutors
+- Ban / Unban Users
+- View Bookings
+- Platform Statistics
+
+---
+
+## 🔐 Authentication
+
+- JWT Authentication
+- Role-based Authorization
+- HTTP Only Cookies
+- Protected Routes
+
+Roles:
+
+- ADMIN
+- TUTOR
+- STUDENT
+
+---
+
+# 📊 Dashboard
+
+### Student Dashboard
+
+- Profile
+- Booking Statistics
+- Recent Bookings
+- Recent Payments
+
+### Tutor Dashboard
+
+- Tutor Overview
+- Profile Information
+- Session List
+- Availability
+- Statistics
+
+### Admin Dashboard
+
+- Total Users
+- Total Tutors
+- Total Students
+- Total Bookings
+- Total Revenue
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- Next.js 15
+- React
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Lucide Icons
+- Sonner Toast
+
+---
+
+## Backend
+
+- Express.js
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- JWT
+- bcrypt
+
+---
+
+## Database
+
+- PostgreSQL
+
+---
+
+## Cloud
+
+- Render (Backend)
+- Vercel (Frontend)
+
+---
+
+# 📁 Folder Structure
+
+```
+Frontend
+│
+├── app
+├── components
+├── hooks
+├── lib
+├── services
+├── types
+└── public
+
+
+Backend
+│
+├── prisma
+├── src
+│   ├── modules
+│   ├── middleware
+│   ├── routes
+│   ├── config
+│   └── utils
+└── server.ts
+```
+
+---
+
+# 📦 Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/yourusername/tutor-management-system.git
+```
+
+---
+
+## Frontend
+
+```bash
+cd frontend
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create `.env.local`
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [https://assignment5-frontend-seven.vercel.app](https://assignment5-frontend-seven.vercel.app) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cd backend
+```
 
-## Learn More
+Install packages
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create `.env`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+DATABASE_URL=
 
-## Deploy on Vercel
+JWT_SECRET=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+PORT=5000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Generate Prisma
+
+```bash
+npx prisma generate
+```
+
+Run Migration
+
+```bash
+npx prisma migrate dev
+```
+
+Start Server
+
+```bash
+npm run dev
+```
+
+---
+
+# 🔑 Environment Variables
+
+## Backend
+
+```env
+DATABASE_URL=
+
+JWT_SECRET=
+
+PORT=
+
+NODE_ENV=
+```
+
+---
+
+## Frontend
+
+```env
+NEXT_PUBLIC_API_URL=
+```
+
+---
+
+# 📚 Main Modules
+
+- Authentication
+- Users
+- Tutors
+- Students
+- Availability
+- Bookings
+- Payments
+- Dashboard
+- Categories
+
+---
+
+# 🔒 Security
+
+- Password Hashing (bcrypt)
+- JWT Authentication
+- HTTP Only Cookies
+- Role Based Access
+- Protected API Routes
+
+---
+
+# 🎨 UI Features
+
+- Fully Responsive
+- Modern Dashboard
+- Dark Mode
+- Smooth Animations
+- Mobile Friendly
+- Beautiful Cards
+- Sticky Sidebar
+- Clean Layout
+
+---
+
+# 📈 Future Improvements
+
+- Video Calling
+- Live Chat
+- Email Notifications
+- Review & Rating System
+- Stripe Payment
+- Zoom Integration
+- Calendar Integration
+- Tutor Verification
+
+---
+
+# 👨‍💻 Author
+
+**Nur Mohammad Imon**
+
+- University of Chittagong
+- Department of Electrical and Electronic Engineering (EEE)
+
+Email:
+```
+imon.eeecu@gmail.com
+```
+
+GitHub:
+```
+https://github.com/yourusername
+```
+
+LinkedIn:
+```
+https://linkedin.com/in/yourprofile
+```
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+# ⭐ Support
+
+If you like this project, please consider giving it a ⭐ on GitHub.
+
+Happy Coding! 🚀
