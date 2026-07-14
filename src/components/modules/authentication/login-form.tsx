@@ -76,7 +76,7 @@ const handleLogin = async () => {
       router.replace("/dashboard/students/overview");
     } else if (role === "TUTOR") {
       router.replace("dashboard/tutors/overview");
-    } else {
+    } else if (role === "ADMIN") {
       router.replace("/dashboard");
      }
   } catch (error) {
