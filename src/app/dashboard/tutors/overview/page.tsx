@@ -247,13 +247,13 @@ export default function TutorOverviewPage() {
 
       <div className="mt-8 flex flex-wrap gap-4">
 
-        <Link href="/dashboard/tutor/profile">
+        <Link href="/dashboard/tutors/profile">
           <button className="rounded-xl bg-white px-6 py-3 font-semibold text-emerald-700 transition hover:scale-105">
             Edit Profile
           </button>
         </Link>
 
-        <Link href="/dashboard/tutor/sessions">
+        <Link href="/dashboard/tutors/sessions">
           <button className="rounded-xl border border-white/40 bg-white/10 px-6 py-3 font-semibold backdrop-blur transition hover:bg-white/20">
             View Sessions
           </button>
@@ -278,8 +278,8 @@ export default function TutorOverviewPage() {
         <Image
           src={profile.user.image || "/avatar.png"}
           alt={profile.user.name}
-          width={160}
-          height={160}
+          width={140}
+          height={140}
           className="rounded-full object-cover"
         />
 
@@ -340,266 +340,7 @@ export default function TutorOverviewPage() {
   </div>
 
 </motion.section>
-{/* =========================================================
-        PART 2
-        Sticky Profile + Statistics Cards
-========================================================= */}
 
-<div className="mt-8 grid gap-8 lg:grid-cols-3">
-
-  {/* =====================================================
-                LEFT STICKY PROFILE
-  ===================================================== */}
-
-  <motion.aside
-    initial={{ opacity: 0, x: -25 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ duration: .5 }}
-    className="sticky top-24 h-fit rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900"
-  >
-    <div className="flex flex-col items-center">
-
-      <div className="relative">
-
-        <Image
-          src={profile.user.image || "/avatar.png"}
-          alt={profile.user.name}
-          width={130}
-          height={130}
-          className="rounded-full object-cover ring-4 ring-emerald-200"
-        />
-
-        <span
-          className={`absolute bottom-2 right-2 h-5 w-5 rounded-full border-2 border-white ${
-            profile.isApproved
-              ? "bg-green-500"
-              : "bg-yellow-500"
-          }`}
-        />
-
-      </div>
-
-      <h2 className="mt-5 text-3xl font-bold">
-        {profile.user.name}
-      </h2>
-
-      <p className="mt-2 text-center text-slate-500 dark:text-slate-400">
-        {profile.user.email}
-      </p>
-
-      <span className="mt-4 rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
-        {profile.category?.name}
-      </span>
-
-      <div className="mt-8 w-full space-y-4">
-
-        <div className="flex items-center justify-between rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
-
-          <span className="text-slate-500">
-            Hourly Rate
-          </span>
-
-          <span className="font-bold text-emerald-600">
-            ${profile.hourlyRate}
-          </span>
-
-        </div>
-
-        <div className="flex items-center justify-between rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
-
-          <span className="text-slate-500">
-            Rating
-          </span>
-
-          <span className="font-bold text-yellow-500">
-            ⭐ {profile.rating}
-          </span>
-
-        </div>
-
-        <div className="flex items-center justify-between rounded-xl bg-slate-100 p-4 dark:bg-slate-800">
-
-          <span className="text-slate-500">
-            Status
-          </span>
-
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${
-              profile.isApproved
-                ? "bg-green-100 text-green-700"
-                : "bg-yellow-100 text-yellow-700"
-            }`}
-          >
-            {profile.isApproved
-              ? "Approved"
-              : "Pending"}
-          </span>
-
-        </div>
-
-      </div>
-
-      <Link
-        href="/dashboard/tutor/profile"
-        className="mt-8 w-full"
-      >
-        <button className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 py-3 font-semibold text-white transition hover:scale-[1.03]">
-          Edit Profile
-        </button>
-      </Link>
-
-    </div>
-  </motion.aside>
-
-  {/* =====================================================
-                  RIGHT CONTENT
-  ===================================================== */}
-
-  <div className="space-y-8 lg:col-span-2">
-
-    {/* =======================
-            STATS GRID
-    ======================== */}
-
-    <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-
-      {/* Sessions */}
-
-      <motion.div
-        whileHover={{
-          y: -5,
-          scale: 1.03,
-        }}
-        className="rounded-3xl bg-white p-6 shadow-xl transition dark:bg-slate-900"
-      >
-        <div className="flex items-center justify-between">
-
-          <div>
-
-            <p className="text-slate-500">
-              Sessions
-            </p>
-
-            <h2 className="mt-2 text-4xl font-bold">
-              {sessions.length}
-            </h2>
-
-          </div>
-
-          <div className="rounded-2xl bg-blue-100 p-4 dark:bg-blue-900/40">
-
-            <Calendar
-              className="text-blue-600"
-              size={30}
-            />
-
-          </div>
-
-        </div>
-      </motion.div>
-
-     
-
-      {/* Hourly */}
-
-      <motion.div
-        whileHover={{
-          y: -5,
-          scale: 1.03,
-        }}
-        className="rounded-3xl bg-white p-6 shadow-xl transition dark:bg-slate-900"
-      >
-        <div className="flex items-center justify-between">
-
-          <div>
-
-            <p className="text-slate-500">
-              Hourly Rate
-            </p>
-
-            <h2 className="mt-2 text-4xl font-bold">
-              ${profile.hourlyRate}
-            </h2>
-
-          </div>
-
-          <div className="rounded-2xl bg-yellow-100 p-4 dark:bg-yellow-900/40">
-
-            <DollarSign
-              className="text-yellow-600"
-              size={30}
-            />
-
-          </div>
-
-        </div>
-      </motion.div>
-
-      {/* Rating */}
-
-      <motion.div
-        whileHover={{
-          y: -5,
-          scale: 1.03,
-        }}
-        className="rounded-3xl bg-white p-6 shadow-xl transition dark:bg-slate-900"
-      >
-        <div className="flex items-center justify-between">
-
-          <div>
-
-            <p className="text-slate-500">
-              Rating
-            </p>
-
-            <h2 className="mt-2 text-4xl font-bold">
-              {profile.rating}
-            </h2>
-
-          </div>
-
-          <div className="rounded-2xl bg-orange-100 p-4 dark:bg-orange-900/40">
-
-            <Star
-              className="text-orange-500"
-              size={30}
-              fill="currentColor"
-            />
-
-          </div>
-
-        </div>
-      </motion.div>
-
-    </div>
-
-    {/* =======================
-        BIO CARD
-    ======================== */}
-
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: .4 }}
-      className="rounded-3xl bg-white p-8 shadow-xl dark:bg-slate-900"
-    >
-
-      <h2 className="mb-5 text-2xl font-bold">
-        About Me
-      </h2>
-
-      <p className="leading-8 text-slate-600 dark:text-slate-300">
-
-        {profile.bio ||
-          "No biography added yet."}
-
-      </p>
-
-    </motion.div>
-
-  </div>
-
-</div>
 {/* ======================================================
                 RECENT SESSIONS
 ====================================================== */}
@@ -607,87 +348,104 @@ export default function TutorOverviewPage() {
 <motion.section
   initial={{ opacity: 0, y: 30 }}
   animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: .4 }}
-  className="rounded-3xl bg-white p-8 shadow-xl dark:bg-slate-900"
+  transition={{ delay: 0.4 }}
+  className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900"
 >
+  {/* Header */}
 
-<div className="mb-6 flex items-center justify-between">
+  <div className="mb-8 flex items-center justify-between">
+    <div>
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-white">
+        Recent Sessions
+      </h2>
 
-<h2 className="text-2xl font-bold">
-Recent Sessions
-</h2>
+      <p className="mt-1 text-sm text-slate-500">
+        Your latest tutoring sessions
+      </p>
+    </div>
 
-<Link href="/dashboard/tutor/sessions">
+    <Link href="/dashboard/tutors/sessions">
+      <button className="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-emerald-700 hover:shadow-lg">
+        View All
+      </button>
+    </Link>
+  </div>
 
-<button className="rounded-xl border px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-View All
-</button>
+  {/* Body */}
 
-</Link>
+  <div className="space-y-5">
+    {sessions.length > 0 ? (
+      sessions.slice(0, 3).map((session: any) => (
+        <motion.div
+          key={session.id}
+          whileHover={{
+            scale: 1.02,
+            y: -2,
+          }}
+          transition={{ duration: 0.2 }}
+          className="group flex flex-col gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-all duration-300 hover:border-emerald-500 hover:shadow-lg dark:border-slate-700 dark:bg-slate-800 md:flex-row md:items-center md:justify-between"
+        >
+          {/* Left */}
 
-</div>
+          <div className="flex items-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-xl font-bold text-white">
+              {session.student?.name?.charAt(0)}
+            </div>
 
-<div className="space-y-5">
+            <div>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white">
+                {session.student?.name}
+              </h3>
 
-{sessions.length > 0 ? (
+              <p className="mt-1 text-sm text-slate-500">
+                📅 {session.date}
+              </p>
 
-sessions.slice(0,5).map((session:any)=>(
+              <p className="text-sm text-slate-500">
+                🕒 {session.time}
+              </p>
+            </div>
+          </div>
 
-<motion.div
+          {/* Right */}
 
-key={session.id}
+          <div className="flex flex-col items-end gap-3">
+            <span
+              className={`rounded-full px-4 py-2 text-xs font-bold tracking-wide ${
+                session.status === "COMPLETED"
+                  ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                  : session.status === "CONFIRMED"
+                  ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                  : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+              }`}
+            >
+              {session.status}
+            </span>
 
-whileHover={{scale:1.02}}
+            <ArrowRight
+              size={20}
+              className="text-slate-400 transition-all group-hover:translate-x-1 group-hover:text-emerald-600"
+            />
+          </div>
+        </motion.div>
+      ))
+    ) : (
+      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 py-16 dark:border-slate-700">
+        <Calendar
+          size={55}
+          className="mb-4 text-slate-400"
+        />
 
-className="flex flex-col gap-5 rounded-2xl border p-5 md:flex-row md:items-center md:justify-between dark:border-slate-700"
->
+        <h3 className="text-lg font-semibold text-slate-700 dark:text-white">
+          No Sessions Yet
+        </h3>
 
-<div>
-
-<h3 className="text-lg font-bold">
-{session.student?.name}
-</h3>
-
-<p className="text-slate-500">
-{session.date}
-</p>
-
-<p className="text-sm text-slate-500">
-{session.time}
-</p>
-
-</div>
-
-<div className="text-right">
-
-<span
-className={`rounded-full px-4 py-2 text-sm font-semibold ${
-session.status==="COMPLETED"
-?"bg-green-100 text-green-700"
-:session.status==="CONFIRMED"
-?"bg-blue-100 text-blue-700"
-:"bg-yellow-100 text-yellow-700"
-}`}
->
-{session.status}
-</span>
-
-</div>
-
-</motion.div>
-
-))
-
-):( 
-
-<div className="py-12 text-center text-slate-500">
-No Sessions Yet
-</div>
-
-)}
-
-</div>
-
+        <p className="mt-2 text-sm text-slate-500">
+          Your upcoming tutoring sessions will appear here.
+        </p>
+      </div>
+    )}
+  </div>
 </motion.section>
 
 {/* ======================================================
@@ -711,7 +469,7 @@ Quick Actions
 
 <div className="grid gap-6 md:grid-cols-3">
 
-<Link href="/dashboard/tutor/profile">
+<Link href="/dashboard/tutors/profile">
 
 <div className="cursor-pointer rounded-2xl bg-white/10 p-6 backdrop-blur transition hover:scale-105">
 
@@ -729,7 +487,7 @@ Edit tutor information.
 
 </Link>
 
-<Link href="/dashboard/tutor/availability">
+<Link href="/dashboard/tutors/availability">
 
 <div className="cursor-pointer rounded-2xl bg-white/10 p-6 backdrop-blur transition hover:scale-105">
 
@@ -747,7 +505,7 @@ Manage available schedule.
 
 </Link>
 
-<Link href="/dashboard/tutor/sessions">
+<Link href="/dashboard/tutors/sessions">
 
 <div className="cursor-pointer rounded-2xl bg-white/10 p-6 backdrop-blur transition hover:scale-105">
 
