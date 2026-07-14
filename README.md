@@ -7,10 +7,10 @@ A modern full-stack Tutor Management System where students can find tutors, book
 ## 🚀 Live Demo
 
 ### Frontend
-https://your-frontend-url.vercel.app
+https://assignment5-frontend-seven.vercel.app/
 
 ### Backend API
-https://your-backend-url.onrender.com
+https://assignment5-backend-f7q4.onrender.com/
 
 ---
 
@@ -129,10 +129,7 @@ Roles:
 
 ---
 
-## Cloud
 
-- Render (Backend)
-- Vercel (Frontend)
 
 ---
 
@@ -141,13 +138,19 @@ Roles:
 ```
 Frontend
 │
-├── app
-├── components
-├── hooks
-├── lib
-├── services
-├── types
-└── public
+├── src
+│   ├── app
+│   ├── components
+│   ├── hooks
+│   ├── lib
+│   ├── services
+│   ├── types
+│   
+│   
+│
+├── public
+├── package.json
+└── next.config.ts
 
 
 Backend
@@ -172,99 +175,12 @@ Backend
 git clone https://github.com/yourusername/tutor-management-system.git
 ```
 
----
 
-## Frontend
 
-```bash
-cd frontend
-```
-
-Install dependencies
-
-```bash
-npm install
-```
-
-Create `.env.local`
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5000
-```
-
-Run
-
-```bash
-npm run dev
-```
-
----
-
-## Backend
-
-```bash
-cd backend
-```
-
-Install packages
-
-```bash
-npm install
-```
-
-Create `.env`
-
-```env
-DATABASE_URL=
-
-JWT_SECRET=
-
-PORT=5000
-```
-
-Generate Prisma
-
-```bash
-npx prisma generate
-```
-
-Run Migration
-
-```bash
-npx prisma migrate dev
-```
-
-Start Server
-
-```bash
-npm run dev
-```
-
----
 
 # 🔑 Environment Variables
 
-## Backend
 
-```env
-DATABASE_URL=
-
-JWT_SECRET=
-
-PORT=
-
-NODE_ENV=
-```
-
----
-
-## Frontend
-
-```env
-NEXT_PUBLIC_API_URL=
-```
-
----
 
 # 📚 Main Modules
 
@@ -305,11 +221,9 @@ NEXT_PUBLIC_API_URL=
 
 # 📈 Future Improvements
 
-- Video Calling
-- Live Chat
+
 - Email Notifications
 - Review & Rating System
-- Stripe Payment
 - Zoom Integration
 - Calendar Integration
 - Tutor Verification
@@ -330,21 +244,17 @@ imon.eeecu@gmail.com
 
 GitHub:
 ```
-https://github.com/yourusername
+https://github.com/imon-n
 ```
 
 LinkedIn:
 ```
-https://linkedin.com/in/yourprofile
+https://github.com/imon-n
 ```
 
 ---
 
-# 📄 License
 
-This project is licensed under the MIT License.
-
----
 
 # ⭐ Support
 
