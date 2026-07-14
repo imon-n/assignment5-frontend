@@ -72,13 +72,13 @@ const handleLogin = async () => {
 
     const role = sessionData.user.role;
 
-    // if (role === "ADMIN") {
-    //   router.replace("/admin");
-    // } else if (role === "TUTOR") {
-    //   router.replace("/tutors");
-    // } else {
+    if (role === "STUDENT") {
+      router.replace("/dashboard/students/overview");
+    } else if (role === "TUTOR") {
+      router.replace("dashboard/tutors/overview");
+    } else {
       router.replace("/dashboard");
-    // }
+     }
   } catch (error) {
     console.error(error);
     toast.error("Something went wrong");

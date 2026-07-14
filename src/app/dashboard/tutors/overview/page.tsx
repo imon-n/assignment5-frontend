@@ -487,7 +487,7 @@ Edit tutor information.
 
 </Link>
 
-<Link href="/dashboard/tutors/availability">
+<Link href="/dashboard/tutors/availabilities">
 
 <div className="cursor-pointer rounded-2xl bg-white/10 p-6 backdrop-blur transition hover:scale-105">
 
