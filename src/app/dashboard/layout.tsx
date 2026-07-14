@@ -172,7 +172,7 @@ export default function DashboardLayout({
 
     TUTOR: [
       {
-        href: "/dashboard",
+        href: "/dashboard/tutors/overview",
         label: "Overview",
         icon: LayoutDashboard,
       },
